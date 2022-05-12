@@ -1,0 +1,81 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>GLB Generators</title>
+	<link href="0.glb-generator.css" rel="stylesheet"><link href="glb-generator.css" rel="stylesheet"></head>
+	<body>
+
+		
+
+
+		<div class="fullpage bg-dark p-4">
+			<div class="row">
+				<div class="fullpage_control col-6 col-lg-6 p-2">
+					<div class="card border round-4 bg-light p-2">
+					
+					</div>
+				</div>
+				<div class="fullpage_preview col-6 col-lg-6 p-2">
+					<div class="card border round-4 bg-light p-2">
+						<div id="rendered_threed" class="rendered_threed">
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		
+
+		<script type="x-shader/x-vertex" id="vertexShader">
+
+			varying vec3 vWorldPosition;
+
+			void main() {
+
+				vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+				vWorldPosition = worldPosition.xyz;
+
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+			}
+
+		</script>
+
+		<script type="x-shader/x-fragment" id="fragmentShader">
+
+			uniform vec3 topColor;
+			uniform vec3 bottomColor;
+			uniform float offset;
+			uniform float exponent;
+
+			varying vec3 vWorldPosition;
+
+			void main() {
+
+				float h = normalize( vWorldPosition + offset ).y;
+				gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
+
+			}
+
+		</script>
+
+		
+		<script>
+    document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+        + ':35729/livereload.js"></'
+        + 'script>')
+</script>  		
+		<script>
+
+	</script>
+
+<script type="text/javascript" src="0.glb-generator.bundle.js"></script><script type="text/javascript" src="glb-generator.bundle.js"></script></body>
+</html>
+

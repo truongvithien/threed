@@ -1,0 +1,390 @@
+{% import "../../../../setup/html/_macros.html.twig" as _macro %}
+
+{% set componentId = "subGallery" %}
+
+{% set urlDetail = '#urlDetail' %}
+{% set data = {
+    list: [
+        {
+            thumbnail: 'assets/images/data/data-1.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Hoạt động Long Môn Chiến',
+            isHot: true,
+            publishDate: 82624164
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-2.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Giới thiệu tính năng Quyết Chiến Lăng Tuyệt Phong',
+            isHot: false,
+            publishDate: 52357532
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-3.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '#external',
+            title: 'Thoải chí xưng hùng cùng Lãnh Thổ Chiến Liên Server',
+            isHot: false,
+            publishDate: 43962914
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-4.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Hệ thống Môn Khách SSS',
+            isHot: true,
+            publishDate: 38943271 
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-5.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '#external',
+            title: 'Nâng tầm công lực với Tuyệt Học Giang Hồ',
+            isHot: false,
+            publishDate: 25310144
+        },
+        {
+            thumbnail: 'assets/images/data/data-6.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Hệ thống Môn Khách SSS',
+            isHot: false,
+            publishDate: 23398824
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-1.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Nâng tầm công lực với Tuyệt Học Giang Hồ',
+            isHot: false,
+            publishDate: 23391121
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-2.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Nâng tầm công lực với Tuyệt Học Giang Hồ',
+            isHot: false,
+            publishDate: 23391121
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-3.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Nâng tầm công lực với Tuyệt Học Giang Hồ',
+            isHot: false,
+            publishDate: 23391121
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-4.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Hệ thống Môn Khách SSS',
+            isHot: true,
+            publishDate: 38943271 
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-5.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '#external',
+            title: 'Thoải chí xưng hùng cùng Lãnh Thổ Chiến Liên Server',
+            isHot: false,
+            publishDate: 43962914
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-6.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Hệ thống Môn Khách SSS',
+            isHot: true,
+            publishDate: 38943271 
+        }
+
+    ]
+} %}
+
+<div id="{{ componentId }}" class="gallery gallery--{{ componentId }}">
+
+    <div class="gallery_tab">
+        <ul class="tab">
+            <li>
+                <a  href="#"
+                    class="tab__item active"
+                    data-type="html"
+                    data-params="?cate=image"
+                    data-block-name="home-gallery"
+                    data-shorturl="{{site}}/thu-vien-ajax"
+                    data-viewall="{{site}}/thu-vien/danh-sach.1.html?cate=image"
+                >Hình ảnh</a>
+            </li>
+            <li><a href="#" class="tab__item">Video</a></li> 
+        </ul>
+    </div>
+
+    <div class="gallery_list">
+        {% if data.list|length > 0 %}
+            <ul>
+                {% for item in data.list %}
+
+                    {% set img =  item.thumbnail != null ? item.thumbnail : 'http://placehold.it/600x350' %}
+                    {% set urlDetail =  site ~ '/tin-tuc' %}
+                    {% set link   = item.linkExternal != null ?  item.linkExternal : urlDetail ~ '/' ~  item.catCode ~ '/' ~ item.linkSeo ~ '.html' %}
+                    {% set target = item.isNewTab ?  'target=_blank' : '' %}
+                    {% set robotFlow = item.linkExternal != null ?  'rel=nofollow' : '' %}
+                    {% set isHot = item.isHot ?  'isHot' : '' %}
+
+                    <li>
+                        <div class="gallery_item {{isHot}}">
+                            <a href="{{ img }}" {{target}} {{robotFlow}} data-fancybox class="gallery_item__thumbnail" 
+                            title="{{ item.title }}">
+                                <img class="lazyload" data-src="{{ img }}" alt="{{ item.title }}">
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {% include "./emptyContent.html.twig" %}
+        {% endif %}
+    </div>
+    <input type="hidden" id='itemTotal' value="130">
+    <input type="hidden" id='itemPerPage' value="10">    
+    <input type="hidden" id='currentSection' value="tin-tuc">
+    <input type="hidden" id='shortUri' value="{{site}}/tin-tuc2">
+
+    <div class="gallery_pagination">
+        <ul class="pagination">
+            <li>
+                <a href="#" class="page-link active">1</a>
+            </li>
+            <li>
+                <a href="#" class="page-link ">2</a>
+            </li>
+            <li>
+                <a href="#" class="page-link ">3</a>
+            </li>
+            <li>
+                <a href="#" class="page-link ">4</a>
+            </li>
+            <li>
+                <a href="#" class="page-link ">5</a>
+            </li>
+            <li>
+                <a href="#" class="page-link ">6</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+{# SCSS DEFAULT:
+
+    .gallery {
+        position: relative;
+        width: 100%;
+        
+
+        &_tab {
+            display: flex;
+            justify-content: space-between;
+            height: 50px;
+            padding: 0px 0px;
+            margin: 0 0 40px;
+            
+            .tab {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                li:not(:last-child) {
+                    margin-right: 58px;
+                }
+                &__item {
+                    padding: 6px 12px;
+                    color: #424242;
+                    font-size: 24px;
+                    font-weight: 500;
+                    color: #424242;
+                    @include image("sprite-text", $gallery-tab);
+
+                    &:hover {
+                        color: #ffffff;
+                        @include image("sprite-text", $gallery-tab-act);
+                    }
+
+                    &.active, &.active:hover {
+                        color: #ffffff;
+                        @include image("sprite-text", $gallery-tab-act);
+                    }
+                }
+            }
+            
+        }
+
+        &_list {
+            position: relative;
+            height: calc(810px);
+            margin: 0 0;
+            background: #000;
+
+            li { 
+                display: block;
+                position: absolute;
+                transition: opacity .4s $ease-in-out;
+
+                &:nth-child(1) {
+                    width: 450px;
+                    height: 490px;
+                    top: 0;
+                    left: 0;
+                }
+                &:nth-child(2) {
+                    width: 450px;
+                    height: 320px;
+                    top: 490px;
+                    left: 0;
+                }
+                &:nth-child(3) {
+                    width: 550px;
+                    height: 320px;
+                    top: 0px;
+                    left: 450px;
+                }
+                &:nth-child(4) {
+                    width: 550px;
+                    height: 490px;
+                    top: 320px;
+                    left: 450px;
+                }
+                &:nth-child(5) {
+                    width: 540px;
+                    height: 490px;
+                    top: 0px;
+                    left: 1000px;
+                }
+                &:nth-child(6) {
+                    width: 540px;
+                    height: 320px;
+                    top: 490px;
+                    left: 1000px;
+                }
+                &:nth-child(7) {
+                    width: 460px;
+                    height: 320px;
+                    top: 0px;
+                    left: 1540px;
+                }
+                &:nth-child(8) {
+                    width: 460px;
+                    height: 280px;
+                    top: 320px;
+                    left: 1540px;
+                }
+                &:nth-child(9) {
+                    width: 260px;
+                    height: 210px;
+                    top: 600px;
+                    left: 1740px;
+                }
+                
+                &:last-child {
+                    width: 200px;
+                    height: 210px;
+                    top: 600px;
+                    left: 1540px;
+                }
+            }
+
+            &:hover {
+                li:not(:last-child) {
+                    opacity: .6;
+                }
+                li:hover {
+                    opacity: 1;
+                }
+            }
+                                 
+        }
+        &_item {
+            display: block;
+            width: 100%;
+            height: 100%;
+            &__thumbnail {
+                display: block;
+                width: 100%;
+                height: 100%;
+                img {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+            &__viewall {
+                display: block;
+                font-size: 0px;
+                @include image("sprite", $btn-viewall);
+                @include defaultHover();
+            }
+
+            &.isHot {
+                
+            }
+
+            &:not(.isHot):hover {
+                background-color: rgba(#fff, .4);
+                .news_item__title {
+                    color: #a82a2d;
+                    // font-weight: var(--fontweight-bold);
+                }
+            }
+
+        }
+
+        .search {
+            &__form {
+                display: flex;
+                width: 100%;
+                height: 50px;
+                background: #f8f8f4;
+                border: 1px solid #dfdfdd;
+            }
+            &__field {
+                width: calc(100% - 50px);
+                height: 50px;
+                border: none;
+                background: none;
+                color: #424242;
+                font-weight: var(--fontweight-semibold); 
+                text-indent: 30px;
+            }
+            &__button {
+                width: 50px;
+                height: 50px;
+                border: none;
+                @include image("sprite", $btn-search);
+            }
+        }
+    }
+
+#}
+
+
+{# TWIG DEFAULT: 
+
+
+
+#}

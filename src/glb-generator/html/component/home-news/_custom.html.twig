@@ -1,0 +1,358 @@
+{% import "../../../setup/html/_macros.html.twig" as _macro %}
+
+{% set componentId = "homeNews" %}
+
+{% set urlDetail = '#urlDetail' %}
+{% set data = {
+    list: [
+        {
+            thumbnail: 'assets/images/data/data-3.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Hoạt động Long Môn Chiến',
+            shortContent: 'Cái bẫy ở chỗ em là người code từng dòng của sản phẩm đó, dĩ nhiên em sử dụng được tốt. Nhưng nếu cho 1 user ở bên ngoài vào thử, mọi chuyện sẽ hoàn toàn khác. Lúc đó em mới thấy 1 sản phẩm tốt không phải chỉ tốt ở khâu code, mà còn phải hoàn chỉnh cả UI/UX.',
+            isHot: true,
+            publishDate: 82624164
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-4.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Giới thiệu tính năng Quyết Chiến Lăng Tuyệt Phong',
+            shortContent: 'Một ví dụ rất hay xảy ra là khi các bạn UI UX Designer làm xong phần design, đưa cho coder thì bạn coder hay comment là design như thế này khó quá, không thể làm được và yêu cầu thay đổi design để code dễ hơn.',
+            isHot: false,
+            publishDate: 52357532
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-1.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '#external',
+            title: 'Thoải chí xưng hùng cùng Lãnh Thổ Chiến Liên Server',
+            shortContent: 'Các bạn lập trình viên trẻ hoặc quen làm bên outsource thường rơi vào cái bẫy là code sao cho nó chạy được thôi. Bạn coder sử dụng được thì user nghiễm nhiên cũng sử dụng được.',
+            isHot: false,
+            publishDate: 43962914
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-2.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Hệ thống Môn Khách SSS',
+            shortContent: 'Coder phải hiểu và làm chủ sản phẩm thì cái anh ta code ra mới chất lượng được. Điều này là rất quan trọng cho mọi developer muốn phát triển lên.',
+            isHot: true,
+            publishDate: 38943271 
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-3.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '#external',
+            title: 'Nâng tầm công lực với Tuyệt Học Giang Hồ',
+            shortContent: 'Yếu tố quan trọng nhất của 2 người đầu tiên này là commitment (sự cam kết) : họ bắt buộc phải sẵn sàng đi với team đến cuối cùng. Nếu họ có đủ mọi yếu tố, nhưng chỉ muốn tham gia team như 1 công việc part-time, hãy chọn người khác.',
+            isHot: false,
+            publishDate: 25310144
+        },
+        {
+            thumbnail: 'assets/images/data/data-4.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Hệ thống Môn Khách SSS',
+            shortContent: 'Tham gia vào các dự án open source: vừa luyện cho mình, vừa đóng góp cho cộng đồng. Khi đi phỏng vấn, nếu em đưa ra được những dự án riêng này của mình ra, nhà tuyển dụng sẽ đánh giá rất cao.',
+            isHot: false,
+            publishDate: 23398824
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-5.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Nâng tầm công lực với Tuyệt Học Giang Hồ',
+            shortContent: 'Anh cũng hay code chơi chơi lắm. Ví dụ có lần rảnh rảnh, anh code 1 cái app “Săn vé.” Tự code tự design bằng cách cóp nhặt ở khắp nơi thôi. Cũng đứng đầu App Store Việt Nam được mấy ngày đấy (cười).',
+            isHot: false,
+            publishDate: 23391121
+        },
+        {
+            thumbnail: 'assets/images/data/data-6.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Giới thiệu tính năng Quyết Chiến Lăng Tuyệt Phong',
+            shortContent: 'Đâu có ai sinh con ra là xong đâu? Bạn phải chăm chút từ lúc mang thai cho nó khỏe mạnh. Nó ra đời vẫn phải chăm sóc để nó nhìn sạch sẽ, cư xử với người khác lễ phép. Cũng giống như từ khâu code đã phải clean, làm ra sản phẩm phải có UI tốt, UX tốt, ít bug, ít crash.',
+            isHot: false,
+            publishDate: 52357532
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-3.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '#external',
+            title: 'Thoải chí xưng hùng cùng Lãnh Thổ Chiến Liên Server',
+            shortContent: 'Nó sẽ giúp bạn suy nghĩ theo hướng làm thế nào để user dễ sử dụng nhất, từ đó làm chủ sản phẩm.',
+            isHot: false,
+            publishDate: 43962914
+        }, 
+        {
+            thumbnail: 'assets/images/data/data-4.jpg',
+            link: '#link',
+            isNewTab: false,
+            linkExternal: '',
+            title: 'Hệ thống Môn Khách SSS',
+            shortContent: 'Tuy nhiên, không phải cứ dễ code hơn là hay hơn. Vì bạn coder không hiểu về UI/UX nên không hiểu vì sao design nó cần như thế, gây ảnh hưởng đến sản phẩm cuối cùng.',
+            isHot: true,
+            publishDate: 38943271 
+        },
+
+    ]
+} %}
+
+<div id="{{ componentId }}" class="news news--{{ componentId }}">
+
+    <div class="news_tab">
+        <ul class="tab">
+            <li>
+                <a  href="#"
+                    class="tab__item active"
+                    data-params=""
+                    data-block-name="tin-tuc"
+                    data-shorturl="{{shortUrl}}"
+                    data-viewall="{{site}}/tin-tuc/tin-tuc.1.html"
+                >Tin tức</a>
+            </li>
+            <li><a href="#" class="tab__item">Sự kiện</a></li>
+            <li><a href="#" class="tab__item">Tính năng</a></li>
+            <li><a href="#" class="tab__item">Hướng dẫn</a></li>
+            <li><a href="#" class="tab__item">Cộng đồng</a></li>
+        </ul>
+        <a href="{{site}}/tin-tuc/tin-tuc.1.html" class="desktop viewall viewAll">Xem thêm</a>
+    </div>
+    
+    <div class="news_list">
+        {% if data.list|length > 0 %}
+            <ul>
+                {% for item in data.list[0:10] %}
+
+                    {% set img =  item.thumbnail != null ? item.thumbnail : 'http://placehold.it/600x350' %}
+                    {% set urlDetail =  site ~ '/tin-tuc' %}
+                    {% set link   = item.linkExternal != null ?  item.linkExternal : urlDetail ~ '/' ~  item.catCode ~ '/' ~ item.linkSeo ~ '.html' %}
+                    {% set target = item.isNewTab ?  'target=_blank' : '' %}
+                    {% set robotFlow = item.linkExternal != null ?  'rel=nofollow' : '' %}
+                    {% set isHot = item.isHot ?  'isHot' : '' %}
+
+                    <li>
+                        <div class="news_item {{isHot}}">
+                            <a href="{{link}}" {{target}} {{robotFlow}} class="news_item__title" 
+                            title="{{ item.title }}">
+                                {{ item.title[0:63] }}
+                                {% if item.title|length > 63 %}...{% endif %}
+                            </a>
+                            <div class="news_item__time">
+                                {{ item.publishDate|date('d-m') }}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {% include "./empty-data.html.twig" %}
+        {% endif %}
+    </div>
+
+    <a href="#" class="mobile-flex news__viewall viewAll">Xem toàn bộ danh sách tin tức</a>
+
+    {# {% include "./search.html.twig" %} #}
+
+</div>
+
+{# SCSS DEFAULT:
+
+    .news {
+        position: relative;
+        width: 850px;
+        height: 480px;
+
+        @include grid-media($portrait) {
+            width: 730px;
+            display: flex;
+            flex-wrap: wrap;
+            // height: 440px;
+        }
+
+        &_tab {
+            display: flex;
+            justify-content: space-between;
+            height: 50px;
+            padding: 10px 20px;
+            margin: 0 0 10px;
+            
+            .tab {
+                display: flex;
+                justify-content: flex-start;
+
+                @include grid-media($portrait) {
+                    justify-content: space-between;
+                }
+
+                li:not(:last-child) {
+                    margin-right: 24px;
+                }
+                &__item {
+                    padding: 6px 12px;
+                    color: #424242;
+                    font-size: 22px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    transition: background-color .2s $ease-in-out;
+
+                    @include grid-media($portrait) {
+                        font-size: 24px;
+                    }
+
+                    &:hover {
+                        background-color: rgba(#8dcbe0, .4);
+                    }
+
+                    &.active, &.active:hover {
+                        background-color: #8dcbe0;
+                        color: #ffffff;
+                        font-weight: bold;
+                    }
+                }
+            }
+            .viewall {
+                @include image("sprite", $btn-viewmore);
+                @include defaultHover();
+            }
+        }
+
+        &_list {
+            position: relative;
+            height: calc(50px * 7);
+            margin: 0 0 20px;
+
+            @include grid-media($portrait) {
+                width: 100%;
+            }
+
+            li:not(:last-child) {
+                border-bottom: 1px solid #e3e5e5;
+            }
+
+            @include grid-media($portrait) {
+                li:nth-child(6),
+                li:nth-child(7) {
+                    display: none;
+                }
+            }
+            
+        }
+        &_item {
+            
+            display: flex;
+            padding: 0 30px;
+            height: 50px;
+            justify-content: space-between;
+            align-items: center;
+            align-content: center;
+            transition: background-color .2s $ease-in-out;
+
+            @include grid-media($portrait) {
+                height: 70px;
+            }
+
+            &__title {
+                color: #424242;
+                font-size: 20px;
+                font-weight: var(--fontweight-medium);
+                transition: color .2s $ease-in-out;
+
+                @include grid-media($portrait) {
+                    font-size: 24px;
+                }
+            }
+            &__time {
+                font-size: 16px;
+                font-weight: var(--fontweight-medium);
+            }
+
+            &.isHot {
+                background-color: #FFF;
+                .news_item__title {
+                    color: #a82a2d;
+                    font-weight: var(--fontweight-bold);
+                }
+            }
+
+            &:not(.isHot):hover {
+                background-color: rgba(#fff, .4);
+                .news_item__title {
+                    color: #a82a2d;
+                    // font-weight: var(--fontweight-bold);
+                }
+            }
+
+        }
+
+        .search {
+
+            @include grid-media($portrait) {
+                order: -1;
+                width: 100%;
+                margin: 40px 0 40px;
+            }
+
+            &__form {
+                display: flex;
+                width: 100%;
+                height: 50px;
+                background: #f8f8f4;
+                border: 1px solid #dfdfdd;
+
+                @include grid-media($portrait) {
+                    height: 60px;
+                }
+            }
+            &__field {
+                width: calc(100% - 50px);
+                height: 50px;
+                border: none;
+                background: none;
+                color: #424242;
+                font-weight: var(--fontweight-semibold); 
+                text-indent: 30px;
+
+                @include grid-media($portrait) {
+                    height: 60px;
+                    font-size: 24px;
+                }
+            }
+            &__button {
+                width: 50px;
+                height: 50px;
+                border: none;
+                @include image("sprite", $btn-search);
+            }
+        }
+
+        &__viewall {
+            width: 100%;
+            @include image("sprite-text", $mb-btn-viewmore);
+            @include superCenter();
+            color: #FFF;
+            font-size: 32px;
+            font-weight: var(--fontweight-medium);
+            text-transform: uppercase;
+        }
+    }
+
+#}
+
+
+{# TWIG DEFAULT: 
+
+
+
+#}
