@@ -1,0 +1,21 @@
+{% import "../../../setup/html/_macros.html.twig" as _macro %}
+{% set blockId = "name_your_block" %}
+
+<section id="{{blockId}}" class="section section--{{blockId}} {{blockId}} scrollFrame">
+    <div class="section__beforebackground">
+    
+    </div>
+    <div class="section__background">
+        {{ _macro.image(
+            'assets/images/bg/bg-1.jpg', 
+            'assets/images/bg/mb-bg-1.jpg'
+        )}}		
+        <span id="{{blockId}}-scrollwatch-pin" class="scrollwatch-pin"></span>
+        <div class="overlay"></div>
+    </div>
+    <div class="section__content">
+        <div class="inner inner--{{blockId}} autoHeightDesktopScale autoHeightMobileScale">
+            {#  #}
+        </div>
+    </div>
+</section>
