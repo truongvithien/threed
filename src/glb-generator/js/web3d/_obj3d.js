@@ -1,9 +1,20 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-var obj3d; 
+var obj3d;
+
+var meshs = [];
 
 obj3d = { 
+    cleanUp: function(scene, camera) {
+        for( var i = scene.children.length - 1; i >= 0; i--) { 
+            var obj = scene.children[i];
+
+            if (["obj3d_body", "obj3d_head", "obj3d_asset"].indexOf(obj.name) > -1) {
+                scene.remove(obj); 
+            }
+       }
+    },
     addGround: function(scene, camera){
         const geometry = new THREE.PlaneGeometry( 100, 100 );
         const material = new THREE.MeshPhongMaterial( { color: 0xffffff, depthWrite: false } );				
@@ -16,9 +27,11 @@ obj3d = {
         mesh.receiveShadow = true;
         scene.add( mesh );
 
+        meshs.push(mesh);
+
         return mesh;
     },
-    loadModel: function(scene, camera, path_to_model){
+    loadModel: function(scene, camera, path_to_model, name){
         
         var model;
         const loader = new GLTFLoader();
@@ -31,6 +44,7 @@ obj3d = {
 
             model.castShadow = true;
             model.receiveShadow = true;
+            model.name = name;
 
             scene.add( model );
 
@@ -42,6 +56,8 @@ obj3d = {
                 };
 
             } );
+
+            meshs.push(model);
         
         }, undefined, function ( error ) {
         
