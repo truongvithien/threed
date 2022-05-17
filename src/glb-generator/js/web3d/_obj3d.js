@@ -38,7 +38,7 @@ obj3d = {
 
         loader.load( path_to_model, function ( gltf ) {
 
-            console.log(gltf.scene);
+            // console.log(gltf.scene);
 
             model = gltf.scene;
 

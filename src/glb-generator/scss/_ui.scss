@@ -1,6 +1,7 @@
 .fullpage {
     width: 100vw;
     height: 100vh;
+    overflow-y: auto;
 }
 
 .fullpage_preview {
@@ -21,4 +22,14 @@
     //     right: 0;
     //     bottom: 0;
     // }
+}
+
+.possibility {
+    display: block;
+    position: relative;
+    height: 24vh;
+    padding: 8px 12px 8px 8px;
+    border-radius: 6px;
+    overflow-y: auto;
+    background: #DDD;
 }

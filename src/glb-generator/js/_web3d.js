@@ -1,8 +1,12 @@
 import * as THREE from 'three';
-import {OrbitControls} from 'three/examples/js/controls/OrbitControls';
-import {LightProbeGenerator} from 'three/examples/js/lights/LightProbeGenerator'
+// import {OrbitControls} from 'three/examples/js/controls/OrbitControls';
+// import {LightProbeGenerator} from 'three/examples/js/lights/LightProbeGenerator'
 
-import simple_geometry_obj from "./web3d/_test";
+var OrbitControls = require('three/examples/js/controls/OrbitControls'),
+    LightProbeGenerator = require('three/examples/js/lights/LightProbeGenerator');
+
+
+// import simple_geometry_obj from "./web3d/_test";
 import obj3d from "./web3d/_obj3d";
 
 // ROOT
@@ -28,20 +32,7 @@ var metadata = {
     description: "n/a",
     image: "n/a",
     date: "",
-    attributes: [
-        {
-            trait_type: "Head",
-            value: "N/A"
-        },
-        {
-            trait_type: "Body",
-            value: "N/A"
-        },
-        {
-            trait_type: "Asset",
-            value: "N/A"
-        },
-    ]
+    attributes: []
 }
 
 web3d = {
@@ -140,6 +131,38 @@ web3d = {
         // camera.position.set( 0, 20, 100 );
         controls.update();
     },
+    genMetadata: function(options) {
+        var defaults = {
+            head: "",
+            body: "",
+            asset: ""
+        }
+        var settings = $.extend(defaults, options);
+
+        metadata.dna = Date.now();
+        metadata.date = new Date().toLocaleString();
+        metadata.attributes = [];
+        metadata.attributes.push(
+            {
+                trait_type: "Body",
+                value: settings.body
+            },
+            {
+                trait_type: "Head",
+                value: settings.head
+            },
+            {
+                trait_type: "Asset",
+                value: settings.asset
+            }
+        );
+
+        if ($("#metadata").length > 0) {
+
+            var parseMetadata = JSON.stringify(metadata, null, 2);
+            $("#metadata").html(parseMetadata);
+        }
+    },
     loadObj3d: function(options) {
         var defaults = {
             head: "",
@@ -154,7 +177,7 @@ web3d = {
         obj_asset2 = obj3d.loadModel(scene, camera, settings.head, "obj3d_head");
         obj_asset3 = obj3d.loadModel(scene, camera, settings.asset, "obj3d_asset");
 
-
+        web3d.genMetadata(settings);
     },
     init: function(){
         web3d.setupEnvironment({

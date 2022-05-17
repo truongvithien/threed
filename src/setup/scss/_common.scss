@@ -55,9 +55,9 @@ body {
     }
 }
 
-.row {
-	@include dndFlexGrid($neat-grid); 
-}
+// .row {
+// 	@include dndFlexGrid($neat-grid); 
+// }
 
 .wrapper {
     width: var(--width-desktop);

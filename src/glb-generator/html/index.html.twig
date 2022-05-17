@@ -7,6 +7,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>GLB Generators</title>
+		
 	</head>
 	<body>
 
@@ -15,9 +16,9 @@
 
 		<div class="fullpage bg-dark p-4">
 			<div class="row">
-				<div class="fullpage_control col-6 col-lg-6 p-2">
-					<div class="card border round-4 bg-light p-2">
-						<h5>Body</h5>
+				<div class="fullpage_control col-12 col-lg-6 p-2">
+					<div class="card border round-4 bg-light p-2 mb-2">
+						<h5 class="card-title">Body</h5>
 						<div class="btn-group" role="group" aria-label="Body">
 							<input type="radio" class="btn-check" name="selectBody" id="body1" value="assets/glb/Body_01.glb" autocomplete="off" checked>
 							<label class="btn btn-outline-secondary" for="body1">Body 1</label>
@@ -33,7 +34,7 @@
 						</div>
 						<hr>
 
-						<h5>Head</h5>
+						<h5 class="card-title">Head</h5>
 						<div class="btn-group" role="group" aria-label="Head">
 							<input type="radio" class="btn-check" name="selectHead" id="head1" value="assets/glb/Head_01.glb" autocomplete="off" checked>
 							<label class="btn btn-outline-secondary" for="head1">Head 1</label>
@@ -49,8 +50,8 @@
 						</div>
 						<hr>
 
-						<h5>Asset</h5>
-						<div class="btn-group" role="group" aria-label="Body">
+						<h5 class="card-title">Asset</h5>
+						<div class="btn-group" role="group" aria-label="Asset">
 							<input type="radio" class="btn-check" name="selectAsset" id="asset1" value="assets/glb/Asset_01.glb" autocomplete="off" checked>
 							<label class="btn btn-outline-secondary" for="asset1">Asset 1</label>
 
@@ -65,21 +66,60 @@
 						</div>
 						<hr>
 						
-						<hr>
-						<button type="button" class="btn btn-primary btn-lg">Generate Metadata</button>
-						<hr>
+						<button type="button" class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#metadataModal">Generate Metadata</button>
 
-						<h5>Posibility</h5>
-						<hr>
-						<div id="posibility" class="posibility">
-						
+						<!-- Modal -->
+						<div class="modal fade" id="metadataModal" tabindex="-1" aria-labelledby="metadataModal" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Metadata</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<pre id="metadata" class="metadata">
+								
+								</pre>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								<button id="exportMetadataAsJSON" type="button" class="btn btn-primary">Export metadata as JSON</button>
+							</div>
+							</div>
 						</div>
+						</div>
+
+					</div>
+					<div class="card border round-4 bg-light p-2">
+						<h5 class="card-title">Possibility of sets <span id="possibilityTotal" class="badge bg-secondary possibilityTotal">...</span></h5>
+						<hr>
+						<div id="possibility" class="possibility">
+							<div id="possibilityList" class="row gy-2">
+								{% for item in 0..2 %}
+								<div class="col-3">
+									<button 
+										type="button" 
+										class="btn btn-light w-100 possibilityItem"
+										data-objthreed-body="#body1"
+										data-objthreed-head="#head1"
+										data-objthreed-asset="#asset1"
+									>x_x_x</button>
+								</div>
+								{% endfor %}
+							</div>
+
+						</div>
+
+						<hr>
+						
+						<button id="pickMeARandomSet" type="button" class="btn btn-dark btn-lg pickMeARandomSet">Pick me a random set</button>
 
 
 					</div>
 				</div>
-				<div class="fullpage_preview col-6 col-lg-6 p-2">
+				<div class="fullpage_preview col-12 col-lg-6 p-2">
 					<div class="card border round-4 bg-light p-2">
+						<h5 class="card-title">Preview</h5>
 						<div id="rendered_threed" class="rendered_threed">
 						
 						</div>
@@ -91,41 +131,8 @@
 
 		{# Shader #}
 
-		<script type="x-shader/x-vertex" id="vertexShader">
-
-			varying vec3 vWorldPosition;
-
-			void main() {
-
-				vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
-				vWorldPosition = worldPosition.xyz;
-
-				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-			}
-
-		</script>
-
-		<script type="x-shader/x-fragment" id="fragmentShader">
-
-			uniform vec3 topColor;
-			uniform vec3 bottomColor;
-			uniform float offset;
-			uniform float exponent;
-
-			varying vec3 vWorldPosition;
-
-			void main() {
-
-				float h = normalize( vWorldPosition + offset ).y;
-				gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
-
-			}
-
-		</script>
-
 		{# Add - on scripts #}
-		{% include "../../setup/html/_livereload.html.twig" %}
+		{# {% include "../../setup/html/_livereload.html.twig" %} #}
 		
 		<script>
 
