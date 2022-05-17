@@ -182,13 +182,16 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/glb-generator/js/web3d/_obj3d.js");
- // import {OrbitControls} from 'three/examples/js/controls/OrbitControls';
-// import {LightProbeGenerator} from 'three/examples/js/lights/LightProbeGenerator'
+/* harmony import */ var three_examples_js_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/js/controls/OrbitControls */ "./node_modules/three/examples/js/controls/OrbitControls.js");
+/* harmony import */ var three_examples_js_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var three_examples_js_lights_LightProbeGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/examples/js/lights/LightProbeGenerator */ "./node_modules/three/examples/js/lights/LightProbeGenerator.js");
+/* harmony import */ var three_examples_js_lights_LightProbeGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_lights_LightProbeGenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/glb-generator/js/web3d/_obj3d.js");
 
-var OrbitControls = __webpack_require__(/*! three/examples/js/controls/OrbitControls */ "./node_modules/three/examples/js/controls/OrbitControls.js"),
-    LightProbeGenerator = __webpack_require__(/*! three/examples/js/lights/LightProbeGenerator */ "./node_modules/three/examples/js/lights/LightProbeGenerator.js"); // import simple_geometry_obj from "./web3d/_test";
 
+ // var OrbitControls = require('three/examples/js/controls/OrbitControls'),
+//     LightProbeGenerator = require('three/examples/js/lights/LightProbeGenerator');
+// import simple_geometry_obj from "./web3d/_test";
 
  // ROOT
 
@@ -318,10 +321,10 @@ web3d = {
       asset: ""
     };
     var settings = $.extend(defaults, options);
-    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_1__["default"].cleanUp(scene, camera);
-    obj_asset1 = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_1__["default"].loadModel(scene, camera, settings.body, "obj3d_body");
-    obj_asset2 = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_1__["default"].loadModel(scene, camera, settings.head, "obj3d_head");
-    obj_asset3 = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_1__["default"].loadModel(scene, camera, settings.asset, "obj3d_asset");
+    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__["default"].cleanUp(scene, camera);
+    obj_asset1 = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__["default"].loadModel(scene, camera, settings.body, "obj3d_body");
+    obj_asset2 = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__["default"].loadModel(scene, camera, settings.head, "obj3d_head");
+    obj_asset3 = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__["default"].loadModel(scene, camera, settings.asset, "obj3d_asset");
     web3d.genMetadata(settings);
   },
   init: function () {
@@ -330,7 +333,7 @@ web3d = {
       dirLight: true
     });
     web3d.setupDom();
-    obj_ground = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_1__["default"].addGround(scene, camera);
+    obj_ground = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__["default"].addGround(scene, camera);
     web3d.setupPostRender();
   },
   render: function () {

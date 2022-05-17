@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-// import {OrbitControls} from 'three/examples/js/controls/OrbitControls';
-// import {LightProbeGenerator} from 'three/examples/js/lights/LightProbeGenerator'
+import {OrbitControls} from 'three/examples/js/controls/OrbitControls';
+import {LightProbeGenerator} from 'three/examples/js/lights/LightProbeGenerator'
 
-var OrbitControls = require('three/examples/js/controls/OrbitControls'),
-    LightProbeGenerator = require('three/examples/js/lights/LightProbeGenerator');
+// var OrbitControls = require('three/examples/js/controls/OrbitControls'),
+//     LightProbeGenerator = require('three/examples/js/lights/LightProbeGenerator');
 
 
 // import simple_geometry_obj from "./web3d/_test";
