@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -95,8 +94,7 @@
 						<hr>
 						<div id="possibility" class="possibility">
 							<div id="possibilityList" class="row gy-2">
-								
-								<div class="col-3">
+																<div class="col-3">
 									<button 
 										type="button" 
 										class="btn btn-light w-100 possibilityItem"
@@ -105,8 +103,7 @@
 										data-objthreed-asset="#asset1"
 									>x_x_x</button>
 								</div>
-								
-								<div class="col-3">
+																<div class="col-3">
 									<button 
 										type="button" 
 										class="btn btn-light w-100 possibilityItem"
@@ -115,8 +112,7 @@
 										data-objthreed-asset="#asset1"
 									>x_x_x</button>
 								</div>
-								
-								<div class="col-3">
+																<div class="col-3">
 									<button 
 										type="button" 
 										class="btn btn-light w-100 possibilityItem"
@@ -125,8 +121,7 @@
 										data-objthreed-asset="#asset1"
 									>x_x_x</button>
 								</div>
-								
-							</div>
+															</div>
 
 						</div>
 
@@ -139,8 +134,24 @@
 				</div>
 				<div class="fullpage_preview col-12 col-lg-6 p-2">
 					<div class="card border round-4 bg-light p-2">
-						<h5 class="card-title">Preview</h5>
-						<div id="rendered_threed" class="rendered_threed">
+						<div class="row">
+							<div class="col-6">
+								<h5 class="card-title">
+									Preview
+								</h5>
+							</div>
+							<div class="col-6">
+								<label for="switchDisplay" id="switch_3d" class="switch_3d d-flex justify-content-end align-items-center">
+									<div class="form-check form-switch ">
+										<input class="form-check-input" type="checkbox" role="switch" id="switchDisplay" checked="true"> 
+									</div>
+								</label>
+							</div>
+						</div>
+						<div id="rendered_twod" class="rendered_twod ">
+
+						</div>
+						<div id="rendered_threed" class="rendered_threed active">
 						
 						</div>
 					</div>
@@ -152,8 +163,12 @@
 		
 
 		
-		
-		
+		<script>
+    document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+        + ':35729/livereload.js"></'
+        + 'script>')
+</script>  		
 		<script>
 
 	</script>

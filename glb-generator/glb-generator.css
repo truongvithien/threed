@@ -9433,7 +9433,40 @@ hr.split {
   overflow-y: auto; }
 
 .rendered_threed {
-  width: 100%; }
+  width: 100%;
+  position: relative;
+  max-height: 0;
+  overflow: hidden; }
+  .rendered_threed.active {
+    max-height: 2000px; }
+
+.rendered_twod {
+  width: 100%;
+  padding-bottom: 100%;
+  position: relative;
+  display: none; }
+  .rendered_twod.active {
+    display: block; }
+
+.rendered_threed.loading:after, .rendered_twod.loading:after {
+  content: "Loading...";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  color: #FFF;
+  font-size: 24px;
+  font-weight: bold; }
 
 .possibility {
   display: block;
@@ -9443,6 +9476,20 @@ hr.split {
   border-radius: 6px;
   overflow-y: auto;
   background: #DDD; }
+
+.switch_3d:before {
+  content: "2D"; }
+
+.switch_3d:after {
+  content: "3D"; }
+
+.switch_3d .form-switch {
+  padding: 0;
+  min-height: initial;
+  margin: 0 0.3em; }
+
+.switch_3d .form-check-input {
+  margin: 0; }
 
 
 /*# sourceMappingURL=glb-generator.css.map*/

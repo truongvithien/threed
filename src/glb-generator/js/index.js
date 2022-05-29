@@ -13,6 +13,7 @@ window.addEventListener("load", function(){
     generatePossibility();
     pickMeARandomSet();
     exportMetadataAsJSON();
+    switchDisplay();
 });
 
 
@@ -70,7 +71,7 @@ var generatePossibility = function() {
             })
         }
 
-        console.log(possibility);
+        // console.log(possibility);
 
         var possibilityTotal = possibility["Body"].length * possibility["Head"].length * possibility["Asset"].length;
 
@@ -149,4 +150,19 @@ var exportMetadataAsJSON = function() {
 
         });
     } 
+}
+
+var switchDisplay = function(){
+    if ($("#switchDisplay").length > 0) {
+        $("#switchDisplay").on("change", function(){
+            if ($('#switchDisplay').prop('checked')) {
+                $("#rendered_twod").removeClass("active");
+                $("#rendered_threed").addClass("active");
+                generateObj3d();
+            } else {
+                $("#rendered_twod").addClass("active");
+                $("#rendered_threed").removeClass("active");
+            }
+        });
+    }
 }

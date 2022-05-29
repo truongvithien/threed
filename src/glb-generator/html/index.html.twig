@@ -119,8 +119,24 @@
 				</div>
 				<div class="fullpage_preview col-12 col-lg-6 p-2">
 					<div class="card border round-4 bg-light p-2">
-						<h5 class="card-title">Preview</h5>
-						<div id="rendered_threed" class="rendered_threed">
+						<div class="row">
+							<div class="col-6">
+								<h5 class="card-title">
+									Preview
+								</h5>
+							</div>
+							<div class="col-6">
+								<label for="switchDisplay" id="switch_3d" class="switch_3d d-flex justify-content-end align-items-center">
+									<div class="form-check form-switch ">
+										<input class="form-check-input" type="checkbox" role="switch" id="switchDisplay" checked="true"> 
+									</div>
+								</label>
+							</div>
+						</div>
+						<div id="rendered_twod" class="rendered_twod ">
+
+						</div>
+						<div id="rendered_threed" class="rendered_threed active">
 						
 						</div>
 					</div>
@@ -132,7 +148,7 @@
 		{# Shader #}
 
 		{# Add - on scripts #}
-		{# {% include "../../setup/html/_livereload.html.twig" %} #}
+		{% include "../../setup/html/_livereload.html.twig" %}
 		
 		<script>
 

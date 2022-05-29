@@ -186,7 +186,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_examples_js_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var three_examples_js_lights_LightProbeGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/examples/js/lights/LightProbeGenerator */ "./node_modules/three/examples/js/lights/LightProbeGenerator.js");
 /* harmony import */ var three_examples_js_lights_LightProbeGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_lights_LightProbeGenerator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/glb-generator/js/web3d/_obj3d.js");
+/* harmony import */ var three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/examples/js/loaders/RGBELoader.js */ "./node_modules/three/examples/js/loaders/RGBELoader.js");
+/* harmony import */ var three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/glb-generator/js/web3d/_obj3d.js");
+
 
 
  // var OrbitControls = require('three/examples/js/controls/OrbitControls'),
@@ -213,6 +216,20 @@ web3d = {
   helper: true,
   el: {
     renderer: $("#rendered_threed")
+  },
+  setuprgbe: function (options) {
+    new three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__["RGBELoader"]().setPath('textures/equirectangular/').load('royal_esplanade_1k.hdr', function (texture) {
+      texture.mapping = three__WEBPACK_IMPORTED_MODULE_0__["EquirectangularReflectionMapping"];
+      scene.background = texture;
+      scene.environment = texture;
+      render(); // model
+
+      const loader = new GLTFLoader().setPath('models/gltf/DamagedHelmet/glTF/');
+      loader.load('DamagedHelmet.gltf', function (gltf) {
+        scene.add(gltf.scene);
+        render();
+      });
+    });
   },
   setupEnvironment: function (options) {
     var defaults = {
@@ -314,17 +331,24 @@ web3d = {
       $("#metadata").html(parseMetadata);
     }
   },
-  loadObj3d: function (options) {
+  loadObj3d: async function (options) {
     var defaults = {
       head: "",
       body: "",
       asset: ""
     };
     var settings = $.extend(defaults, options);
-    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__["default"].cleanUp(scene, camera);
-    obj_asset1 = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__["default"].loadModel(scene, camera, settings.body, "obj3d_body");
-    obj_asset2 = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__["default"].loadModel(scene, camera, settings.head, "obj3d_head");
-    obj_asset3 = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__["default"].loadModel(scene, camera, settings.asset, "obj3d_asset");
+
+    if ($(web3d.el.renderer).hasClass("active")) {
+      $(web3d.el.renderer.addClass("loading"));
+      _web3d_obj3d__WEBPACK_IMPORTED_MODULE_4__["default"].cleanUp(scene, camera);
+      obj_asset1 = await _web3d_obj3d__WEBPACK_IMPORTED_MODULE_4__["default"].loadModel(scene, camera, settings.body, "obj3d_body");
+      obj_asset2 = await _web3d_obj3d__WEBPACK_IMPORTED_MODULE_4__["default"].loadModel(scene, camera, settings.head, "obj3d_head");
+      obj_asset3 = await _web3d_obj3d__WEBPACK_IMPORTED_MODULE_4__["default"].loadModel(scene, camera, settings.asset, "obj3d_asset");
+      $(web3d.el.renderer.removeClass("loading"));
+    } // console.log(obj_asset3);
+
+
     web3d.genMetadata(settings);
   },
   init: function () {
@@ -333,7 +357,7 @@ web3d = {
       dirLight: true
     });
     web3d.setupDom();
-    obj_ground = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_3__["default"].addGround(scene, camera);
+    obj_ground = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_4__["default"].addGround(scene, camera);
     web3d.setupPostRender();
   },
   render: function () {
@@ -351,7 +375,7 @@ web3d = {
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (web3d);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
@@ -379,6 +403,7 @@ window.addEventListener("load", function () {
   generatePossibility();
   pickMeARandomSet();
   exportMetadataAsJSON();
+  switchDisplay();
 });
 
 var generateObj3d = function () {
@@ -428,9 +453,9 @@ var generatePossibility = function () {
         let radioId = $(this).attr("id");
         possibility["Asset"].push(radioId);
       });
-    }
+    } // console.log(possibility);
 
-    console.log(possibility);
+
     var possibilityTotal = possibility["Body"].length * possibility["Head"].length * possibility["Asset"].length;
 
     if ($("#possibilityTotal").length > 0) {
@@ -502,7 +527,22 @@ var exportMetadataAsJSON = function () {
     });
   }
 };
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+
+var switchDisplay = function () {
+  if ($("#switchDisplay").length > 0) {
+    $("#switchDisplay").on("change", function () {
+      if ($('#switchDisplay').prop('checked')) {
+        $("#rendered_twod").removeClass("active");
+        $("#rendered_threed").addClass("active");
+        generateObj3d();
+      } else {
+        $("#rendered_twod").addClass("active");
+        $("#rendered_threed").removeClass("active");
+      }
+    });
+  }
+};
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
@@ -546,29 +586,33 @@ obj3d = {
     meshs.push(mesh);
     return mesh;
   },
-  loadModel: function (scene, camera, path_to_model, name) {
+  loadModel: async function (scene, camera, path_to_model, name) {
     var model;
     const loader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_1__["GLTFLoader"]();
-    loader.load(path_to_model, function (gltf) {
-      // console.log(gltf.scene);
-      model = gltf.scene;
-      model.castShadow = true;
-      model.receiveShadow = true;
-      model.name = name;
-      scene.add(model);
-      model.traverse(function (object) {
-        if (object.isMesh) {
-          object.castShadow = true;
-          object.receiveShadow = true;
-        }
+    return new Promise((resolve, reject) => {
+      loader.load(path_to_model, function (gltf) {
+        // console.log(gltf.scene);
+        model = gltf.scene;
+        model.castShadow = true;
+        model.receiveShadow = true;
+        model.name = name;
+        scene.add(model);
+        model.traverse(function (object) {
+          if (object.isMesh) {
+            object.castShadow = true;
+            object.receiveShadow = true;
+          }
 
-        ;
+          ;
+        });
+        meshs.push(model); // console.log("load obj");
+
+        resolve("loaded obj");
+      }, undefined, function (error) {
+        console.error(error);
+        reject(error);
       });
-      meshs.push(model);
-    }, undefined, function (error) {
-      console.error(error);
     });
-    return model;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (obj3d);
@@ -616,7 +660,7 @@ __webpack_require__.r(__webpack_exports__);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (config);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 

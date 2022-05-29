@@ -13,6 +13,7 @@ obj3d = {
             if (["obj3d_body", "obj3d_head", "obj3d_asset"].indexOf(obj.name) > -1) {
                 scene.remove(obj); 
             }
+
        }
     },
     addGround: function(scene, camera){
@@ -31,41 +32,52 @@ obj3d = {
 
         return mesh;
     },
-    loadModel: function(scene, camera, path_to_model, name){
+    loadModel: async function(scene, camera, path_to_model, name){
         
+
         var model;
         const loader = new GLTFLoader();
 
-        loader.load( path_to_model, function ( gltf ) {
+        return new Promise((resolve, reject) => {
+            loader.load( path_to_model, function ( gltf ) {
 
-            // console.log(gltf.scene);
+                // console.log(gltf.scene);
+    
+                model = gltf.scene;
+    
+                model.castShadow = true;
+                model.receiveShadow = true;
+                model.name = name;
+    
+                scene.add( model );
+    
+                model.traverse( function ( object ) {
+    
+                    if ( object.isMesh ) {
+                        object.castShadow = true;
+                        object.receiveShadow = true;
+                    };
+    
+                } );
+    
+                meshs.push(model);
+                // console.log("load obj");
+                resolve("loaded obj");
+            
+            }, undefined, function ( error ) {
+            
+                console.error( error );
 
-            model = gltf.scene;
-
-            model.castShadow = true;
-            model.receiveShadow = true;
-            model.name = name;
-
-            scene.add( model );
-
-            model.traverse( function ( object ) {
-
-                if ( object.isMesh ) {
-                    object.castShadow = true;
-                    object.receiveShadow = true;
-                };
-
+                reject(error);
+            
             } );
+        });
 
-            meshs.push(model);
         
-        }, undefined, function ( error ) {
-        
-            console.error( error );
-        
-        } );
 
-        return model;
+
+
+
     }
 }
 

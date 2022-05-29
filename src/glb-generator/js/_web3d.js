@@ -1,6 +1,7 @@
 import * as THREE from 'three';
-import {OrbitControls} from 'three/examples/js/controls/OrbitControls';
-import {LightProbeGenerator} from 'three/examples/js/lights/LightProbeGenerator'
+import { OrbitControls } from 'three/examples/js/controls/OrbitControls';
+import { LightProbeGenerator } from 'three/examples/js/lights/LightProbeGenerator';
+import { RGBELoader } from 'three/examples/js/loaders/RGBELoader.js';
 
 // var OrbitControls = require('three/examples/js/controls/OrbitControls'),
 //     LightProbeGenerator = require('three/examples/js/lights/LightProbeGenerator');
@@ -40,6 +41,33 @@ web3d = {
     helper: true,
     el: {
         renderer: $("#rendered_threed")
+    },
+    setuprgbe: function(options) {
+
+        new RGBELoader()
+            .setPath( 'textures/equirectangular/' )
+            .load( 'royal_esplanade_1k.hdr', function ( texture ) {
+
+                texture.mapping = THREE.EquirectangularReflectionMapping;
+
+                scene.background = texture;
+                scene.environment = texture;
+
+                render();
+
+                // model
+
+                const loader = new GLTFLoader().setPath( 'models/gltf/DamagedHelmet/glTF/' );
+                loader.load( 'DamagedHelmet.gltf', function ( gltf ) {
+
+                    scene.add( gltf.scene );
+
+                    render();
+
+                } );
+
+            } );
+
     },
     setupEnvironment: function(options){
         var defaults = {
@@ -163,7 +191,7 @@ web3d = {
             $("#metadata").html(parseMetadata);
         }
     },
-    loadObj3d: function(options) {
+    loadObj3d: async function(options) {
         var defaults = {
             head: "",
             body: "",
@@ -171,13 +199,19 @@ web3d = {
         }
         var settings = $.extend(defaults, options);
 
-        obj3d.cleanUp(scene, camera);
+        if ($(web3d.el.renderer).hasClass("active")) {
+            $(web3d.el.renderer.addClass("loading"));
+            obj3d.cleanUp(scene, camera);
+            obj_asset1 = await obj3d.loadModel(scene, camera, settings.body, "obj3d_body");
+            obj_asset2 = await obj3d.loadModel(scene, camera, settings.head, "obj3d_head");
+            obj_asset3 = await obj3d.loadModel(scene, camera, settings.asset, "obj3d_asset");
+            $(web3d.el.renderer.removeClass("loading"));
+        }
 
-        obj_asset1 = obj3d.loadModel(scene, camera, settings.body, "obj3d_body");
-        obj_asset2 = obj3d.loadModel(scene, camera, settings.head, "obj3d_head");
-        obj_asset3 = obj3d.loadModel(scene, camera, settings.asset, "obj3d_asset");
 
+        // console.log(obj_asset3);
         web3d.genMetadata(settings);
+
     },
     init: function(){
         web3d.setupEnvironment({
