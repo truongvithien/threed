@@ -18,7 +18,7 @@ obj3d = {
     },
     addGround: function(scene, camera){
         const geometry = new THREE.PlaneGeometry( 100, 100 );
-        const material = new THREE.MeshPhongMaterial( { color: 0xffffff, depthWrite: false } );				
+        const material = new THREE.MeshPhongMaterial( { color: 0x00ff00, depthWrite: false } );				
         
         material.color.setHSL( 0.095, 1, 0.75 );
 
@@ -45,22 +45,67 @@ obj3d = {
     
                 model = gltf.scene;
     
-                model.castShadow = true;
-                model.receiveShadow = true;
                 model.name = name;
+                if (model.isMesh) {
+                    model.castShadow = true;
+                    model.receiveShadow = true;
+                }
     
-                scene.add( model );
+                var shadowJob = function(arrModel, isGoUp){
+                    arrModel.forEach(childModel => {
+                        // console.log(childLvl, childModel.name);
+                        if (childModel.children.length > 0 && !isGoUp) {
+                            shadowJob(childModel.children, false);
+                        }
+                        if (childModel.parent != null) {
+                            shadowJob([childModel.parent], true);
+                        }
+                        childModel.castShadow = true;
+                        childModel.receiveShadow = true;
+                        childModel.traverse(function (object) {
+                            if (object.isMesh) {
+                                // console.log("---->" + object.name);
+                                // console.log(object.isMesh, object);
+                                object.castShadow = true;
+                                object.receiveShadow = true;
+                            } else {
+                                // console.log("st wrong again!");
+                            }
+                        });
+                        console.log(childModel);
+                    });
+                    
+                };
+
+                shadowJob([model], false);
+
+                // if (model.isMesh) {
+                //     model.castShadow = true;
+                //     model.receiveShadow = true;
+                // } else {
+                //     model.traverse( function ( object ) {
+                //         if ( object.isMesh ) {
+                //             console.log("----")
+                //             console.log(object.isMesh, object);
+                //             object.castShadow = true;
+                //             object.receiveShadow = true;
+                //         } else {
+                //             if (object.children.length > 0) {
+                //                 object.children.forEach(childMesh => {
+                //                     console.log("----")
+                //                     console.log(childMesh.isMesh, childMesh);
+                //                     childMesh.castShadow = true;
+                //                     childMesh.receiveShadow = true;
+                //                 })
+                //             }
+                //         };
+                //     } );
+
+                // }
     
-                model.traverse( function ( object ) {
-    
-                    if ( object.isMesh ) {
-                        object.castShadow = true;
-                        object.receiveShadow = true;
-                    };
-    
-                } );
     
                 meshs.push(model);
+                scene.add( model );
                 // console.log("load obj");
                 resolve("loaded obj");
             

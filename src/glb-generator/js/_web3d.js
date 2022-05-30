@@ -20,6 +20,8 @@ var scene,
 var hemiLight,
     dirLight;
 
+var light1, light2, light3, light4;
+
 // Object 3D
 var obj_ground,
     cube_test,
@@ -42,30 +44,20 @@ web3d = {
     el: {
         renderer: $("#rendered_threed")
     },
-    setuprgbe: function(options) {
+    setupRGBE: function(options) {
+        var defaults = {
+            path: 'assets/hdr/',
+            hdriFile: 'comfy_cafe_4k.hdr'
+        }
+        var settings = $.extend(defaults, options);
 
-        new RGBELoader()
-            .setPath( 'textures/equirectangular/' )
-            .load( 'royal_esplanade_1k.hdr', function ( texture ) {
-
+        new THREE.RGBELoader()
+            .setPath( settings.path )
+            // .load( 'royal_esplanade_1k.hdr', function ( texture ) {
+            .load( settings.hdriFile , function ( texture ) {
                 texture.mapping = THREE.EquirectangularReflectionMapping;
-
                 scene.background = texture;
                 scene.environment = texture;
-
-                render();
-
-                // model
-
-                const loader = new GLTFLoader().setPath( 'models/gltf/DamagedHelmet/glTF/' );
-                loader.load( 'DamagedHelmet.gltf', function ( gltf ) {
-
-                    scene.add( gltf.scene );
-
-                    render();
-
-                } );
-
             } );
 
     },
@@ -89,7 +81,6 @@ web3d = {
         scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
         scene.fog = new THREE.Fog( scene.background, 1, 5000 );
 
-
         hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
         hemiLight.color.setHSL( 0.6, 1, 0.6 );
         hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
@@ -108,7 +99,7 @@ web3d = {
         dirLight = new THREE.DirectionalLight( 0xffffff, .8 );
         dirLight.color.setHSL( 0.1, 1, 0.95 );
         dirLight.position.set( - 1, 1.75, 1 );
-        dirLight.position.multiplyScalar( 30 );
+        dirLight.position.multiplyScalar( 100 );
         if (settings.dirLight) {
             scene.add( dirLight );
         }
@@ -133,6 +124,28 @@ web3d = {
             scene.add( dirLightHelper );
         }
 
+    },
+    setupTestLight: function(options) {
+
+        const sphere = new THREE.SphereGeometry( 0.5, 16, 8 );
+
+        //lights
+
+        light1 = new THREE.PointLight( 0xff0040, 2, 50 );
+        light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) );
+        scene.add( light1 );
+
+        light2 = new THREE.PointLight( 0x0040ff, 2, 50 );
+        light2.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x0040ff } ) ) );
+        scene.add( light2 );
+
+        light3 = new THREE.PointLight( 0x80ff80, 2, 50 );
+        light3.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x80ff80 } ) ) );
+        scene.add( light3 );
+
+        light4 = new THREE.PointLight( 0xffaa00, 2, 50 );
+        light4.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xffaa00 } ) ) );
+        scene.add( light4 );
     },
     setupDom: function(options) {
         var defaults = {
@@ -207,24 +220,44 @@ web3d = {
             obj_asset3 = await obj3d.loadModel(scene, camera, settings.asset, "obj3d_asset");
             $(web3d.el.renderer.removeClass("loading"));
         }
-
-
+        
         // console.log(obj_asset3);
         web3d.genMetadata(settings);
 
     },
     init: function(){
         web3d.setupEnvironment({
-            hemiLight: true,
-            dirLight: true
+            hemiLight: false,
+            dirLight: false
         });
+        web3d.setupRGBE();
+        web3d.setupTestLight();
         web3d.setupDom();
 
-        obj_ground = obj3d.addGround(scene, camera);
+        // obj_ground = obj3d.addGround(scene, camera);
 
         web3d.setupPostRender();
     },
     render: function() {
+
+        const time = Date.now() * 0.0005;
+
+        light1.position.x = Math.sin( time * 0.7 ) * 30;
+        light1.position.y = Math.cos( time * 0.5 ) * 40;
+        light1.position.z = Math.cos( time * 0.3 ) * 30;
+
+        light2.position.x = Math.cos( time * 0.3 ) * 30;
+        light2.position.y = Math.sin( time * 0.5 ) * 40;
+        light2.position.z = Math.sin( time * 0.7 ) * 30;
+
+        light3.position.x = Math.sin( time * 0.7 ) * 30;
+        light3.position.y = Math.cos( time * 0.3 ) * 40;
+        light3.position.z = Math.sin( time * 0.5 ) * 30;
+
+        light4.position.x = Math.sin( time * 0.3 ) * 30;
+        light4.position.y = Math.cos( time * 0.7 ) * 40;
+        light4.position.z = Math.sin( time * 0.5 ) * 30;
+
         renderer.render( scene, camera );
     },
     animate: function() {
