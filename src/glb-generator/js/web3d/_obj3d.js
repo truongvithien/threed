@@ -32,6 +32,23 @@ obj3d = {
 
         return mesh;
     },
+    addRoom: function(scene, camera) {
+        const geometry = new THREE.SphereGeometry( 15, 32, 16 );;        
+        const material = new THREE.MeshPhongMaterial( { color: 0x50c5e6 , depthWrite: false } );				
+
+        const roomMesh = new THREE.Mesh(geometry, material);
+        roomMesh.side = THREE.FrontSide;
+
+        roomMesh.castShadow = true;
+        roomMesh.receiveShadow = true;
+
+        scene.add(roomMesh);
+        meshs.push(roomMesh);
+
+        return roomMesh;
+
+
+    },
     loadModel: async function(scene, camera, path_to_model, name){
         
 
@@ -103,6 +120,7 @@ obj3d = {
 
                 // }
     
+                model.position.set(0 , 0, 0);
     
                 meshs.push(model);
                 scene.add( model );

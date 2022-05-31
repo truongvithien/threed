@@ -1,0 +1,116 @@
+{% import "../../../../setup/html/_macros.html.twig" as _macro %}
+
+{% set componentId = "homeBanner" %}
+
+{% set data = {
+    list: [
+        {
+            image: 'assets/images/data/data-1.jpg',
+            link: '#link',
+            openWindow: true,
+            name: 'Hoạt động Long Môn Chiến',
+            isHot: true
+        }, 
+        {
+            image: 'assets/images/data/data-2.jpg',
+            link: '#link',
+            openWindow: '',
+            name: 'Nâng tầm công lực với Tuyệt Học Giang Hồ',
+            isHot: false
+        }, 
+        {
+            image: 'assets/images/data/data-3.jpg',
+            link: '',
+            openWindow: '',
+            name: 'Nâng tầm công lực với Tuyệt Học Giang Hồ',
+            isHot: false
+        }, 
+        {
+            image: 'assets/images/data/data-4.jpg',
+            link: '',
+            openWindow: '',
+            name: 'Nâng tầm công lực với Tuyệt Học Giang Hồ',
+            isHot: false
+        }, 
+        {
+            image: 'assets/images/data/data-5.jpg',
+            link: '',
+            openWindow: '',
+            name: 'Nâng tầm công lực với Tuyệt Học Giang Hồ',
+            isHot: false
+        }
+    ]
+} %}
+
+
+<div id="{{ componentId }}" class="banner banner--{{ componentId }}">
+    {% if data.list|length > 0 %}
+        <div id="{{ componentId }}Swiper" class="swiper banner_list">
+            <ul class="swiper-wrapper">
+                {% for item in data.list %}
+                    <li class="swiper-slide banner_slide">
+                        {% if item.link|length > 0 %}
+                            <div class="banner_item">
+                                <a href="{{item.link}}" class="banner_item__thumbnail" title="{{item.name}}">
+                                    <img class="swiper-lazy" data-src="{{item.image}}" alt="{{item.name}}">
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="banner_item">
+                                <div class="banner_item__thumbnail">
+                                    <img class="swiper-lazy" data-src="{{item.image}}" alt="{{item.name}}">
+                                </div>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="swiper-pagination swiper-pagination--{{componentId}}Swiper"></div>
+        </div>
+    {% else %}
+        {% include "../function/empty-data.html.twig" %}
+    {% endif %}
+</div>
+
+{# SCSS DEFAULT:
+
+    .banner {
+        &_list {
+
+        }
+        &_slide {
+
+        }
+        &_item {
+            a, img {
+                display: block;
+            }
+        }
+
+        .swiper-pagination--homeBannerSwiper {
+            text-align: right;
+            bottom: 0;
+            right: 0;
+            padding: 0 50px 20px;
+            .swiper-pagination-bullet {
+                opacity: 1;
+                border-radius: 12px;
+                background: #ffffff;
+                width: 10px;
+                height: 10px;
+                &-active {
+                    background: #f9f68b;
+                    width: 40px;
+                }
+            }
+        }
+    }
+
+#}
+
+
+{# TWIG DEFAULT: 
+
+
+
+#}

@@ -4,8 +4,7 @@ import web3d from "./_web3d";
 
 $(function () {
     web3d.init();
-    controlButtons();
- 
+    controlButtons(); 
 });
 
 window.addEventListener("load", function(){

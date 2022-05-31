@@ -188,7 +188,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_examples_js_lights_LightProbeGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_lights_LightProbeGenerator__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/examples/js/loaders/RGBELoader.js */ "./node_modules/three/examples/js/loaders/RGBELoader.js");
 /* harmony import */ var three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/glb-generator/js/web3d/_obj3d.js");
+/* harmony import */ var three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/examples/jsm/loaders/GLTFLoader.js */ "./node_modules/three/examples/jsm/loaders/GLTFLoader.js");
+/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/glb-generator/js/web3d/_obj3d.js");
+
 
 
 
@@ -203,7 +205,8 @@ var scene, camera, renderer, controls;
 var hemiLight, dirLight;
 var light1, light2, light3, light4; // Object 3D
 
-var obj_ground, cube_test, obj_asset1, obj_asset2, obj_asset3;
+var obj_ground, obj_room, cube_test;
+var data_body, data_head, data_asset, obj_body, obj_head, obj_asset;
 var metadata = {
   dna: "n/a",
   name: "n/a",
@@ -239,9 +242,20 @@ web3d = {
     var settings = $.extend(defaults, options);
     scene = new three__WEBPACK_IMPORTED_MODULE_0__["Scene"]();
     camera = new three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](75, web3d.el.renderer.innerWidth() / web3d.el.renderer.innerWidth(), 0.1, 1000);
+    camera.position.set(2, 6.1, 5.3); // camera.lookAt(0, 10, 10);
+
     renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]();
     controls = new three__WEBPACK_IMPORTED_MODULE_0__["OrbitControls"](camera, renderer.domElement);
-    camera.position.set(2, 4, 3.7);
+    controls.minDistance = 3;
+    controls.maxDistance = 10;
+    controls.zoomSpeed = 0.5;
+    controls.rotateSpeed = 0.2;
+    controls.enableDamping = true;
+    controls.enablePan = false;
+    controls.dampingFactor = 0.1;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.5;
+    controls.maxPolarAngle = 1.4;
     scene.background = new three__WEBPACK_IMPORTED_MODULE_0__["Color"]().setHSL(0.6, 0, 1);
     scene.fog = new three__WEBPACK_IMPORTED_MODULE_0__["Fog"](scene.background, 1, 5000);
     hemiLight = new three__WEBPACK_IMPORTED_MODULE_0__["HemisphereLight"](0xffffff, 0xffffff, 0.6);
@@ -355,6 +369,10 @@ web3d = {
       $("#metadata").html(parseMetadata);
     }
   },
+  setupModel: function (data, options) {
+    const model = data.scene.children[0];
+    return model;
+  },
   loadObj3d: async function (options) {
     var defaults = {
       head: "",
@@ -362,13 +380,20 @@ web3d = {
       asset: ""
     };
     var settings = $.extend(defaults, options);
+    const loader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"]();
 
     if ($(web3d.el.renderer).hasClass("active")) {
       $(web3d.el.renderer.addClass("loading"));
-      _web3d_obj3d__WEBPACK_IMPORTED_MODULE_4__["default"].cleanUp(scene, camera);
-      obj_asset1 = await _web3d_obj3d__WEBPACK_IMPORTED_MODULE_4__["default"].loadModel(scene, camera, settings.body, "obj3d_body");
-      obj_asset2 = await _web3d_obj3d__WEBPACK_IMPORTED_MODULE_4__["default"].loadModel(scene, camera, settings.head, "obj3d_head");
-      obj_asset3 = await _web3d_obj3d__WEBPACK_IMPORTED_MODULE_4__["default"].loadModel(scene, camera, settings.asset, "obj3d_asset");
+      _web3d_obj3d__WEBPACK_IMPORTED_MODULE_5__["default"].cleanUp(scene, camera);
+      obj_body = await _web3d_obj3d__WEBPACK_IMPORTED_MODULE_5__["default"].loadModel(scene, camera, settings.body, "obj3d_body");
+      obj_head = await _web3d_obj3d__WEBPACK_IMPORTED_MODULE_5__["default"].loadModel(scene, camera, settings.head, "obj3d_head");
+      obj_asset = await _web3d_obj3d__WEBPACK_IMPORTED_MODULE_5__["default"].loadModel(scene, camera, settings.asset, "obj3d_asset"); // [data_body, data_head, data_asset] = await Promise.all([
+      //     loader.loadAsync(settings.body),
+      //     loader.loadAsync(settings.head),
+      //     loader.loadAsync(settings.asset)
+      // ]);
+      // const obj_body = web3d.setupModel(data_body);
+
       $(web3d.el.renderer.removeClass("loading"));
     } // console.log(obj_asset3);
 
@@ -377,12 +402,13 @@ web3d = {
   },
   init: function () {
     web3d.setupEnvironment({
-      hemiLight: false,
-      dirLight: false
+      hemiLight: true,
+      dirLight: true
     });
     web3d.setupRGBE();
     web3d.setupTestLight();
     web3d.setupDom(); // obj_ground = obj3d.addGround(scene, camera);
+    // obj_room = obj3d.addRoom(scene, camera);
 
     web3d.setupPostRender();
   },
@@ -405,12 +431,20 @@ web3d = {
   animate: function () {
     if (web3d.debug) {
       console.log("DEBUG: re-rendered");
+      console.log(controls.getDistance());
     } // obj_asset.rotation.x += 0.05;
     // obj_asset.rotation.y += 0.05;
 
 
     requestAnimationFrame(web3d.animate);
     web3d.render();
+  },
+  // Get get get
+  getCamera: function () {
+    console.log(camera);
+  },
+  getControl: function () {
+    console.log(control);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (web3d);
@@ -625,6 +659,21 @@ obj3d = {
     meshs.push(mesh);
     return mesh;
   },
+  addRoom: function (scene, camera) {
+    const geometry = new three__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](15, 32, 16);
+    ;
+    const material = new three__WEBPACK_IMPORTED_MODULE_0__["MeshPhongMaterial"]({
+      color: 0x50c5e6,
+      depthWrite: false
+    });
+    const roomMesh = new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](geometry, material);
+    roomMesh.side = three__WEBPACK_IMPORTED_MODULE_0__["FrontSide"];
+    roomMesh.castShadow = true;
+    roomMesh.receiveShadow = true;
+    scene.add(roomMesh);
+    meshs.push(roomMesh);
+    return roomMesh;
+  },
   loadModel: async function (scene, camera, path_to_model, name) {
     var model;
     const loader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_1__["GLTFLoader"]();
@@ -688,6 +737,7 @@ obj3d = {
         //     } );
         // }
 
+        model.position.set(0, 0, 0);
         meshs.push(model);
         scene.add(model); // console.log("load obj");
 

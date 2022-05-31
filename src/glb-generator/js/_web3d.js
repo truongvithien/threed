@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/js/controls/OrbitControls';
 import { LightProbeGenerator } from 'three/examples/js/lights/LightProbeGenerator';
 import { RGBELoader } from 'three/examples/js/loaders/RGBELoader.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 // var OrbitControls = require('three/examples/js/controls/OrbitControls'),
 //     LightProbeGenerator = require('three/examples/js/lights/LightProbeGenerator');
@@ -24,10 +25,15 @@ var light1, light2, light3, light4;
 
 // Object 3D
 var obj_ground,
-    cube_test,
-    obj_asset1,
-    obj_asset2,
-    obj_asset3;
+    obj_room,
+    cube_test;
+
+var data_body,
+    data_head,
+    data_asset,
+    obj_body,
+    obj_head,
+    obj_asset;
 
 var metadata = {
     dna: "n/a",
@@ -75,9 +81,26 @@ web3d = {
             web3d.el.renderer.innerWidth() / web3d.el.renderer.innerWidth(), 
             0.1, 
             1000 );
+
+        camera.position.set(2, 6.1, 5.3);
+        // camera.lookAt(0, 10, 10);
+
+
+        
         renderer = new THREE.WebGLRenderer();
         controls = new THREE.OrbitControls( camera, renderer.domElement );
-        camera.position.set(2, 4, 3.7);
+
+        controls.minDistance = 3;
+        controls.maxDistance = 10;
+        controls.zoomSpeed = 0.5;
+        controls.rotateSpeed = 0.2;
+        controls.enableDamping = true;
+        controls.enablePan = false;
+        controls.dampingFactor = 0.1;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.5;
+        controls.maxPolarAngle = 1.4;
+
         scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
         scene.fog = new THREE.Fog( scene.background, 1, 5000 );
 
@@ -167,6 +190,7 @@ web3d = {
             web3d.render();
             if (web3d.debug) {
                 console.log(camera.position);
+
             }
         } );
         // camera.position.set( 0, 20, 100 );
@@ -204,6 +228,10 @@ web3d = {
             $("#metadata").html(parseMetadata);
         }
     },
+    setupModel: function(data, options) {
+        const model = data.scene.children[0];
+        return model;
+    },
     loadObj3d: async function(options) {
         var defaults = {
             head: "",
@@ -212,12 +240,22 @@ web3d = {
         }
         var settings = $.extend(defaults, options);
 
+        const loader = new GLTFLoader();
+
         if ($(web3d.el.renderer).hasClass("active")) {
             $(web3d.el.renderer.addClass("loading"));
             obj3d.cleanUp(scene, camera);
-            obj_asset1 = await obj3d.loadModel(scene, camera, settings.body, "obj3d_body");
-            obj_asset2 = await obj3d.loadModel(scene, camera, settings.head, "obj3d_head");
-            obj_asset3 = await obj3d.loadModel(scene, camera, settings.asset, "obj3d_asset");
+            obj_body = await obj3d.loadModel(scene, camera, settings.body, "obj3d_body");
+            obj_head = await obj3d.loadModel(scene, camera, settings.head, "obj3d_head");
+            obj_asset = await obj3d.loadModel(scene, camera, settings.asset, "obj3d_asset");
+            // [data_body, data_head, data_asset] = await Promise.all([
+            //     loader.loadAsync(settings.body),
+            //     loader.loadAsync(settings.head),
+            //     loader.loadAsync(settings.asset)
+            // ]);
+
+            // const obj_body = web3d.setupModel(data_body);
+        
             $(web3d.el.renderer.removeClass("loading"));
         }
         
@@ -227,14 +265,16 @@ web3d = {
     },
     init: function(){
         web3d.setupEnvironment({
-            hemiLight: false,
-            dirLight: false
+            hemiLight: true,
+            dirLight: true
         });
         web3d.setupRGBE();
         web3d.setupTestLight();
         web3d.setupDom();
 
         // obj_ground = obj3d.addGround(scene, camera);
+
+        // obj_room = obj3d.addRoom(scene, camera);
 
         web3d.setupPostRender();
     },
@@ -263,11 +303,19 @@ web3d = {
     animate: function() {
         if (web3d.debug) {
             console.log("DEBUG: re-rendered");
+            console.log(controls.getDistance());
         }
         // obj_asset.rotation.x += 0.05;
         // obj_asset.rotation.y += 0.05;
-        requestAnimationFrame( web3d.animate );
+        requestAnimationFrame( web3d.animate ); 
         web3d.render();
+    },
+    // Get get get
+    getCamera: function() {
+        console.log(camera);
+    },
+    getControl: function() {
+        console.log(control);
     }
 }
 

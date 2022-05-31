@@ -1,0 +1,1146 @@
+{% set characters = [
+    {
+        name: 'Kim',
+        code: 'kim',
+        content: [ 
+            {
+                name: 'Thiếu Lâm',
+                code: 'thieulam',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thieulam-thumb.png',
+                thumbnail2: '',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thieulam-name.png',
+                content: {
+                    general: 'Thân tựa kim cang, lòng tựa bồ đề, phát huy phật pháp kỳ diệu, lấy thủ thay công, cứu nhân độ thế',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value kim">Kim</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Côn</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, phản đòn</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=MoWIE0Jl81o" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Thiên Vương',
+                code: 'thienvuong',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thienvuong-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thienvuong-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thienvuong-name.png',
+                content: {
+                    general: 'Địch yếu truy đuổi, địch mạnh phòng thủ, am tường cận chiến, công thành đoạt tướng dũng mãnh sa trường',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value kim">Kim</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Song chuỳ</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, phòng thủ</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=-iS7b3GPsvQ" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Tàng Kiếm',
+                code: 'tangkiem',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/tangkiem-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/tangkiem-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/tangkiem-name.png',
+                content: {
+                    general: 'Chỉ có thể công, khó có thể thủ, lấy thân làm kiếm, sức mạnh vô song hoành tảo thiên hạ',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value kim">Kim</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Song kiếm</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, công cao</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=213y0Wga9CQ" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Bá Đao',
+                code: 'badao',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/badao-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/badao-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/badao-name.png',
+                content: {
+                    general: 'Tinh thông cận chiến, đối kháng trực diện, huyết nộ mạnh mẽ, tấn công cuồng bạo kinh hãi kẻ thù',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value kim">Kim</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Đao</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, cuồng bạo</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=RVrcpKwYjI0" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Dương Môn',
+                code: 'duongmon',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/duongmon-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/duongmon-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/duongmon-name.png',
+                content: {
+                    general: 'Dương gia danh tướng, tứ hải tung hoành, cung thương tương hỗ, dũng mãnh kiệt xuất bách chiến bách thắng',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value kim">Kim</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Cung / Thương</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cân bằng, cận chiến lẫn tầm xa</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=SwZ9AUmxw7A" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            }
+        ]
+    },
+    {
+        name: 'Mộc',
+        code: 'moc',
+        content: [
+            {
+                name: 'Tiêu Dao',
+                code: 'tieudao',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/tieudao-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/tieudao-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/tieudao-name.png',
+                content: {
+                    general: 'Thân tựa cá bơi, chuyển tựa chim bay, bộ pháp linh hoạt tiêu diêu tự tại, khống chế kẻ địch mạnh mẽ',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value moc">Mộc</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Thương</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, khống chế</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=Xl3HeSp7Z4g" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Đường Môn',
+                code: 'dduongmon',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/dduongmon-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/dduongmon-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/dduongmon-name.png',
+                content: {
+                    general: 'Am tường ám khí, tinh thông cạm bẫy, thân thủ cơ động thần tốc tấn công đoạt mạng kẻ địch',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value moc">Mộc</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Liên nỏ</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, bạo kích</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=rwP3mtdhfNQ" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Ngũ Độc',
+                code: 'ngudoc',
+                thumbnail: '',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/ngudoc-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/ngudoc-name.png',
+                content: {
+                    general: 'Nắm giữ nghìn kịch độc, triệu hồi vạn linh trùng, tấn công trong vô hình, lạnh lùng đoạt mạng địch thủ',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value moc">Mộc</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Sáo</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, triệu hồi, độc công</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=u5cVp6ZD0Oc" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Hoa Sơn',
+                code: 'hoason',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/hoason-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/hoason-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/hoason-name.png',
+                content: {
+                    general: 'Thân pháp linh hoạt, xuất kích thần tốc, kiếm pháp biến hoá khó lường, tự do thoải mái chiến đấu',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value moc">Mộc</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Kiếm</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, linh động</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=_wU4FMMA0-Y" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Thần Cơ',
+                code: 'thanco',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thanco-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thanco-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thanco-name.png',
+                content: {
+                    general: 'Bật thầy khôi lỗi, sát thủ tầm xa, cưỡi ưng chiến đấu, đấu pháp ảo diệu cực kỳ nguy hiểm',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value moc">Mộc</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Rối / Phi đao</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, cơ động</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=uOU-GPGqsBo" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            }
+        ]
+    },
+    {
+        name: 'Thủy',
+        code: 'thuy',
+        content: [
+            {
+                name: 'Nga Mi',
+                code: 'ngami',
+                thumbnail: '',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/ngami-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/ngami-name.png',
+                content: {
+                    general: 'Phật pháp tại tâm, lòng sáng thanh khiết, cứu độ thế nhân không màng nguy khó, hỗ trợ đồng đội mạnh mẽ',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value thuy">Thuỷ</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Kiếm</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, trị liệu</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=GwH2WaJ9CN8" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Thuý Yên',
+                code: 'thuyyen',
+                thumbnail: '',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thuyyen-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thuyyen-name.png',
+                content: {
+                    general: 'Mượn sức băng sương, tụ thành mưa tuyết, triệu gọi linh thú trợ chiến, tấn công liên tục kẻ địch',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value thuy">Thủy</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Dù</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, triệu hồi, sát thương</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=pmn27HuRYrk" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Thiên Sơn',
+                code: 'thienson',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thienson-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thienson-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thienson-name.png',
+                content: {
+                    general: 'Lợi dụng thanh âm kết thành hàn băng, tấn công xuyên thấu cơ thể, làm suy yếu kẻ địch',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value thuy">Thuỷ</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Đàn</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, hỗ trợ</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=QQZTCFfvPMU" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Đoàn Thị',
+                code: 'doanthi',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/doanthi-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/doanthi-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/doanthi-name.png',
+                content: {
+                    general: 'Lục mạch tinh tường, chỉ pháp ảo diệu, thần thái khí khái vương giả, võ công phóng khoáng bay bổng',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value thuy">Thủy</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Quạt xếp</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, khống chế</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=vYQ8IucQW30" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Huyền Thuỷ',
+                code: 'huyenthuy',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/huyenthuy-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/huyenthuy-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/huyenthuy-name.png',
+                content: {
+                    general: 'Bậc thầy khống chế, siêu hỗ trợ đồng đội. Tấn công và phòng thủ linh hoạt, đối thủ cực kỳ khó chịu',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value thuy">Thủy</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Phiên (cờ lệnh)</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, hỗ trợ, khống chế</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=X6HCj5dqAII" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            }
+        ]
+    },
+    {
+        name: 'Hỏa',
+        code: 'hoa',
+        content: [
+            {
+                name: 'Đào Hoa',
+                code: 'daohoa',
+                thumbnail: '',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/daohoa-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/daohoa-name.png',
+                content: {
+                    general: 'Không thấy bóng hình, trăm dặm giương cung, nhất tiễn sát thương đoạt mạng, loạn tiễn quần hùng kinh hãi',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value hoa">Hỏa</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Cung tiễn</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, sát thương cao</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=x3pA_b0WaFs" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Thiên Nhẫn',
+                code: 'thiennhan',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thiennhan-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thiennhan-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/thiennhan-name.png',
+                content: {
+                    general: 'Tuỳ thời cơ hành động, xuất nhất kích tất sát, mười bước diệt một người, nghìn dặm không tì vết',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value hoa">Hỏa</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Nguyệt nhẫn</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, bạo kích</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=HXVw7fkX80Q" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Cái Bang',
+                code: 'caibang',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/caibang-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/caibang-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/caibang-name.png',
+                content: {
+                    general: 'Thân thủ linh hoạt, né tránh cao cường, khí thế thần long cuồng nộ, bạo kích áp đảo kẻ địch',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value hoa">Hỏa</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Côn</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, bạo kích, né cao</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=xABrPqie8UQ" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Minh Giáo',
+                code: 'minhgiao',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/minhgiao-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/minhgiao-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/minhgiao-name.png',
+                content: {
+                    general: 'Minh tôn chỉ dẫn, thân ảnh mơ hồ, hoả thiêu nhục thể, phát huy giáo nghĩa, khuynh đảo giang hồ',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value hoa">Hỏa</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Song hoàn</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, đột kích, khống chế</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=ob8nFlVE-U8" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Long Tước',
+                code: 'longtuoc',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/longtuoc-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/longtuoc-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/longtuoc-name.png',
+                content: {
+                    general: 'Đao pháp xuất thần, biến đổi ảo diệu, tuyệt kỹ phân thân chiến đấu, tấn công tốc độ kinh người',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value hoa">Hỏa</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Đao</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, phân thân</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=f_S3UvSyhzU" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            }
+        ]
+    },
+    {
+        name: 'Thổ',
+        code: 'tho',
+        content: [
+            {
+                name: 'Võ Đang',
+                code: 'vodang',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/vodang-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/vodang-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/vodang-name.png',
+                content: {
+                    general: 'Âm dương hoà hợp, mượn kiếm sinh công, mượn khí sinh thủ, nội lực hộ thể, kiếm khí cân bằng',
+                    outForceText: 'Khôn Nguyên',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value tho">Thổ</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Kiếm</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, cân bằng</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=dCvE0-EjpSc" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Thái Hư',
+                    inForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value tho">Thổ</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Kiếm</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, cân bằng</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=j80uDTXR6Yc" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Côn Lôn',
+                code: 'conlon',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/conlon-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/conlon-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/conlon-name.png',
+                content: {
+                    general: 'Tinh thông ngự lôi, cao thủ khống chế cuồng phong, sử dụng phi kiếm ngự thể, áp chế quần hùng',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value tho">Thổ</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Song kiếm</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Cận chiến, né cao</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=HPvgl2QbRhs" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Trường Ca',
+                code: 'truongca',
+                thumbnail: '',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/truongca-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/truongca-name.png',
+                content: {
+                    general: 'Thân ảnh uyển chuyển, võ công tựa thực tựa mơ, xuất chiêu thanh thoát, khả năng hỗ trợ mạnh mẽ',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value tho">Thổ</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Quạt</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, hỗ trợ</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=6H2CwO-NDz8" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Vạn Hoa',
+                code: 'vanhoa',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/vanhoa-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/vanhoa-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/vanhoa-name.png',
+                content: {
+                    general: 'Uông dương tứ tứ, du vân tứ hải, chấp dĩnh điểm mặc, hội hổ sơn lâm, bút hoạ giang hồ, mực luận càn khôn',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value tho">Thổ</span>
+                            </li>
+                            <li>
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Bút</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, triệu hồi, quần thương</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=INw0VySLqz8" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            },
+            {
+                name: 'Xung Tiêu',
+                code: 'xungtieu',
+                thumbnail: '//img.zing.vn/upload/vltkm/source/News/Main/chars/xungtieu-thumb.png',
+                thumbnail2: '//img.zing.vn/upload/vltkm/source/News/Main/chars/xungtieu-thumb2.png',
+                nameImg: '//img.zing.vn/upload/vltkm/source/News/Main/chars/xungtieu-name.png',
+                content: {
+                    general: 'Hoả thương đấu phá, địa chấn thiên hạ, pháo thủ tầm xa, dũng mãnh thiện chiến, tiên phong xuất trận',
+                    outForceText: 'Ngoại Công',
+                    outForce: '
+                        <ul>
+                            <li>
+                                <span class="label">Ngũ hành: </span>
+                                <span class="value tho">Thổ</span>
+                            </li>
+                            <li> 
+                                <span class="label">Vũ khí: </span>
+                                <span class="value">Pháo súng</span>
+                            </li>
+                            <li>
+                                <span class="label">Đặc điểm: </span>
+                                <span class="value">Tầm xa, bạo kích</span>
+                            </li>
+                            <li>
+                                <span class="label">Độ khó: </span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star active">star</span>
+                                <span class="star">star</span>
+                            </li>
+                        </ul>
+                        <a href="https://www.youtube.com/watch?v=YNlho8I6VDY" data-fancybox class="trailer">XEM VIDEO</a>
+                    ',
+                    inForceText: 'Nội Công',
+                    inForce: '
+                        <p>Nội dung mới sắp được hé lộ.</p>
+                        <a href="#noicong" data-fancybox class="trailer">XEM VIDEO</a>
+                    '
+                }
+            }
+        ]
+    }
+] %}
+
+<div id="blockHomeChar" class="characters characters--blockHomeChar characters--vltkm">
+	<div id="groupClassSwiper" class="swiper">
+		<div class="swiper-pagination swiper-pagination--groupClassSwiper"></div>
+		<div class="swiper-wrapper">
+			{% for group in characters %}
+				<div class="swiper-slide" data-swiper-code="{{group.code}}" data-swiper-name="{{group.name}}">
+					<div id="{{group.code}}Swiper" class="swiper">
+						<div class="swiper-wrapper">
+							{% for char in group.content %}
+								<div class="swiper-slide" data-swiper-code="{{char.code}}" data-swiper-name="{{char.name}}">
+									<div class="char">
+										<div class="char__name">
+											<img class="swiper-lazy" data-src="{{char.nameImg}}" alt="{{char.name}}">
+										</div>
+										<div class="char__content">
+											<div class="char__paragraph active">
+												{{char.content.general|raw}}
+											</div>
+
+											<div class="split desktop">split</div>
+
+											{% set styleForceButton = "display: none;" %}
+											{% if char.code == 'vodang' %}
+												{% set styleForceButton = "" %}
+											{% endif %}
+
+
+											<input type="radio" name="{{char.code}}Force" id="{{char.code}}ForceOut" class="char__force char__force--out" checked>
+											<label for="{{char.code}}ForceOut" style="{{styleForceButton}}">{{char.content.outForceText}}</label>
+											<div class="char__paragraph">
+												{{char.content.outForce|raw}}
+											</div>
+
+											<input type="radio" name="{{char.code}}Force" id="{{char.code}}ForceIn" class="char__force char__force--in">
+											<label for="{{char.code}}ForceIn" style="{{styleForceButton}}">{{char.content.inForceText}}</label>
+											<div class="char__paragraph">
+												{{char.content.inForce|raw}}
+											</div>
+
+										</div>
+										<div class="char__thumbnail">
+											{% if char.thumbnail|length > 0 %}
+												<input type="radio" name="{{char.code}}Gender" id="{{char.code}}GenderMale" class="char__gender char__gender--male" checked>
+												<label for="{{char.code}}GenderMale" {% if char.thumbnail2|length == 0 %} style="display: none;" {% endif %}>gender-male</label>
+												<img class="swiper-lazy" data-src="{{char.thumbnail}}">
+											{% endif %}
+
+											{% if char.thumbnail2|length > 0 %}
+												<input type="radio" name="{{char.code}}Gender" id="{{char.code}}GenderFemale" class="char__gender char__gender--female" {% if char.thumbnail|length == 0 %} checked {% endif %}>
+												<label for="{{char.code}}GenderFemale" {% if char.thumbnail|length == 0 %} style="display: none;" {% endif %}>gender-female</label>
+												<img class="swiper-lazy" data-src="{{char.thumbnail2}}">
+											{% endif %}
+										</div>
+
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+						<div class="swiper-pagination swiper-pagination--classSwiper swiper-pagination--{{group.code}}Swiper"></div>
+					</div>
+
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+</div>

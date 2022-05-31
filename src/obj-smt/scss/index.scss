@@ -1,0 +1,12 @@
+// SETUP
+@import "../../setup/config";
+@import "./loader";
+
+// DEFAULT SETTINGS
+@import "../../setup/scss/mixins";
+@import "../../setup/scss/common"; 
+@import "../../setup/scss/easing";   
+@import "../../setup/scss/popup";  
+
+// CUSTOM
+@import "./ui"; 
