@@ -1,6 +1,6 @@
 import config from "../../setup/config";
 import bootstrap from 'bootstrap';
-import web3d from "./_web3d";
+import {web3d, debug} from "./_web3d";
 
 
 
@@ -15,8 +15,4 @@ window.addEventListener("load", function(){
 });
 
 
-window.debug = {
-    get: {
-        camera: () => web3d.getCamera()
-    }
-}
+window.debug = debug;

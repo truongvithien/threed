@@ -3,10 +3,6 @@ import { OrbitControls } from 'three/examples/js/controls/OrbitControls';
 import { LightProbeGenerator } from 'three/examples/js/lights/LightProbeGenerator';
 import { RGBELoader } from 'three/examples/js/loaders/RGBELoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
-
-import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper.js';
-import { VertexTangentsHelper } from 'three/examples/jsm/helpers/VertexTangentsHelper.js';
 
 // var OrbitControls = require('three/examples/js/controls/OrbitControls'),
 //     LightProbeGenerator = require('three/examples/js/lights/LightProbeGenerator');
@@ -16,7 +12,8 @@ import { VertexTangentsHelper } from 'three/examples/jsm/helpers/VertexTangentsH
 import obj3d from "./web3d/_obj3d";
 
 // ROOT
-var web3d;
+var web3d, 
+    debug;
 var scene,
     camera,
     renderer,
@@ -35,6 +32,11 @@ var data_bg,
 
 var data_smt_01,
     obj_smt_01;
+
+var data_bubble,
+    obj_bubble;
+
+const clock = new THREE.Clock();
 
 var metadata = {
     dna: "n/a",
@@ -423,7 +425,6 @@ web3d = {
 
     //--- 
 
-
     setupEnvironment: function (options) {
         var defaults = {
         }
@@ -486,6 +487,9 @@ web3d = {
         const model = data.scene.children[0];
         return model;
     },
+    
+    //---
+    
     loadObj3d: async function (options) {
         var defaults = {
             smt_01: {
@@ -645,10 +649,54 @@ web3d = {
 
         console.log(obj_bg);
     },
+    loadBubble: function(options) {
+        var defaults = {
+        }
+        var settings = $.extend(defaults, options);
+
+        const geometry = new THREE.BoxGeometry( 1.4, .8, .1 );
+        const material = new THREE.MeshLambertMaterial({
+            emissive: 0xffffff,
+            emissiveIntensity: 1
+        });
+
+        obj_bubble = new THREE.Mesh(geometry, material);
+        obj_bubble.receiveShadow = true;
+        obj_bubble.castShadow = true;
+        obj_bubble.name = "Bubble";
+
+        obj_bubble.position.set(-3, 5, 0);
+
+        console.log(obj_bubble);
+        scene.add(obj_bubble);
+    },
+    bubbleAnim: function(options) {
+        var defaults = {
+        }
+        var settings = $.extend(defaults, options);
+
+        // const spherical = new THREE.Spherical();
+        // const rotationMatrix = new THREE.Matrix4();
+        // const targetQuaternion = new THREE.Quaternion();
+
+        // if ( ! mesh.quaternion.equals( targetQuaternion ) ) {
+
+        //     const step = speed * delta;
+        //     mesh.quaternion.rotateTowards( targetQuaternion, step );
+
+        // }
+
+        obj_bubble.lookAt(camera.position);
+
+    },
+
+
+    //---
     init: function () {
         web3d.setupEnvironment();
 
         web3d.loadBg();
+        web3d.loadBubble();
         // obj_ground = obj3d.addGround(scene, camera);
         // obj_room = obj3d.addRoom(scene, camera);
         // obj3d.addBoxes(scene, camera);
@@ -661,17 +709,37 @@ web3d = {
         renderer.render(scene, camera);
     },
     animate: function () {
-        if (web3d.debug) {
-            console.log("DEBUG: re-rendered");
-            console.log(web3d.getCamera());
-            // console.log(controls.getDistance());
-        }
+        const delta = clock.getDelta();
+
+        web3d.bubbleAnim();
+
+        web3d.callback();
         requestAnimationFrame(web3d.animate);
         web3d.render();
     },
     // Get
-    getCamera: () => camera,
-    getControl: () => control
+    callback: () => {}
 }
 
-export default web3d;
+debug = {
+    getCamera: () => camera,
+    getControls: () => controls,
+    getObject: (obj_name) => {
+        switch (obj_name) {
+            case 'bubble': return obj_bubble;
+        }
+    },
+    watch: (object_to_watch) => {
+        web3d.callback = function() {
+            console.log(object_to_watch);
+        }
+        return "[ debug watch started ]"
+    },
+    endWatch: () => {
+        web3d.callback = function() {
+        }
+        return "[ debug watch ended ]"
+    }
+} 
+
+export {web3d, debug};

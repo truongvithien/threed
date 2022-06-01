@@ -175,12 +175,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************!*\
   !*** ./src/obj-smt/js/_web3d.js ***!
   \**********************************/
-/*! exports provided: default */
+/*! exports provided: web3d, debug */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "web3d", function() { return web3d; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "debug", function() { return debug; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var three_examples_js_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/js/controls/OrbitControls */ "./node_modules/three/examples/js/controls/OrbitControls.js");
 /* harmony import */ var three_examples_js_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__);
@@ -189,13 +191,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/examples/js/loaders/RGBELoader.js */ "./node_modules/three/examples/js/loaders/RGBELoader.js");
 /* harmony import */ var three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/examples/jsm/loaders/GLTFLoader.js */ "./node_modules/three/examples/jsm/loaders/GLTFLoader.js");
-/* harmony import */ var three_examples_jsm_loaders_EXRLoader_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three/examples/jsm/loaders/EXRLoader.js */ "./node_modules/three/examples/jsm/loaders/EXRLoader.js");
-/* harmony import */ var three_examples_jsm_helpers_VertexNormalsHelper_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! three/examples/jsm/helpers/VertexNormalsHelper.js */ "./node_modules/three/examples/jsm/helpers/VertexNormalsHelper.js");
-/* harmony import */ var three_examples_jsm_helpers_VertexTangentsHelper_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! three/examples/jsm/helpers/VertexTangentsHelper.js */ "./node_modules/three/examples/jsm/helpers/VertexTangentsHelper.js");
-/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/obj-smt/js/web3d/_obj3d.js");
-
-
-
+/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/obj-smt/js/web3d/_obj3d.js");
 
 
 
@@ -206,12 +202,14 @@ __webpack_require__.r(__webpack_exports__);
 
  // ROOT
 
-var web3d;
+var web3d, debug;
 var scene, camera, renderer, controls;
 var light_hemi, light_dir, light_key, light_fill, light_back, light_top; // Object 3D
 
 var data_bg, obj_bg;
 var data_smt_01, obj_smt_01;
+var data_bubble, obj_bubble;
+const clock = new three__WEBPACK_IMPORTED_MODULE_0__["Clock"]();
 var metadata = {
   dna: "n/a",
   name: "n/a",
@@ -594,6 +592,7 @@ web3d = {
     const model = data.scene.children[0];
     return model;
   },
+  //---
   loadObj3d: async function (options) {
     var defaults = {
       smt_01: {
@@ -619,7 +618,7 @@ web3d = {
     var settings = $.extend(defaults, options);
     const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"]();
     $(web3d.el.renderer.addClass("loading"));
-    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_8__["default"].cleanUp(scene, camera);
+    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_5__["default"].cleanUp(scene, camera);
     [data_smt_01] = await Promise.all([glbLoader.loadAsync(settings.smt_01.model)]);
     obj_smt_01 = web3d.setupModel(data_smt_01);
     scene.add(obj_smt_01);
@@ -718,9 +717,39 @@ web3d = {
 
     console.log(obj_bg);
   },
+  loadBubble: function (options) {
+    var defaults = {};
+    var settings = $.extend(defaults, options);
+    const geometry = new three__WEBPACK_IMPORTED_MODULE_0__["BoxGeometry"](1.4, .8, .1);
+    const material = new three__WEBPACK_IMPORTED_MODULE_0__["MeshLambertMaterial"]({
+      emissive: 0xffffff,
+      emissiveIntensity: 1
+    });
+    obj_bubble = new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](geometry, material);
+    obj_bubble.receiveShadow = true;
+    obj_bubble.castShadow = true;
+    obj_bubble.name = "Bubble";
+    obj_bubble.position.set(-3, 5, 0);
+    console.log(obj_bubble);
+    scene.add(obj_bubble);
+  },
+  bubbleAnim: function (options) {
+    var defaults = {};
+    var settings = $.extend(defaults, options); // const spherical = new THREE.Spherical();
+    // const rotationMatrix = new THREE.Matrix4();
+    // const targetQuaternion = new THREE.Quaternion();
+    // if ( ! mesh.quaternion.equals( targetQuaternion ) ) {
+    //     const step = speed * delta;
+    //     mesh.quaternion.rotateTowards( targetQuaternion, step );
+    // }
+
+    obj_bubble.lookAt(camera.position);
+  },
+  //---
   init: function () {
     web3d.setupEnvironment();
-    web3d.loadBg(); // obj_ground = obj3d.addGround(scene, camera);
+    web3d.loadBg();
+    web3d.loadBubble(); // obj_ground = obj3d.addGround(scene, camera);
     // obj_room = obj3d.addRoom(scene, camera);
     // obj3d.addBoxes(scene, camera);
 
@@ -731,19 +760,38 @@ web3d = {
     renderer.render(scene, camera);
   },
   animate: function () {
-    if (web3d.debug) {
-      console.log("DEBUG: re-rendered");
-      console.log(web3d.getCamera()); // console.log(controls.getDistance());
-    }
-
+    const delta = clock.getDelta();
+    web3d.bubbleAnim();
+    web3d.callback();
     requestAnimationFrame(web3d.animate);
     web3d.render();
   },
   // Get
-  getCamera: () => camera,
-  getControl: () => control
+  callback: () => {}
 };
-/* harmony default export */ __webpack_exports__["default"] = (web3d);
+debug = {
+  getCamera: () => camera,
+  getControls: () => controls,
+  getObject: obj_name => {
+    switch (obj_name) {
+      case 'bubble':
+        return obj_bubble;
+    }
+  },
+  watch: object_to_watch => {
+    web3d.callback = function () {
+      console.log(object_to_watch);
+    };
+
+    return "[ debug watch started ]";
+  },
+  endWatch: () => {
+    web3d.callback = function () {};
+
+    return "[ debug watch ended ]";
+  }
+};
+
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
@@ -764,15 +812,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 $(function () {
-  _web3d__WEBPACK_IMPORTED_MODULE_2__["default"].init();
-  _web3d__WEBPACK_IMPORTED_MODULE_2__["default"].loadObj3d();
+  _web3d__WEBPACK_IMPORTED_MODULE_2__["web3d"].init();
+  _web3d__WEBPACK_IMPORTED_MODULE_2__["web3d"].loadObj3d();
 });
 window.addEventListener("load", function () {});
-window.debug = {
-  get: {
-    camera: () => _web3d__WEBPACK_IMPORTED_MODULE_2__["default"].getCamera()
-  }
-};
+window.debug = _web3d__WEBPACK_IMPORTED_MODULE_2__["debug"];
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
