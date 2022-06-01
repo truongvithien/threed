@@ -8219,14 +8219,14 @@ defineJQueryPlugin(Toast);
 
 /***/ }),
 
-/***/ "./node_modules/expose-loader/dist/cjs.js?!./node_modules/jquery/dist/jquery-exposed.js":
-/*!*******************************************************************************************************!*\
-  !*** ./node_modules/expose-loader/dist/cjs.js??ref--8-1!./node_modules/jquery/dist/jquery-exposed.js ***!
-  \*******************************************************************************************************/
+/***/ "./node_modules/expose-loader/dist/cjs.js?!./node_modules/jquery/dist/jquery.js":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/expose-loader/dist/cjs.js??ref--8-1!./node_modules/jquery/dist/jquery.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ___EXPOSE_LOADER_IMPORT___ = __webpack_require__(/*! -!./jquery.js */ "./node_modules/jquery/dist/jquery.js");
+var ___EXPOSE_LOADER_IMPORT___ = __webpack_require__(/*! -!./jquery.js */ "./node_modules/jquery/dist/jquery.js?1157");
 var ___EXPOSE_LOADER_GET_GLOBAL_THIS___ = __webpack_require__(/*! ../../expose-loader/dist/runtime/getGlobalThis.js */ "./node_modules/expose-loader/dist/runtime/getGlobalThis.js");
 var ___EXPOSE_LOADER_GLOBAL_THIS___ = ___EXPOSE_LOADER_GET_GLOBAL_THIS___;
 if (typeof ___EXPOSE_LOADER_GLOBAL_THIS___["$"] === 'undefined') ___EXPOSE_LOADER_GLOBAL_THIS___["$"] = ___EXPOSE_LOADER_IMPORT___;
@@ -8281,24 +8281,7 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ "./node_modules/jquery/dist/jquery-exposed-exposed.js":
-/*!************************************************************!*\
-  !*** ./node_modules/jquery/dist/jquery-exposed-exposed.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var ___EXPOSE_LOADER_IMPORT___ = __webpack_require__(/*! -!../../expose-loader/dist/cjs.js??ref--8-1!./jquery.js */ "./node_modules/expose-loader/dist/cjs.js?!./node_modules/jquery/dist/jquery-exposed.js");
-var ___EXPOSE_LOADER_GET_GLOBAL_THIS___ = __webpack_require__(/*! ../../expose-loader/dist/runtime/getGlobalThis.js */ "./node_modules/expose-loader/dist/runtime/getGlobalThis.js");
-var ___EXPOSE_LOADER_GLOBAL_THIS___ = ___EXPOSE_LOADER_GET_GLOBAL_THIS___;
-if (typeof ___EXPOSE_LOADER_GLOBAL_THIS___["jQuery"] === 'undefined') ___EXPOSE_LOADER_GLOBAL_THIS___["jQuery"] = ___EXPOSE_LOADER_IMPORT___;
-else throw new Error('[exposes-loader] The "jQuery" value exists in the global scope, it may not be safe to overwrite it, use the "override" option')
-module.exports = ___EXPOSE_LOADER_IMPORT___;
-
-
-/***/ }),
-
-/***/ "./node_modules/jquery/dist/jquery.js":
+/***/ "./node_modules/jquery/dist/jquery.js?1157":
 /*!********************************************!*\
   !*** ./node_modules/jquery/dist/jquery.js ***!
   \********************************************/
@@ -19191,6 +19174,23 @@ return jQuery;
 
 /***/ }),
 
+/***/ "./node_modules/jquery/dist/jquery.js?a1c9":
+/*!********************************************!*\
+  !*** ./node_modules/jquery/dist/jquery.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var ___EXPOSE_LOADER_IMPORT___ = __webpack_require__(/*! -!../../expose-loader/dist/cjs.js??ref--8-1!./jquery.js */ "./node_modules/expose-loader/dist/cjs.js?!./node_modules/jquery/dist/jquery.js");
+var ___EXPOSE_LOADER_GET_GLOBAL_THIS___ = __webpack_require__(/*! ../../expose-loader/dist/runtime/getGlobalThis.js */ "./node_modules/expose-loader/dist/runtime/getGlobalThis.js");
+var ___EXPOSE_LOADER_GLOBAL_THIS___ = ___EXPOSE_LOADER_GET_GLOBAL_THIS___;
+if (typeof ___EXPOSE_LOADER_GLOBAL_THIS___["jQuery"] === 'undefined') ___EXPOSE_LOADER_GLOBAL_THIS___["jQuery"] = ___EXPOSE_LOADER_IMPORT___;
+else throw new Error('[exposes-loader] The "jQuery" value exists in the global scope, it may not be safe to overwrite it, use the "override" option')
+module.exports = ___EXPOSE_LOADER_IMPORT___;
+
+
+/***/ }),
+
 /***/ "./node_modules/three/build/three.min.js":
 /*!***********************************************!*\
   !*** ./node_modules/three/build/three.min.js ***!
@@ -21023,6 +21023,201 @@ return jQuery;
 } )();
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js")))
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/helpers/VertexNormalsHelper.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/helpers/VertexNormalsHelper.js ***!
+  \************************************************************************/
+/*! exports provided: VertexNormalsHelper */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VertexNormalsHelper", function() { return VertexNormalsHelper; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const _v1 = new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"]();
+const _v2 = new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"]();
+const _normalMatrix = new three__WEBPACK_IMPORTED_MODULE_0__["Matrix3"]();
+
+class VertexNormalsHelper extends three__WEBPACK_IMPORTED_MODULE_0__["LineSegments"] {
+
+	constructor( object, size = 1, color = 0xff0000 ) {
+
+		const geometry = new three__WEBPACK_IMPORTED_MODULE_0__["BufferGeometry"]();
+
+		const nNormals = object.geometry.attributes.normal.count;
+		const positions = new three__WEBPACK_IMPORTED_MODULE_0__["Float32BufferAttribute"]( nNormals * 2 * 3, 3 );
+
+		geometry.setAttribute( 'position', positions );
+
+		super( geometry, new three__WEBPACK_IMPORTED_MODULE_0__["LineBasicMaterial"]( { color, toneMapped: false } ) );
+
+		this.object = object;
+		this.size = size;
+		this.type = 'VertexNormalsHelper';
+
+		//
+
+		this.matrixAutoUpdate = false;
+
+		this.update();
+
+	}
+
+	update() {
+
+		this.object.updateMatrixWorld( true );
+
+		_normalMatrix.getNormalMatrix( this.object.matrixWorld );
+
+		const matrixWorld = this.object.matrixWorld;
+
+		const position = this.geometry.attributes.position;
+
+		//
+
+		const objGeometry = this.object.geometry;
+
+		if ( objGeometry && objGeometry.isGeometry ) {
+
+			console.error( 'THREE.VertexNormalsHelper no longer supports Geometry. Use BufferGeometry instead.' );
+			return;
+
+		} else if ( objGeometry && objGeometry.isBufferGeometry ) {
+
+			const objPos = objGeometry.attributes.position;
+
+			const objNorm = objGeometry.attributes.normal;
+
+			let idx = 0;
+
+			// for simplicity, ignore index and drawcalls, and render every normal
+
+			for ( let j = 0, jl = objPos.count; j < jl; j ++ ) {
+
+				_v1.fromBufferAttribute( objPos, j ).applyMatrix4( matrixWorld );
+
+				_v2.fromBufferAttribute( objNorm, j );
+
+				_v2.applyMatrix3( _normalMatrix ).normalize().multiplyScalar( this.size ).add( _v1 );
+
+				position.setXYZ( idx, _v1.x, _v1.y, _v1.z );
+
+				idx = idx + 1;
+
+				position.setXYZ( idx, _v2.x, _v2.y, _v2.z );
+
+				idx = idx + 1;
+
+			}
+
+		}
+
+		position.needsUpdate = true;
+
+	}
+
+}
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/helpers/VertexTangentsHelper.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/helpers/VertexTangentsHelper.js ***!
+  \*************************************************************************/
+/*! exports provided: VertexTangentsHelper */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VertexTangentsHelper", function() { return VertexTangentsHelper; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const _v1 = new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"]();
+const _v2 = new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"]();
+
+class VertexTangentsHelper extends three__WEBPACK_IMPORTED_MODULE_0__["LineSegments"] {
+
+	constructor( object, size = 1, color = 0x00ffff ) {
+
+		const geometry = new three__WEBPACK_IMPORTED_MODULE_0__["BufferGeometry"]();
+
+		const nTangents = object.geometry.attributes.tangent.count;
+		const positions = new three__WEBPACK_IMPORTED_MODULE_0__["Float32BufferAttribute"]( nTangents * 2 * 3, 3 );
+
+		geometry.setAttribute( 'position', positions );
+
+		super( geometry, new three__WEBPACK_IMPORTED_MODULE_0__["LineBasicMaterial"]( { color, toneMapped: false } ) );
+
+		this.object = object;
+		this.size = size;
+		this.type = 'VertexTangentsHelper';
+
+		//
+
+		this.matrixAutoUpdate = false;
+
+		this.update();
+
+	}
+
+	update() {
+
+		this.object.updateMatrixWorld( true );
+
+		const matrixWorld = this.object.matrixWorld;
+
+		const position = this.geometry.attributes.position;
+
+		//
+
+		const objGeometry = this.object.geometry;
+
+		const objPos = objGeometry.attributes.position;
+
+		const objTan = objGeometry.attributes.tangent;
+
+		let idx = 0;
+
+		// for simplicity, ignore index and drawcalls, and render every tangent
+
+		for ( let j = 0, jl = objPos.count; j < jl; j ++ ) {
+
+			_v1.fromBufferAttribute( objPos, j ).applyMatrix4( matrixWorld );
+
+			_v2.fromBufferAttribute( objTan, j );
+
+			_v2.transformDirection( matrixWorld ).multiplyScalar( this.size ).add( _v1 );
+
+			position.setXYZ( idx, _v1.x, _v1.y, _v1.z );
+
+			idx = idx + 1;
+
+			position.setXYZ( idx, _v2.x, _v2.y, _v2.z );
+
+			idx = idx + 1;
+
+		}
+
+		position.needsUpdate = true;
+
+	}
+
+}
+
+
+
 
 /***/ }),
 

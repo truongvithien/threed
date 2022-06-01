@@ -33,7 +33,7 @@ obj3d = {
         return mesh;
     },
     addRoom: function(scene, camera) {
-        const geometry = new THREE.SphereGeometry( 20, 32, 32 );;        
+        const geometry = new THREE.SphereGeometry( 30, 32, 32 );
         const material = new THREE.MeshLambertMaterial( { color: 0x50c5e6 , depthWrite: false } );				
 
         const roomMesh = new THREE.Mesh(geometry, material);
@@ -140,6 +140,35 @@ obj3d = {
 
 
 
+
+    },
+    addBoxes: function(scene, camera) {
+        const geometry_1 = new THREE.SphereGeometry(.2, 32, 32);
+        const geometry_2 = new THREE.SphereGeometry(.6, 32, 32);
+        const material = new THREE.MeshLambertMaterial({
+            color: 0xffffff
+        });
+
+        const boxMesh_1 = new THREE.Mesh(geometry_1, material);
+        boxMesh_1.castShadow = true;
+        boxMesh_1.receiveShadow = true;
+        boxMesh_1.position.set(0, 2, 2);
+
+        const boxMesh_2 = new THREE.Mesh(geometry_1, material);
+        boxMesh_2.castShadow = true;
+        boxMesh_2.receiveShadow = true;
+        boxMesh_2.position.set(0, 2, -2);
+
+        // const lightSphere = new THREE.SphereGeometry(0.06, 32, 32);
+        // const testLight = new THREE.PointLight(0xffffff, .5, 20);
+        // testLight.add(new THREE.Mesh(lightSphere, new THREE.MeshBasicMaterial({ color: 0xffffff })));
+        // testLight.castShadow = true;
+        // testLight.shadow.bias = - 0.005;
+        // testLight.position.set(0, 2, 3)
+
+        scene.add(boxMesh_1);
+        scene.add(boxMesh_2);
+        // scene.add(testLight);
 
     }
 }

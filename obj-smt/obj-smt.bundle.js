@@ -190,7 +190,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/examples/jsm/loaders/GLTFLoader.js */ "./node_modules/three/examples/jsm/loaders/GLTFLoader.js");
 /* harmony import */ var three_examples_jsm_loaders_EXRLoader_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three/examples/jsm/loaders/EXRLoader.js */ "./node_modules/three/examples/jsm/loaders/EXRLoader.js");
-/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/obj-smt/js/web3d/_obj3d.js");
+/* harmony import */ var three_examples_jsm_helpers_VertexNormalsHelper_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! three/examples/jsm/helpers/VertexNormalsHelper.js */ "./node_modules/three/examples/jsm/helpers/VertexNormalsHelper.js");
+/* harmony import */ var three_examples_jsm_helpers_VertexTangentsHelper_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! three/examples/jsm/helpers/VertexTangentsHelper.js */ "./node_modules/three/examples/jsm/helpers/VertexTangentsHelper.js");
+/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/obj-smt/js/web3d/_obj3d.js");
+
+
 
 
 
@@ -204,10 +208,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var web3d;
 var scene, camera, renderer, controls;
-var hemiLight, dirLight;
-var light1, light2, light3, light4; // Object 3D
+var light_hemi, light_dir, light_key, light_fill, light_back, light_top; // Object 3D
 
-var obj_ground, obj_room, cube_test;
+var data_bg, obj_bg;
 var data_smt_01, obj_smt_01;
 var metadata = {
   dna: "n/a",
@@ -219,119 +222,332 @@ var metadata = {
 };
 web3d = {
   debug: false,
-  helper: false,
+  helper: true,
   el: {
     renderer: $("#rendered_threed")
   },
+  //---
   setupRGBE: function (options) {
     var defaults = {
-      path: 'assets/hdr/',
-      hdriFile: 'comfy_cafe_4k.hdr'
+      dir: 'assets/hdr/',
+      hdri_file: 'provence_studio_1k.hdr',
+      enable_background: false
     };
     var settings = $.extend(defaults, options);
-    new three__WEBPACK_IMPORTED_MODULE_0__["RGBELoader"]().setPath(settings.path) // .load( 'royal_esplanade_1k.hdr', function ( texture ) {
-    .load(settings.hdriFile, function (texture) {
+    new three__WEBPACK_IMPORTED_MODULE_0__["RGBELoader"]().setPath(settings.dir).load(settings.hdri_file, function (texture) {
       texture.mapping = three__WEBPACK_IMPORTED_MODULE_0__["EquirectangularReflectionMapping"];
-      scene.background = texture;
+
+      if (settings.enable_background) {
+        scene.background = texture;
+      }
+
       scene.environment = texture;
     });
   },
-  setupEnvironment: function (options) {
-    var defaults = {
-      hemiLight: true,
-      dirLight: true
-    };
+  //---
+  setupScene: function (options) {
+    var defaults = {};
     var settings = $.extend(defaults, options);
     scene = new three__WEBPACK_IMPORTED_MODULE_0__["Scene"]();
-    camera = new three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](75, web3d.el.renderer.innerWidth() / web3d.el.renderer.innerHeight(), 0.1, 1000);
-    camera.position.set(2, 4.1, 5.3); // camera.position.set(15.7, 58.4, 60.5);
-    // camera.lookAt(0, 0, 0);
-
-    renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]();
-    controls = new three__WEBPACK_IMPORTED_MODULE_0__["OrbitControls"](camera, renderer.domElement);
-    controls.minDistance = 3;
-    controls.maxDistance = 10;
-    controls.zoomSpeed = 0.5;
-    controls.rotateSpeed = 0.2;
-    controls.enableDamping = true;
-    controls.enablePan = false;
-    controls.dampingFactor = 0.1;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.5;
-    controls.maxPolarAngle = 1.4;
-    controls.target.set(0, 3.3, 0);
     scene.background = new three__WEBPACK_IMPORTED_MODULE_0__["Color"]().setHSL(0, 0, 0);
     scene.fog = new three__WEBPACK_IMPORTED_MODULE_0__["Fog"](scene.background, 1, 5000);
-    hemiLight = new three__WEBPACK_IMPORTED_MODULE_0__["HemisphereLight"](0xffffff, 0xffffff, 0.6);
-    hemiLight.color.setHSL(0.6, 1, 0.6);
-    hemiLight.groundColor.setHSL(0.095, 1, 0.75);
-    hemiLight.position.set(0, 50, 0);
-
-    if (settings.hemiLight) {
-      scene.add(hemiLight);
-    }
-
-    if (settings.hemiLight && web3d.helper) {
-      const hemiLightHelper = new three__WEBPACK_IMPORTED_MODULE_0__["HemisphereLightHelper"](hemiLight, 10);
-      scene.add(hemiLightHelper);
-    } //
-
-
-    dirLight = new three__WEBPACK_IMPORTED_MODULE_0__["DirectionalLight"](0xffffff, .8);
-    dirLight.color.setHSL(0.1, 1, 0.95);
-    dirLight.position.set(-1, 1.75, 1);
-    dirLight.position.multiplyScalar(100);
-
-    if (settings.dirLight) {
-      scene.add(dirLight);
-    }
-
-    dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 2048;
-    dirLight.shadow.mapSize.height = 2048;
-    const d = 50;
-    dirLight.shadow.camera.left = -d;
-    dirLight.shadow.camera.right = d;
-    dirLight.shadow.camera.top = d;
-    dirLight.shadow.camera.bottom = -d;
-    dirLight.shadow.camera.far = 3500;
-    dirLight.shadow.bias = -0.0001;
-
-    if (settings.dirLight && web3d.helper) {
-      const dirLightHelper = new three__WEBPACK_IMPORTED_MODULE_0__["DirectionalLightHelper"](dirLight, 10);
-      scene.add(dirLightHelper);
-    }
   },
-  setupPointLight: function (options) {
-    const sphere = new three__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](0.5, 16, 8); //lights
-
-    light1 = new three__WEBPACK_IMPORTED_MODULE_0__["PointLight"](0xffffff, 2, 50);
-    light1.add(new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](sphere, new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
-      color: 0xff0040
-    })));
-    scene.add(light1);
-    light2 = new three__WEBPACK_IMPORTED_MODULE_0__["PointLight"](0x0040ff, 2, 50);
-    light2.add(new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](sphere, new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
-      color: 0x0040ff
-    })));
-    scene.add(light2);
-    light3 = new three__WEBPACK_IMPORTED_MODULE_0__["PointLight"](0x80ff80, 2, 50);
-    light3.add(new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](sphere, new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
-      color: 0x80ff80
-    })));
-    scene.add(light3);
-    light4 = new three__WEBPACK_IMPORTED_MODULE_0__["PointLight"](0xffaa00, 2, 50);
-    light4.add(new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](sphere, new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
-      color: 0xffaa00
-    })));
-    scene.add(light4);
-  },
-  setupDom: function (options) {
+  setupRenderer: function (options) {
     var defaults = {};
-    var settings = $.extend(defaults, options); // console.log(web3d.el.renderer.innerWidth(), web3d.el.renderer.innerHeight());
+    var settings = $.extend(defaults, options);
+    renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"](); // console.log(web3d.el.renderer.innerWidth(), web3d.el.renderer.innerHeight());
 
     renderer.setSize(web3d.el.renderer.innerWidth(), web3d.el.renderer.innerHeight());
     web3d.el.renderer.get(0).appendChild(renderer.domElement);
+  },
+  setupCamera: function (options) {
+    var defaults = {};
+    var settings = $.extend(defaults, options);
+    camera = new three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](75, web3d.el.renderer.innerWidth() / web3d.el.renderer.innerHeight(), 0.1, 1000); // camera.position.set(2, 4.1, 5.3);
+
+    camera.position.set(0.6, 2.4, 5.9); // camera.position.set(15.7, 58.4, 60.5);
+    // camera.lookAt(0, 0, 0);
+  },
+  setupControls: function (options) {
+    var defaults = {
+      minDistance: 3,
+      maxDistance: 10,
+      zoomSpeed: 1,
+      rotateSpeed: 1,
+      enableDamping: true,
+      enablePan: false,
+      dampingFactor: 0.1,
+      autoRotate: true,
+      autoRotateSpeed: 0.5,
+      maxPolarAngle: 1.6,
+      target: {
+        x: 0,
+        y: 2.3,
+        z: 0
+      }
+    };
+    var settings = $.extend(defaults, options);
+    controls = new three__WEBPACK_IMPORTED_MODULE_0__["OrbitControls"](camera, renderer.domElement);
+    controls.minDistance = settings.minDistance;
+    controls.maxDistance = settings.maxDistance;
+    controls.zoomSpeed = settings.zoomSpeed;
+    controls.rotateSpeed = settings.rotateSpeed;
+    controls.enableDamping = settings.enableDamping;
+    controls.enablePan = settings.enablePan;
+    controls.dampingFactor = settings.dampingFactor;
+    controls.autoRotate = settings.autoRotate;
+    controls.autoRotateSpeed = settings.autoRotateSpeed;
+    controls.maxPolarAngle = settings.maxPolarAngle;
+    controls.target.set(settings.target.x, settings.target.y, settings.target.z);
+  },
+  setupLights: function (options) {
+    var defaults = {
+      environment_light: {
+        enable: true,
+        options: {
+          dir: "assets/hdr/",
+          hdri_file: "provence_studio_1k.hdr",
+          enable_background: false
+        }
+      },
+      hemisphere_light: {
+        enable: false,
+        options: {
+          skyColor: 0xffffff,
+          groundColor: 0xffffff,
+          intensity: 1,
+          position: {
+            x: 0,
+            y: 50,
+            z: 0
+          }
+        }
+      },
+      directional_light: {
+        enable: false,
+        options: {}
+      },
+      key_light: {
+        enable: true,
+        show: false,
+        options: {
+          color: 0xffffff,
+          decay: 1,
+          distance: 100,
+          intensity: .45,
+          physically_correct: 0.0,
+          power: 0.0,
+          shadow_bias: -0.005,
+          map_size_width: 512,
+          map_size_height: 512,
+          camera_near: 0.5,
+          camera_far: 500,
+          position: {
+            x: 4,
+            y: 2,
+            z: 4
+          }
+        }
+      },
+      fill_light: {
+        enable: true,
+        show: false,
+        options: {
+          color: 0xffffff,
+          decay: 1,
+          distance: 100,
+          intensity: .25,
+          physically_correct: 0.0,
+          power: 0.0,
+          shadow_bias: -0.003,
+          map_size_width: 512,
+          map_size_height: 512,
+          camera_near: 0.5,
+          camera_far: 500,
+          position: {
+            x: -4,
+            y: 2,
+            z: 6
+          }
+        }
+      },
+      back_light: {
+        enable: true,
+        show: false,
+        options: {
+          color: 0xffffff,
+          decay: 1,
+          distance: 100,
+          intensity: .1,
+          physically_correct: 0.0,
+          power: 0.0,
+          shadow_bias: -0.001,
+          map_size_width: 512,
+          map_size_height: 512,
+          camera_near: 0.5,
+          camera_far: 500,
+          position: {
+            x: 4,
+            y: 2,
+            z: -4
+          }
+        }
+      },
+      top_light: {
+        enable: true,
+        show: false,
+        options: {
+          color: 0xffffff,
+          decay: 1,
+          distance: 100,
+          intensity: .1,
+          physically_correct: 0.0,
+          power: 0.0,
+          shadow_bias: -0.001,
+          map_size_width: 512,
+          map_size_height: 512,
+          camera_near: 0.5,
+          camera_far: 500,
+          position: {
+            x: 0,
+            y: 8,
+            z: 0
+          }
+        }
+      }
+    };
+    var settings = $.extend(defaults, options);
+    if (settings.environment_light.enable) web3d.setupRGBE(settings.environment_light.options);
+    var sphere_light = new three__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](0.2, 32, 32);
+
+    if (settings.key_light.enable) {
+      light_key = new three__WEBPACK_IMPORTED_MODULE_0__["PointLight"](settings.key_light.options.color, settings.key_light.options.intensity, settings.key_light.options.distance, settings.key_light.options.decay, settings.key_light.options.physically_correct);
+
+      if (settings.key_light.show) {
+        light_key.add(new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](sphere_light, new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
+          color: settings.key_light.options.color
+        })));
+      }
+
+      light_key.castShadow = true;
+      light_key.shadow.bias = settings.key_light.options.shadow_bias;
+      light_key.position.set(settings.key_light.options.position.x, settings.key_light.options.position.y, settings.key_light.options.position.z);
+      scene.add(light_key);
+    }
+
+    if (settings.fill_light.enable) {
+      light_fill = new three__WEBPACK_IMPORTED_MODULE_0__["PointLight"](settings.fill_light.options.color, settings.fill_light.options.intensity, settings.fill_light.options.distance, settings.fill_light.options.decay, settings.fill_light.options.physically_correct);
+
+      if (settings.fill_light.show) {
+        light_fill.add(new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](sphere_light, new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
+          color: settings.fill_light.options.color
+        })));
+      }
+
+      light_fill.castShadow = true;
+      light_fill.shadow.bias = settings.fill_light.options.shadow_bias;
+      light_fill.position.set(settings.fill_light.options.position.x, settings.fill_light.options.position.y, settings.fill_light.options.position.z);
+      scene.add(light_fill);
+    }
+
+    if (settings.back_light.enable) {
+      light_back = new three__WEBPACK_IMPORTED_MODULE_0__["PointLight"](settings.back_light.options.color, settings.back_light.options.intensity, settings.back_light.options.distance, settings.back_light.options.decay, settings.back_light.options.physically_correct);
+
+      if (settings.back_light.show) {
+        light_back.add(new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](sphere_light, new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
+          color: settings.back_light.options.color
+        })));
+      }
+
+      light_back.castShadow = true;
+      light_back.shadow.bias = settings.back_light.options.shadow_bias;
+      light_back.position.set(settings.back_light.options.position.x, settings.back_light.options.position.y, settings.back_light.options.position.z);
+      scene.add(light_back);
+    }
+
+    if (settings.top_light.enable) {
+      light_top = new three__WEBPACK_IMPORTED_MODULE_0__["PointLight"](settings.top_light.options.color, settings.top_light.options.intensity, settings.top_light.options.distance, settings.top_light.options.decay, settings.top_light.options.physically_correct);
+
+      if (settings.top_light.show) {
+        light_top.add(new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](sphere_light, new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
+          color: settings.top_light.options.color
+        })));
+      }
+
+      light_top.castShadow = true;
+      light_top.shadow.bias = settings.top_light.options.shadow_bias;
+      light_top.position.set(settings.top_light.options.position.x, settings.top_light.options.position.y, settings.top_light.options.position.z);
+      scene.add(light_top);
+    }
+
+    if (settings.hemisphere_light.enable) {
+      light_hemi = new three__WEBPACK_IMPORTED_MODULE_0__["HemisphereLight"](0xffffff, 0xffffff, 0.6);
+      light_hemi.color.setHSL(0.6, 1, 0.6);
+      light_hemi.groundColor.setHSL(0.095, 1, 0.75);
+      light_hemi.position.set(0, 50, 0);
+      scene.add(light_hemi);
+
+      if (web3d.helper) {
+        const light_hemi_helper = new three__WEBPACK_IMPORTED_MODULE_0__["HemisphereLightHelper"](light_hemi, 10);
+        scene.add(light_hemi_helper);
+      }
+    }
+
+    if (settings.directional_light.enable) {
+      light_dir = new three__WEBPACK_IMPORTED_MODULE_0__["DirectionalLight"](0xffffff, .8);
+      light_dir.color.setHSL(0.1, 1, 0.95);
+      light_dir.position.set(-1, 1.75, 1);
+      light_dir.position.multiplyScalar(100);
+
+      if (settings.light_dir) {
+        scene.add(light_dir);
+      }
+
+      light_dir.castShadow = true;
+      light_dir.shadow.mapSize.width = 2048;
+      light_dir.shadow.mapSize.height = 2048;
+      const d = 50;
+      light_dir.shadow.camera.left = -d;
+      light_dir.shadow.camera.right = d;
+      light_dir.shadow.camera.top = d;
+      light_dir.shadow.camera.bottom = -d;
+      light_dir.shadow.camera.far = 3500;
+      light_dir.shadow.bias = -0.0001;
+
+      if (settings.light_dir && web3d.helper) {
+        const light_dir_helper = new three__WEBPACK_IMPORTED_MODULE_0__["DirectionalLightHelper"](light_dir, 10);
+        scene.add(light_dir_helper);
+      }
+    }
+  },
+  setupHelpers: function (options) {
+    var defaults = {
+      gridHelper: {
+        enable: false,
+        size: 100,
+        divisions: 100,
+        colorCenterLine: 0x0000ff,
+        colorGrid: 0x808080
+      }
+    };
+    var settings = $.extend(defaults, options);
+
+    if (settings.gridHelper.enable) {
+      const gridHelper = new three__WEBPACK_IMPORTED_MODULE_0__["GridHelper"](settings.gridHelper.size, settings.gridHelper.divisions, settings.gridHelper.colorCenterLine, settings.gridHelper.colorGrid);
+      scene.add(gridHelper);
+    } // const polarGridHelper = new THREE.PolarGridHelper( 100, 100, 8, 64, 0x0000ff, 0x808080 );
+    // scene.add( polarGridHelper );
+
+  },
+  //--- 
+  setupEnvironment: function (options) {
+    var defaults = {};
+    var settings = $.extend(defaults, options);
+    web3d.setupScene();
+    web3d.setupCamera();
+    web3d.setupRenderer();
+    web3d.setupControls();
+    web3d.setupLights();
   },
   setupPostRender: function (options) {
     var defaults = {};
@@ -403,7 +619,7 @@ web3d = {
     var settings = $.extend(defaults, options);
     const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"]();
     $(web3d.el.renderer.addClass("loading"));
-    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_6__["default"].cleanUp(scene, camera);
+    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_8__["default"].cleanUp(scene, camera);
     [data_smt_01] = await Promise.all([glbLoader.loadAsync(settings.smt_01.model)]);
     obj_smt_01 = web3d.setupModel(data_smt_01);
     scene.add(obj_smt_01);
@@ -429,13 +645,20 @@ web3d = {
       emissiveMap: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.emissive)
     };
     var skinTexture = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...skin_texture,
-      aoMap: null,
+      // aoMap: null,
       aoMapIntensity: .1
     });
     var outfitTexture = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...outfit_texture,
+      // aoMap: null,
+      aoMapIntensity: .1,
+      emissiveIntensity: 2,
+      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](3, 3)
+    });
+    var hairTexture = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...outfit_texture,
       aoMap: null,
       aoMapIntensity: .1,
-      emissiveIntensity: 2
+      emissiveIntensity: 2,
+      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](1, 1)
     });
     console.log(obj_smt_01);
     obj_smt_01.traverse(o => {
@@ -450,6 +673,10 @@ web3d = {
       } else if (o.isMesh) {
         // outfit
         o.material = outfitTexture; // o.material = textures.map(texture => (new THREE.TextureLoader().load(texture)));
+      }
+
+      if (o.isMesh && o.name == "mesh_3") {
+        o.material = hairTexture;
       } // else if (o.children.length > 0) {
       //     // in the group (?)
       //     o.traverse((ochild) => {
@@ -465,60 +692,59 @@ web3d = {
       // }
 
     });
-    $(web3d.el.renderer.removeClass("loading")); // console.log(obj_asset3);
+    $(web3d.el.renderer.removeClass("loading"));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["VSMShadowMap"]; // console.log(obj_asset3);
 
     web3d.genMetadata(settings);
   },
+  loadBg: async function (options) {
+    var defaults = {
+      bg: "assets/bg.glb"
+    };
+    var settings = $.extend(defaults, options);
+    const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"]();
+    [data_bg] = await Promise.all([glbLoader.loadAsync(settings.bg)]);
+    obj_bg = web3d.setupModel(data_bg);
+    scene.add(obj_bg);
+    obj_bg.receiveShadow = false;
+    obj_bg.castShadow = true;
+    obj_bg.scale.set(10, 10, 10);
+    obj_bg.position.set(0, 5, 0);
+    obj_bg.material = new three__WEBPACK_IMPORTED_MODULE_0__["MeshLambertMaterial"]({
+      emissive: 0x593b00
+    }); // const box_helper = new THREE.BoxHelper( obj_bg, 0xffff00 );
+    // scene.add(box_helper);
+
+    console.log(obj_bg);
+  },
   init: function () {
-    web3d.setupEnvironment({
-      hemiLight: true,
-      dirLight: true
-    }); // web3d.setupRGBE();
+    web3d.setupEnvironment();
+    web3d.loadBg(); // obj_ground = obj3d.addGround(scene, camera);
+    // obj_room = obj3d.addRoom(scene, camera);
+    // obj3d.addBoxes(scene, camera);
 
-    web3d.setupPointLight();
-    web3d.setupDom(); // obj_ground = obj3d.addGround(scene, camera);
-
-    obj_room = _web3d_obj3d__WEBPACK_IMPORTED_MODULE_6__["default"].addRoom(scene, camera);
+    web3d.setupHelpers();
     web3d.setupPostRender();
   },
   render: function () {
-    // console.log(camera);
-    const time = Date.now() * 0.0005;
-    light1.position.x = Math.sin(time * 0.7) * 30;
-    light1.position.y = Math.cos(time * 0.5) * 40;
-    light1.position.z = Math.cos(time * 0.3) * 30;
-    light2.position.x = Math.cos(time * 0.3) * 30;
-    light2.position.y = Math.sin(time * 0.5) * 40;
-    light2.position.z = Math.sin(time * 0.7) * 30;
-    light3.position.x = Math.sin(time * 0.7) * 30;
-    light3.position.y = Math.cos(time * 0.3) * 40;
-    light3.position.z = Math.sin(time * 0.5) * 30;
-    light4.position.x = Math.sin(time * 0.3) * 30;
-    light4.position.y = Math.cos(time * 0.7) * 40;
-    light4.position.z = Math.sin(time * 0.5) * 30;
     renderer.render(scene, camera);
   },
   animate: function () {
     if (web3d.debug) {
       console.log("DEBUG: re-rendered");
-      console.log(controls.getDistance());
-    } // obj_asset.rotation.x += 0.05;
-    // obj_asset.rotation.y += 0.05;
-
+      console.log(web3d.getCamera()); // console.log(controls.getDistance());
+    }
 
     requestAnimationFrame(web3d.animate);
     web3d.render();
   },
-  // Get get get
-  getCamera: function () {
-    console.log(camera);
-  },
-  getControl: function () {
-    console.log(control);
-  }
+  // Get
+  getCamera: () => camera,
+  getControl: () => control
 };
 /* harmony default export */ __webpack_exports__["default"] = (web3d);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
@@ -542,7 +768,12 @@ $(function () {
   _web3d__WEBPACK_IMPORTED_MODULE_2__["default"].loadObj3d();
 });
 window.addEventListener("load", function () {});
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+window.debug = {
+  get: {
+    camera: () => _web3d__WEBPACK_IMPORTED_MODULE_2__["default"].getCamera()
+  }
+};
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
@@ -587,8 +818,7 @@ obj3d = {
     return mesh;
   },
   addRoom: function (scene, camera) {
-    const geometry = new three__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](20, 32, 32);
-    ;
+    const geometry = new three__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](30, 32, 32);
     const material = new three__WEBPACK_IMPORTED_MODULE_0__["MeshLambertMaterial"]({
       color: 0x50c5e6,
       depthWrite: false
@@ -674,6 +904,29 @@ obj3d = {
         reject(error);
       });
     });
+  },
+  addBoxes: function (scene, camera) {
+    const geometry_1 = new three__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](.2, 32, 32);
+    const geometry_2 = new three__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](.6, 32, 32);
+    const material = new three__WEBPACK_IMPORTED_MODULE_0__["MeshLambertMaterial"]({
+      color: 0xffffff
+    });
+    const boxMesh_1 = new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](geometry_1, material);
+    boxMesh_1.castShadow = true;
+    boxMesh_1.receiveShadow = true;
+    boxMesh_1.position.set(0, 2, 2);
+    const boxMesh_2 = new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](geometry_1, material);
+    boxMesh_2.castShadow = true;
+    boxMesh_2.receiveShadow = true;
+    boxMesh_2.position.set(0, 2, -2); // const lightSphere = new THREE.SphereGeometry(0.06, 32, 32);
+    // const testLight = new THREE.PointLight(0xffffff, .5, 20);
+    // testLight.add(new THREE.Mesh(lightSphere, new THREE.MeshBasicMaterial({ color: 0xffffff })));
+    // testLight.castShadow = true;
+    // testLight.shadow.bias = - 0.005;
+    // testLight.position.set(0, 2, 3)
+
+    scene.add(boxMesh_1);
+    scene.add(boxMesh_2); // scene.add(testLight);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (obj3d);
@@ -721,7 +974,7 @@ __webpack_require__.r(__webpack_exports__);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (config);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
