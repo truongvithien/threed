@@ -153,7 +153,7 @@ web3d = {
 
         //lights
 
-        light1 = new THREE.PointLight(ffffff, 2, 50);
+        light1 = new THREE.PointLight(0xffffff, 2, 50);
         light1.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0xff0040 })));
         scene.add(light1);
 
@@ -238,11 +238,22 @@ web3d = {
         var defaults = {
             smt_01: {
                 model: "assets/smt_01/model3.glb",
-                // texture: "assets/smt_01/texture/SMT1_SHD_BaseColor.png"
-                texture_skin: "assets/Tex/SMT1_Skin_SHD_BaseColor.png",
-                texture_outfit: "assets/Tex/SMT1_SHD_BaseColor.png",
-                texture_emissive: "assets/Tex/SMT1_SHD_Emissive.png",
-                texture_ao: "assets/Tex/SMT1_SHD_AmbientOcclusion.png",
+                dir_texture: "assets/Tex/",
+                skin_texture: {
+                    base_color: "SMT1_Skin_SHD_BaseColor.png",
+                    metallic: "SMT1_Skin_SHD_Metallic.png",
+                    normal: "SMT1_Skin_SHD_Normal.png",
+                    roughness: "SMT1_Skin_SHD_Roughness.png",
+                    ambient_occlusion: "SMT1_Skin_SHD_AmbientOcclusion.png"
+                },
+                outfit_texture: {
+                    base_color: "SMT1_SHD_BaseColor.png",
+                    metallic: "SMT1_SHD_Metallic.png",
+                    normal: "SMT1_SHD_Normal.png",
+                    roughness: "SMT1_SHD_Roughness.png",
+                    ambient_occlusion: "SMT1_SHD_AmbientOcclusion.png",
+                    emissive: "SMT1_SHD_Emissive.png"
+                }
             },
         }
         var settings = $.extend(defaults, options);
@@ -267,20 +278,32 @@ web3d = {
         // obj_smt_01.material = material;
         obj_smt_01.scale.set(.08, .08, .08);
 
-        const texture_skin = new THREE.TextureLoader().load(settings.smt_01.texture_skin);
-        const texture_outfit = new THREE.TextureLoader().load(settings.smt_01.texture_outfit);
-        const texture_emissive = new THREE.TextureLoader().load(settings.smt_01.texture_emissive);
-        const texture_ao = new THREE.TextureLoader().load(settings.smt_01.texture_ao);
+        const skin_texture = {
+            map: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.base_color),
+            metalnessMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.metallic),
+            normalMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.normal),
+            roughnessMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.roughness),
+            aoMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.ambient_occlusion),
+        }
+        const outfit_texture = {
+            map: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.base_color),
+            metalnessMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.metallic),
+            normalMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.normal),
+            roughnessMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.roughness),
+            aoMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.ambient_occlusion),
+            emissiveMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.emissive) 
+        }
+
         var skinTexture = new THREE.MeshStandardMaterial({
-            map: texture_skin,
-            emissiveMap: texture_emissive,
-            aoMap: texture_ao
-            
+            ...skin_texture,
+            aoMap: null,
+            aoMapIntensity: .1
         });
         var outfitTexture = new THREE.MeshStandardMaterial({
-            map: texture_outfit,
-            emissiveMap: texture_emissive,
-            aoMap: texture_ao
+            ...outfit_texture,
+            aoMap: null,
+            aoMapIntensity: .1,
+            emissiveIntensity: 2
         });
 
         console.log(obj_smt_01);
@@ -332,7 +355,7 @@ web3d = {
             dirLight: true
         });
         // web3d.setupRGBE();
-        // web3d.setupPointLight();
+        web3d.setupPointLight();
         web3d.setupDom();
 
         // obj_ground = obj3d.addGround(scene, camera);
@@ -347,21 +370,21 @@ web3d = {
 
         const time = Date.now() * 0.0005;
 
-        // light1.position.x = Math.sin( time * 0.7 ) * 30;
-        // light1.position.y = Math.cos( time * 0.5 ) * 40;
-        // light1.position.z = Math.cos( time * 0.3 ) * 30;
+        light1.position.x = Math.sin( time * 0.7 ) * 30;
+        light1.position.y = Math.cos( time * 0.5 ) * 40;
+        light1.position.z = Math.cos( time * 0.3 ) * 30;
 
-        // light2.position.x = Math.cos( time * 0.3 ) * 30;
-        // light2.position.y = Math.sin( time * 0.5 ) * 40;
-        // light2.position.z = Math.sin( time * 0.7 ) * 30;
+        light2.position.x = Math.cos( time * 0.3 ) * 30;
+        light2.position.y = Math.sin( time * 0.5 ) * 40;
+        light2.position.z = Math.sin( time * 0.7 ) * 30;
 
-        // light3.position.x = Math.sin( time * 0.7 ) * 30;
-        // light3.position.y = Math.cos( time * 0.3 ) * 40;
-        // light3.position.z = Math.sin( time * 0.5 ) * 30;
+        light3.position.x = Math.sin( time * 0.7 ) * 30;
+        light3.position.y = Math.cos( time * 0.3 ) * 40;
+        light3.position.z = Math.sin( time * 0.5 ) * 30;
 
-        // light4.position.x = Math.sin( time * 0.3 ) * 30;
-        // light4.position.y = Math.cos( time * 0.7 ) * 40;
-        // light4.position.z = Math.sin( time * 0.5 ) * 30;
+        light4.position.x = Math.sin( time * 0.3 ) * 30;
+        light4.position.y = Math.cos( time * 0.7 ) * 40;
+        light4.position.z = Math.sin( time * 0.5 ) * 30;
 
         renderer.render(scene, camera);
     },
