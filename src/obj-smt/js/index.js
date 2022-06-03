@@ -3,10 +3,13 @@ import bootstrap from 'bootstrap';
 import {web3d, debug} from "./_web3d";
 
 
+window.debug = debug;
 
 
 $(function () {
     web3d.init();
+
+    debug.freeCamera();
 });
 
 window.addEventListener("load", function(){
@@ -21,9 +24,6 @@ window.addEventListener("load", function(){
         default: 
             web3d.loadObj3d();
             break;
-            break;
     }
 });
 
-
-window.debug = debug;
