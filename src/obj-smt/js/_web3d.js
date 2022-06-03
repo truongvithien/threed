@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/examples/js/controls/OrbitControls';
 import { LightProbeGenerator } from 'three/examples/js/lights/LightProbeGenerator';
 import { RGBELoader } from 'three/examples/js/loaders/RGBELoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 
 // var OrbitControls = require('three/examples/js/controls/OrbitControls'),
 //     LightProbeGenerator = require('three/examples/js/lights/LightProbeGenerator');
@@ -17,7 +18,8 @@ var web3d,
 var scene,
     camera,
     renderer,
-    controls;
+    controls,
+    mixer;
 
 var light_hemi,
     light_dir,
@@ -35,6 +37,9 @@ var data_smt_01,
 
 var data_bubble,
     obj_bubble;
+
+var data_text,
+    obj_text;
 
 const clock = new THREE.Clock();
 
@@ -88,11 +93,17 @@ web3d = {
         var defaults = {
         }
         var settings = $.extend(defaults, options);
-        renderer = new THREE.WebGLRenderer();
+        renderer = new THREE.WebGLRenderer({
+            antialias: true
+        });
+        // renderer.antialias = true;
         // console.log(web3d.el.renderer.innerWidth(), web3d.el.renderer.innerHeight());
 
+        renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize(web3d.el.renderer.innerWidth(), web3d.el.renderer.innerHeight());
         web3d.el.renderer.get(0).appendChild(renderer.domElement);
+
+        console.log(renderer.antialias);
     },
     setupCamera: function(options) {
         var defaults = {
@@ -198,7 +209,7 @@ web3d = {
                     color: 0xffffff,
                     decay: 1,
                     distance: 100,
-                    intensity: .25,
+                    intensity: .3,
                     physically_correct: 0.0,
                     power: 0.0,
                     shadow_bias: - 0.003,
@@ -489,9 +500,12 @@ web3d = {
     },
     
     //---
+
+
     
     loadObj3d: async function (options) {
         var defaults = {
+            //loadObj3d(json) 
             smt_01: {
                 model: "assets/smt_01/model3.glb",
                 dir_texture: "assets/Tex/",
@@ -510,7 +524,7 @@ web3d = {
                     ambient_occlusion: "SMT1_SHD_AmbientOcclusion.png",
                     emissive: "SMT1_SHD_Emissive.png"
                 }
-            },
+            }
         }
         var settings = $.extend(defaults, options);
 
@@ -622,6 +636,123 @@ web3d = {
         web3d.genMetadata(settings);
 
     },
+    loadFbx: async function (options) {
+        var defaults = {
+            smt_01: {
+                model: "assets/smt_01/model.fbx",
+                dir_texture: "assets/Tex/",
+                skin_texture: {
+                    base_color: "SMT1_Skin_SHD_BaseColor.png",
+                    metallic: "SMT1_Skin_SHD_Metallic.png",
+                    normal: "SMT1_Skin_SHD_Normal.png",
+                    roughness: "SMT1_Skin_SHD_Roughness.png",
+                    ambient_occlusion: "SMT1_Skin_SHD_AmbientOcclusion.png"
+                },
+                outfit_texture: {
+                    base_color: "SMT1_SHD_BaseColor.png",
+                    metallic: "SMT1_SHD_Metallic.png",
+                    normal: "SMT1_SHD_Normal.png",
+                    roughness: "SMT1_SHD_Roughness.png",
+                    ambient_occlusion: "SMT1_SHD_AmbientOcclusion.png",
+                    emissive: "SMT1_SHD_Emissive.png"
+                }
+            }
+        }
+        var settings = $.extend(defaults, options);
+
+        const fbxLoader = new FBXLoader();
+        var data_fbx, obj_fbx;
+
+        $(web3d.el.renderer.addClass("loading"));
+        obj3d.cleanUp(scene, camera);
+        [obj_fbx] = await Promise.all([
+            fbxLoader.loadAsync(settings.smt_01.model)
+        ]);
+        
+        const skin_texture = {
+            map: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.base_color),
+            metalnessMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.metallic),
+            normalMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.normal),
+            roughnessMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.roughness),
+            aoMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.ambient_occlusion),
+        }
+        const outfit_texture = {
+            map: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.base_color),
+            metalnessMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.metallic),
+            normalMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.normal),
+            roughnessMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.roughness),
+            aoMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.ambient_occlusion),
+            emissiveMap: new THREE.TextureLoader().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.emissive) 
+        }
+
+        
+        mixer = new THREE.AnimationMixer( obj_fbx );
+        const action = mixer.clipAction( obj_fbx.animations[ 0 ] );
+        action.play();
+
+
+        obj_fbx.scale.set(.1, .1, .1);
+        scene.add(obj_fbx);
+        
+
+        obj_fbx.receiveShadow = true;
+        obj_fbx.castShadow = true;
+
+
+        
+        var skinTexture = new THREE.MeshStandardMaterial({
+            ...skin_texture,
+            // aoMap: null,
+            aoMapIntensity: .1,
+        });
+        var outfitTexture = new THREE.MeshStandardMaterial({
+            ...outfit_texture,
+            // aoMap: null,
+            aoMapIntensity: .1,
+            emissiveIntensity: 2,
+            normalScale: new THREE.Vector2(3, 3)
+        });
+
+        var hairTexture = new THREE.MeshStandardMaterial({
+            ...outfit_texture,
+            aoMap: null,
+            aoMapIntensity: .1,
+            emissiveIntensity: 2,
+            normalScale: new THREE.Vector2(1, 1)
+        });
+
+        console.log(obj_smt_01);
+
+        obj_fbx.traverse((o) => {
+
+            if (o.isMesh) {
+                o.castShadow = true;
+                o.receiveShadow = true;
+            }
+
+            if (o.isMesh && ["mesh_6", "mesh_7", "mesh_8", "neck_low", "hand_low", "Face_low"].indexOf(o.name) > -1) {
+                // skin                
+                o.material = skinTexture;
+            }
+            else if (o.isMesh) {
+                // outfit
+                o.material = outfitTexture;
+            } 
+
+            if (o.isMesh && o.name == "mesh_3") {
+                o.material = hairTexture;
+            }
+        });
+
+        $(web3d.el.renderer.removeClass("loading"));
+
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.VSMShadowMap;
+
+        console.log(obj_fbx);
+
+    },
+
     loadBg: async function (options) {
         var defaults = {
             bg: "assets/bg-sphere.glb",
@@ -649,6 +780,37 @@ web3d = {
 
         console.log(obj_bg);
     },
+    loadText: async function (options) {
+        var defaults = {
+            text: "assets/text.glb",
+        }
+        var settings = $.extend(defaults, options);
+        const glbLoader = new GLTFLoader();
+        [data_text] = await Promise.all([
+            glbLoader.loadAsync(settings.text)
+        ]);
+
+        obj_text = web3d.setupModel(data_text);
+
+        obj_text.receiveShadow = false;
+        obj_text.castShadow = true;
+
+        obj_text.scale.set(.06, .06, .06);
+        // obj_text.position.set(1, 0, 2);
+        obj_text.position.set(0, 0, 0);
+        obj_text.material = new THREE.MeshLambertMaterial({
+            emissive: 0x593b00,
+            emissiveIntensity: .3
+        });
+        obj_text.name = "Bubble Text";
+
+
+        // const box_helper = new THREE.BoxHelper( obj_bg, 0xffff00 );
+        // scene.add(box_helper);
+
+        console.log(obj_text);
+        scene.add(obj_text);
+    },
     loadBubble: function(options) {
         var defaults = {
         }
@@ -670,8 +832,9 @@ web3d = {
         console.log(obj_bubble);
         scene.add(obj_bubble);
     },
-    bubbleAnim: function(options) {
+    lookAtObj: function(options) {
         var defaults = {
+            obj_to_lookat: obj_text 
         }
         var settings = $.extend(defaults, options);
 
@@ -686,7 +849,7 @@ web3d = {
 
         // }
 
-        obj_bubble.lookAt(camera.position);
+        settings.obj_to_lookat.lookAt(camera.position);
 
     },
 
@@ -696,7 +859,8 @@ web3d = {
         web3d.setupEnvironment();
 
         web3d.loadBg();
-        web3d.loadBubble();
+        // web3d.loadText(); 
+        // web3d.loadBubble();
         // obj_ground = obj3d.addGround(scene, camera);
         // obj_room = obj3d.addRoom(scene, camera);
         // obj3d.addBoxes(scene, camera);
@@ -709,12 +873,15 @@ web3d = {
         renderer.render(scene, camera);
     },
     animate: function () {
+        requestAnimationFrame( web3d.animate );
         const delta = clock.getDelta();
 
-        web3d.bubbleAnim();
+        if (obj_text) {
+            web3d.lookAtObj();
+        }
+        if ( mixer ) mixer.update( delta );
 
         web3d.callback();
-        requestAnimationFrame(web3d.animate);
         web3d.render();
     },
     // Get
@@ -722,11 +889,23 @@ web3d = {
 }
 
 debug = {
+    freeCamera: () => {
+        controls.minDistance = 0;
+        controls.maxDistance = Infinity;
+        controls.zoomSpeed = 1;
+        controls.rotateSpeed = 1;
+        controls.enableDamping = false;
+        controls.enablePan = true;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1;
+        controls.maxPolarAngle = Math.PI;
+    },
     getCamera: () => camera,
     getControls: () => controls,
     getObject: (obj_name) => {
         switch (obj_name) {
             case 'bubble': return obj_bubble;
+            case 'text': return obj_text;
         }
     },
     watch: (object_to_watch) => {

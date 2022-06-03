@@ -7,11 +7,22 @@ import {web3d, debug} from "./_web3d";
 
 $(function () {
     web3d.init();
-    web3d.loadObj3d();
 });
 
 window.addEventListener("load", function(){
+    var url = new URL(window.location.href);
+    var param_type = url.searchParams.get("type");
 
+    switch (param_type) {
+        case "fbx":
+            web3d.loadFbx();
+            break;
+        case "glb": 
+        default: 
+            web3d.loadObj3d();
+            break;
+            break;
+    }
 });
 
 

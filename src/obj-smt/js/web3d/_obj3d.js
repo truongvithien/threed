@@ -7,6 +7,7 @@ var meshs = [];
 
 obj3d = { 
     cleanUp: function(scene, camera) {
+        if (typeof obj != "undefined")
         for( var i = scene.children.length - 1; i >= 0; i--) { 
             var obj = scene.children[i];
 

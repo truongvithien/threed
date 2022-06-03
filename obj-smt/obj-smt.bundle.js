@@ -191,7 +191,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/examples/js/loaders/RGBELoader.js */ "./node_modules/three/examples/js/loaders/RGBELoader.js");
 /* harmony import */ var three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/examples/jsm/loaders/GLTFLoader.js */ "./node_modules/three/examples/jsm/loaders/GLTFLoader.js");
-/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/obj-smt/js/web3d/_obj3d.js");
+/* harmony import */ var three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three/examples/jsm/loaders/FBXLoader.js */ "./node_modules/three/examples/jsm/loaders/FBXLoader.js");
+/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/obj-smt/js/web3d/_obj3d.js");
+
 
 
 
@@ -203,12 +205,13 @@ __webpack_require__.r(__webpack_exports__);
  // ROOT
 
 var web3d, debug;
-var scene, camera, renderer, controls;
+var scene, camera, renderer, controls, mixer;
 var light_hemi, light_dir, light_key, light_fill, light_back, light_top; // Object 3D
 
 var data_bg, obj_bg;
 var data_smt_01, obj_smt_01;
 var data_bubble, obj_bubble;
+var data_text, obj_text;
 const clock = new three__WEBPACK_IMPORTED_MODULE_0__["Clock"]();
 var metadata = {
   dna: "n/a",
@@ -253,10 +256,15 @@ web3d = {
   setupRenderer: function (options) {
     var defaults = {};
     var settings = $.extend(defaults, options);
-    renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"](); // console.log(web3d.el.renderer.innerWidth(), web3d.el.renderer.innerHeight());
+    renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]({
+      antialias: true
+    }); // renderer.antialias = true;
+    // console.log(web3d.el.renderer.innerWidth(), web3d.el.renderer.innerHeight());
 
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(web3d.el.renderer.innerWidth(), web3d.el.renderer.innerHeight());
     web3d.el.renderer.get(0).appendChild(renderer.domElement);
+    console.log(renderer.antialias);
   },
   setupCamera: function (options) {
     var defaults = {};
@@ -354,7 +362,7 @@ web3d = {
           color: 0xffffff,
           decay: 1,
           distance: 100,
-          intensity: .25,
+          intensity: .3,
           physically_correct: 0.0,
           power: 0.0,
           shadow_bias: -0.003,
@@ -595,6 +603,7 @@ web3d = {
   //---
   loadObj3d: async function (options) {
     var defaults = {
+      //loadObj3d(json) 
       smt_01: {
         model: "assets/smt_01/model3.glb",
         dir_texture: "assets/Tex/",
@@ -618,7 +627,7 @@ web3d = {
     var settings = $.extend(defaults, options);
     const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"]();
     $(web3d.el.renderer.addClass("loading"));
-    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_5__["default"].cleanUp(scene, camera);
+    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_6__["default"].cleanUp(scene, camera);
     [data_smt_01] = await Promise.all([glbLoader.loadAsync(settings.smt_01.model)]);
     obj_smt_01 = web3d.setupModel(data_smt_01);
     scene.add(obj_smt_01);
@@ -697,6 +706,96 @@ web3d = {
 
     web3d.genMetadata(settings);
   },
+  loadFbx: async function (options) {
+    var defaults = {
+      smt_01: {
+        model: "assets/smt_01/model.fbx",
+        dir_texture: "assets/Tex/",
+        skin_texture: {
+          base_color: "SMT1_Skin_SHD_BaseColor.png",
+          metallic: "SMT1_Skin_SHD_Metallic.png",
+          normal: "SMT1_Skin_SHD_Normal.png",
+          roughness: "SMT1_Skin_SHD_Roughness.png",
+          ambient_occlusion: "SMT1_Skin_SHD_AmbientOcclusion.png"
+        },
+        outfit_texture: {
+          base_color: "SMT1_SHD_BaseColor.png",
+          metallic: "SMT1_SHD_Metallic.png",
+          normal: "SMT1_SHD_Normal.png",
+          roughness: "SMT1_SHD_Roughness.png",
+          ambient_occlusion: "SMT1_SHD_AmbientOcclusion.png",
+          emissive: "SMT1_SHD_Emissive.png"
+        }
+      }
+    };
+    var settings = $.extend(defaults, options);
+    const fbxLoader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__["FBXLoader"]();
+    var data_fbx, obj_fbx;
+    $(web3d.el.renderer.addClass("loading"));
+    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_6__["default"].cleanUp(scene, camera);
+    [obj_fbx] = await Promise.all([fbxLoader.loadAsync(settings.smt_01.model)]);
+    const skin_texture = {
+      map: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.base_color),
+      metalnessMap: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.metallic),
+      normalMap: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.normal),
+      roughnessMap: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.roughness),
+      aoMap: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.ambient_occlusion)
+    };
+    const outfit_texture = {
+      map: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.base_color),
+      metalnessMap: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.metallic),
+      normalMap: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.normal),
+      roughnessMap: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.roughness),
+      aoMap: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.ambient_occlusion),
+      emissiveMap: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.outfit_texture.emissive)
+    };
+    mixer = new three__WEBPACK_IMPORTED_MODULE_0__["AnimationMixer"](obj_fbx);
+    const action = mixer.clipAction(obj_fbx.animations[0]);
+    action.play();
+    obj_fbx.scale.set(.1, .1, .1);
+    scene.add(obj_fbx);
+    obj_fbx.receiveShadow = true;
+    obj_fbx.castShadow = true;
+    var skinTexture = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...skin_texture,
+      // aoMap: null,
+      aoMapIntensity: .1
+    });
+    var outfitTexture = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...outfit_texture,
+      // aoMap: null,
+      aoMapIntensity: .1,
+      emissiveIntensity: 2,
+      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](3, 3)
+    });
+    var hairTexture = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...outfit_texture,
+      aoMap: null,
+      aoMapIntensity: .1,
+      emissiveIntensity: 2,
+      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](1, 1)
+    });
+    console.log(obj_smt_01);
+    obj_fbx.traverse(o => {
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+      }
+
+      if (o.isMesh && ["mesh_6", "mesh_7", "mesh_8", "neck_low", "hand_low", "Face_low"].indexOf(o.name) > -1) {
+        // skin                
+        o.material = skinTexture;
+      } else if (o.isMesh) {
+        // outfit
+        o.material = outfitTexture;
+      }
+
+      if (o.isMesh && o.name == "mesh_3") {
+        o.material = hairTexture;
+      }
+    });
+    $(web3d.el.renderer.removeClass("loading"));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["VSMShadowMap"];
+    console.log(obj_fbx);
+  },
   loadBg: async function (options) {
     var defaults = {
       bg: "assets/bg-sphere.glb"
@@ -717,6 +816,29 @@ web3d = {
 
     console.log(obj_bg);
   },
+  loadText: async function (options) {
+    var defaults = {
+      text: "assets/text.glb"
+    };
+    var settings = $.extend(defaults, options);
+    const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"]();
+    [data_text] = await Promise.all([glbLoader.loadAsync(settings.text)]);
+    obj_text = web3d.setupModel(data_text);
+    obj_text.receiveShadow = false;
+    obj_text.castShadow = true;
+    obj_text.scale.set(.06, .06, .06); // obj_text.position.set(1, 0, 2);
+
+    obj_text.position.set(0, 0, 0);
+    obj_text.material = new three__WEBPACK_IMPORTED_MODULE_0__["MeshLambertMaterial"]({
+      emissive: 0x593b00,
+      emissiveIntensity: .3
+    });
+    obj_text.name = "Bubble Text"; // const box_helper = new THREE.BoxHelper( obj_bg, 0xffff00 );
+    // scene.add(box_helper);
+
+    console.log(obj_text);
+    scene.add(obj_text);
+  },
   loadBubble: function (options) {
     var defaults = {};
     var settings = $.extend(defaults, options);
@@ -733,8 +855,10 @@ web3d = {
     console.log(obj_bubble);
     scene.add(obj_bubble);
   },
-  bubbleAnim: function (options) {
-    var defaults = {};
+  lookAtObj: function (options) {
+    var defaults = {
+      obj_to_lookat: obj_text
+    };
     var settings = $.extend(defaults, options); // const spherical = new THREE.Spherical();
     // const rotationMatrix = new THREE.Matrix4();
     // const targetQuaternion = new THREE.Quaternion();
@@ -743,13 +867,14 @@ web3d = {
     //     mesh.quaternion.rotateTowards( targetQuaternion, step );
     // }
 
-    obj_bubble.lookAt(camera.position);
+    settings.obj_to_lookat.lookAt(camera.position);
   },
   //---
   init: function () {
     web3d.setupEnvironment();
-    web3d.loadBg();
-    web3d.loadBubble(); // obj_ground = obj3d.addGround(scene, camera);
+    web3d.loadBg(); // web3d.loadText(); 
+    // web3d.loadBubble();
+    // obj_ground = obj3d.addGround(scene, camera);
     // obj_room = obj3d.addRoom(scene, camera);
     // obj3d.addBoxes(scene, camera);
 
@@ -760,22 +885,41 @@ web3d = {
     renderer.render(scene, camera);
   },
   animate: function () {
-    const delta = clock.getDelta();
-    web3d.bubbleAnim();
-    web3d.callback();
     requestAnimationFrame(web3d.animate);
+    const delta = clock.getDelta();
+
+    if (obj_text) {
+      web3d.lookAtObj();
+    }
+
+    if (mixer) mixer.update(delta);
+    web3d.callback();
     web3d.render();
   },
   // Get
   callback: () => {}
 };
 debug = {
+  freeCamera: () => {
+    controls.minDistance = 0;
+    controls.maxDistance = Infinity;
+    controls.zoomSpeed = 1;
+    controls.rotateSpeed = 1;
+    controls.enableDamping = false;
+    controls.enablePan = true;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1;
+    controls.maxPolarAngle = Math.PI;
+  },
   getCamera: () => camera,
   getControls: () => controls,
   getObject: obj_name => {
     switch (obj_name) {
       case 'bubble':
         return obj_bubble;
+
+      case 'text':
+        return obj_text;
     }
   },
   watch: object_to_watch => {
@@ -813,9 +957,23 @@ __webpack_require__.r(__webpack_exports__);
 
 $(function () {
   _web3d__WEBPACK_IMPORTED_MODULE_2__["web3d"].init();
-  _web3d__WEBPACK_IMPORTED_MODULE_2__["web3d"].loadObj3d();
 });
-window.addEventListener("load", function () {});
+window.addEventListener("load", function () {
+  var url = new URL(window.location.href);
+  var param_type = url.searchParams.get("type");
+
+  switch (param_type) {
+    case "fbx":
+      _web3d__WEBPACK_IMPORTED_MODULE_2__["web3d"].loadFbx();
+      break;
+
+    case "glb":
+    default:
+      _web3d__WEBPACK_IMPORTED_MODULE_2__["web3d"].loadObj3d();
+      break;
+      break;
+  }
+});
 window.debug = _web3d__WEBPACK_IMPORTED_MODULE_2__["debug"];
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
@@ -839,7 +997,7 @@ var obj3d;
 var meshs = [];
 obj3d = {
   cleanUp: function (scene, camera) {
-    for (var i = scene.children.length - 1; i >= 0; i--) {
+    if (typeof obj != "undefined") for (var i = scene.children.length - 1; i >= 0; i--) {
       var obj = scene.children[i];
 
       if (["obj3d_body", "obj3d_head", "obj3d_asset"].indexOf(obj.name) > -1) {
