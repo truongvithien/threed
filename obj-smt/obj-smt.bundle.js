@@ -699,7 +699,7 @@ web3d = {
   },
   loadBg: async function (options) {
     var defaults = {
-      bg: "assets/bg.glb"
+      bg: "assets/bg-sphere.glb"
     };
     var settings = $.extend(defaults, options);
     const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"]();
@@ -792,7 +792,7 @@ debug = {
   }
 };
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
 /***/ }),
 
@@ -817,7 +817,7 @@ $(function () {
 });
 window.addEventListener("load", function () {});
 window.debug = _web3d__WEBPACK_IMPORTED_MODULE_2__["debug"];
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
 /***/ }),
 
@@ -1018,7 +1018,7 @@ __webpack_require__.r(__webpack_exports__);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (config);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
 /***/ }),
 

@@ -624,7 +624,7 @@ web3d = {
     },
     loadBg: async function (options) {
         var defaults = {
-            bg: "assets/bg.glb",
+            bg: "assets/bg-sphere.glb",
         }
         var settings = $.extend(defaults, options);
         const glbLoader = new GLTFLoader();

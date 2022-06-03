@@ -157,7 +157,7 @@ obj3d = {
         const boxMesh_2 = new THREE.Mesh(geometry_1, material);
         boxMesh_2.castShadow = true;
         boxMesh_2.receiveShadow = true;
-        boxMesh_2.position.set(0, 2, -2);
+        boxMesh_2.position.set(0, 2, -2);  
 
         // const lightSphere = new THREE.SphereGeometry(0.06, 32, 32);
         // const testLight = new THREE.PointLight(0xffffff, .5, 20);
