@@ -1,0 +1,245 @@
+{% import "../../setup/html/_macros.html.twig" as _macro %}
+
+{# {% spaceless %} #}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Load GLB + Texture</title>
+		
+	</head>
+	<body>
+
+		{# Main Components #}
+		
+		<div class="document">
+
+			<h1>Avatar API</h1>
+
+			<h2>Khởi tạo </h2>
+
+			<p><strong>HTML Layout</strong></p>
+
+			<p>Chèn ID/ Class vào dom mà bạn muốn render hình ảnh avatar 3d.</p>
+
+<pre><code class="language-markup">{% spaceless %}
+&lt;div id="rendered_threed" class="rendered_threed">&lt;/div>{% endspaceless %}
+</code></pre>
+
+			<p>Cài đặt vị trí render hình ảnh 3d</p>
+
+			<div class="table">
+				<table>
+					<thead>
+						<tr>
+							<th>Tham số</th>
+							<th>Kiểu</th>
+							<th>Mặc định</th>
+							<th>Giải thích</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>domElement</td>
+							<td>string</td>
+							<td>"#rendered_threed"</td>
+							<td>
+							Chuỗi selector để render hình ảnh 3D.
+<pre><code class="language-js">{% spaceless %}
+web3d.init(<mark>domElement</mark>);{% endspaceless %}
+</code></pre>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<p>Khởi tạo:</p>
+	<pre><code class="language-js">{% spaceless %}
+	web3d.init("#rendered_threed");{% endspaceless %}
+	</code></pre>
+
+			<h2>SMT</h2>
+
+{% spaceless %}
+<pre><code class="language-js">web3d.loadSMT(<mark>smtCode</mark>);
+</code></pre>
+{% endspaceless %}
+
+			<div class="table">
+				<table>
+					<thead>
+						<tr>
+							<th>Tham số</th>
+							<th>Kiểu</th>
+							<th>Mặc định</th>
+							<th>Giải thích</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>smtCode</td>
+							<td>string</td>
+							<td><em>null</em></td>
+							<td>Mã định dang của SMT <br>
+								<em>Các giá trị có thể:  </em> <br><br>
+<pre><code class="language-markup">SMT_01 | SMT_02 | SMT_03 | 
+SMT_04 | SMT_05 | SMT_06 | 
+SMT_07 | SMT_08 | SMT_09</code></pre><br>	
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<p>Ví dụ:</p>
+<pre><code class="language-js">web3d.loadSMT('SMT_{{"01"}}');
+</code></pre>
+
+			{# <div class="grid_code">
+				{% for item in 1..9 %}	
+{% spaceless %}
+<pre><code class="language-js">web3d.loadSMT('SMT_{{"0" ~ item}}');
+</code></pre>
+{% endspaceless %}
+				{% endfor %}
+			
+			</div> #}
+
+
+			<h2>STARTER</h2>
+			
+
+{% spaceless %}
+<pre><code class="language-js">web3d.loadStarter(<mark>attributes</mark>);
+</code></pre>
+{% endspaceless %}
+
+			<div class="table">
+				<table>
+					<thead>
+						<tr>
+							<th>Tham số</th>
+							<th>Kiểu</th>
+							<th>Mặc định</th>
+							<th>Giải thích</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>attributes</td>
+							<td>string</td>
+							<td><em>undefined</em></td>
+							<td>Chuỗi định danh các thuộc tính starter theo cấu trúc:
+								<strong class="attribute_structure">
+									<span>AA0</span>-<span>BB0</span>-<span>CC0</span>-<span>DD0</span>-<span>E0</span>-<span>F0</span>
+								</strong>
+								<br> <br>
+								<em>Trong đó:</em> <br> <br>
+								<strong>AA0</strong>: 
+								Chuỗi định danh <strong>tóc</strong> của avatar Starter. <br>
+								<em>Các giá trị có thể:  </em> <br><br>
+<pre><code class="language-markup">Nam: HM1 | HM2 | HM3 | HM4
+Nữ: HF1 | HF2 | HF3 | HF4</code></pre><br>	
+								<strong>BB0</strong>: 
+								Chuỗi định danh <strong>phụ kiện mắt</strong> của avatar Starter. <br>
+								<em>Các giá trị có thể:  </em> <br><br>
+<pre><code class="language-markup">Nam: EM1 | EM2 | EM3 | EM4
+Nữ: EF1 | EF2 | EF3 | EF4</code></pre><br>
+								<strong>CC0</strong>: 
+								Chuỗi định danh <strong>khuôn mặt</strong> của avatar Starter. <br>
+								<em>Các giá trị có thể:  </em> <br><br>
+<pre><code class="language-markup">Nam: FM1 | FM2 | FM3 | FM4
+Nữ: FF1 | FF2 | FF3 | FF4</code></pre><br>		
+								<strong>DD0</strong>: 
+								Chuỗi định danh <strong>trang phục</strong> của avatar Starter. <br>
+								<em>Các giá trị có thể:  </em> <br><br>
+								
+<pre><code class="language-markup">Nam: OM1 | OM2 | OM3 | OM4
+Nữ: OF1 | OF2 | OF3 | OF4</code></pre><br>
+								<strong>E0</strong>: 
+								Chuỗi định danh <strong>phụ kiện</strong> của avatar Starter. <br>
+								<em>Các giá trị có thể:  </em> <br><br>
+<pre><code class="language-markup">Nam/ Nữ: A1 | A2 | A3</code></pre><br>
+								<strong>F0</strong>: 
+								Chuỗi định danh <strong>hình nền</strong> của avatar Starter. <br>
+								<em>Các giá trị có thể:  </em> <br><br>
+<pre><code class="language-markup">Nam/ Nữ: T1 | T2 | T3 | ... | T28</code></pre>				
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+{% set asset = ["A1", "A2", "A3"] %}
+{% set background_text = [
+		"T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10",
+		"T11", "T12", "T13", "T14", "T15", "T16", "T17", "T18", "T19", "T20",
+		"T21", "T22", "T23", "T24", "T25", "T26", "T27", "T28"
+] %}
+
+{% set hair_male = ["HM1", "HM2", "HM3", "HM4"] %}
+{% set eyewear_male = ["EM1", "EM2", "EM3", "EM4"] %}
+{% set face_male = ["FM1", "FM2", "FM3", "FM4"] %}
+{% set outfit_male = ["OM1", "OM2", "OM3", "OM4", "OM5", "OM6"] %}
+
+{% set hair_female = ["HF1", "HF2", "HF3", "HF4"] %}
+{% set eyewear_female = ["EF1", "EF2", "EF3", "EF4"] %}
+{% set face_female = ["FF1", "FF2", "FF3", "FF4"] %}
+{% set outfit_female = ["OF1", "OF2", "OF3", "OF4", "OF5", "OF6"] %} 
+
+{# {
+	"hair": "{{item_hair}}",
+	"eyewear": "{{item_eyewear}}",
+	"face": "{{item_face}}",
+	"outfit": "{{item_outfit}}",
+	"asset": "{{item_asset}}",
+	"background_text": "{{item_background_text}}"
+} #}
+			<p>Tất cả trường hợp: </p>
+
+			<p>
+				<strong>Starter Nam</strong> (32,256 tổ hợp)
+			</p>
+
+			<div class="grid_starter">
+<pre><code class="language-markup">
+{% for item_hair in hair_male %}{% for item_eyewear in eyewear_male %}{% for item_face in face_male %}{% for item_outfit in outfit_male %}{% for item_asset in asset %}{% for item_background_text in background_text %}{% spaceless %}
+{{item_hair}}-{{item_eyewear}}-{{item_face}}-{{item_outfit}}-{{item_asset}}-{{item_background_text}}&#9;
+{% endspaceless %}{% endfor %}{% endfor %}{% endfor %}{% endfor %}{% endfor %}
+{% endfor %}
+</code></pre>
+			</div>
+
+			<p>
+				<strong>Starter Nữ</strong> (32,256 tổ hợp)
+			</p>
+
+			<div class="grid_starter">
+<pre><code class="language-markup">
+{% for item_hair in hair_female %}{% for item_eyewear in eyewear_female %}{% for item_face in face_female %}{% for item_outfit in outfit_female %}{% for item_asset in asset %}{% for item_background_text in background_text %}{% spaceless %}
+{{item_hair}}{{item_eyewear}}{{item_face}}{{item_outfit}}{{item_asset}}{{item_background_text}}&#9;
+{% endspaceless %}{% endfor %}{% endfor %}{% endfor %}{% endfor %}{% endfor %}
+{% endfor %}
+</code></pre>
+			</div>
+
+
+		</div>
+
+
+
+
+		{# Shader #}
+
+		{# Add - on scripts #}
+		{% include "../../setup/html/_livereload.html.twig" %}
+		
+		<script>
+
+	</script>
+
+</body>
+</html>
+{# {% endspaceless %} #}

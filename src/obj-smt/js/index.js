@@ -9,7 +9,7 @@ window.debug = debug;
 $(function () {
     web3d.init();
 
-    debug.freeCamera();
+    // debug.freeCamera();
 });
 
 window.addEventListener("load", function(){

@@ -1,0 +1,43 @@
+// LIBRARY
+@import "css-reset-and-normalize";
+@import "bourbon-neat";
+@import 'swiper/swiper-bundle.min.css';
+@import "@fancyapps/fancybox/dist/jquery.fancybox.min.css";
+@import "hamburgers/_sass/hamburgers/hamburgers.scss";
+@import "prismjs";
+
+// COMMON ICON
+// -> Select icon from https://fontello.com/ 
+@import "../assets/fonts/fontello/css/fontello.css";
+
+// SPRITES
+
+// FONTS
+@font-face {
+    font-family: Roboto;
+    font-display: swap;
+    src: local('Roboto');
+    src:    url('../assets/fonts/Roboto/Roboto-Black.ttf');
+    font-weight: 700;
+}
+@font-face {
+    font-family: Roboto;
+    font-display: swap;
+    src: local('Roboto');
+    src:    url('../assets/fonts/Roboto/Roboto-Bold.ttf');
+    font-weight: 600; 
+}
+@font-face {
+    font-family: Roboto;
+    font-display: swap;
+    src: local('Roboto');
+    src:    url('../assets/fonts/Roboto/Roboto-Medium.ttf');
+    font-weight: 500;
+}
+@font-face { 
+    font-family: Roboto;
+    font-display: swap;
+    src: local('Roboto');
+    src:    url('../assets/fonts/Roboto/Roboto-Regular.ttf');
+    font-weight: 400;  
+} 

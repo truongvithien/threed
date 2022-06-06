@@ -862,8 +862,10 @@ web3d = {
     obj_bg.castShadow = false;
     obj_bg.scale.set(10, 10, 10);
     obj_bg.position.set(0, 5, 0);
-    obj_bg.material = new three__WEBPACK_IMPORTED_MODULE_0__["MeshLambertMaterial"]({
-      emissive: 0x593b00
+    obj_bg.material = new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
+      // color: 0x593b00,
+      color: 0xffca4f // lightMapIntensity: 1
+
     }); // const box_helper = new THREE.BoxHelper( obj_bg, 0xffff00 );
     // scene.add(box_helper);
 
@@ -1034,8 +1036,7 @@ __webpack_require__.r(__webpack_exports__);
 
 window.debug = _web3d__WEBPACK_IMPORTED_MODULE_2__["debug"];
 $(function () {
-  _web3d__WEBPACK_IMPORTED_MODULE_2__["web3d"].init();
-  _web3d__WEBPACK_IMPORTED_MODULE_2__["debug"].freeCamera();
+  _web3d__WEBPACK_IMPORTED_MODULE_2__["web3d"].init(); // debug.freeCamera();
 });
 window.addEventListener("load", function () {
   var url = new URL(window.location.href);

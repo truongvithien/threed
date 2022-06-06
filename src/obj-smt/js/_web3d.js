@@ -777,8 +777,10 @@ web3d = {
 
         obj_bg.scale.set(10, 10, 10);
         obj_bg.position.set(0, 5, 0);
-        obj_bg.material = new THREE.MeshLambertMaterial({
-            emissive: 0x593b00
+        obj_bg.material = new THREE.MeshBasicMaterial({
+            // color: 0x593b00,
+            color: 0xffca4f
+            // lightMapIntensity: 1
         });
 
         // const box_helper = new THREE.BoxHelper( obj_bg, 0xffff00 );
