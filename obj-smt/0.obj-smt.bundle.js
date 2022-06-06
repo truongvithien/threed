@@ -8226,7 +8226,7 @@ defineJQueryPlugin(Toast);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ___EXPOSE_LOADER_IMPORT___ = __webpack_require__(/*! -!./jquery.js */ "./node_modules/jquery/dist/jquery.js?1157");
+var ___EXPOSE_LOADER_IMPORT___ = __webpack_require__(/*! -!./jquery.js */ "./node_modules/jquery/dist/jquery.js");
 var ___EXPOSE_LOADER_GET_GLOBAL_THIS___ = __webpack_require__(/*! ../../expose-loader/dist/runtime/getGlobalThis.js */ "./node_modules/expose-loader/dist/runtime/getGlobalThis.js");
 var ___EXPOSE_LOADER_GLOBAL_THIS___ = ___EXPOSE_LOADER_GET_GLOBAL_THIS___;
 if (typeof ___EXPOSE_LOADER_GLOBAL_THIS___["$"] === 'undefined') ___EXPOSE_LOADER_GLOBAL_THIS___["$"] = ___EXPOSE_LOADER_IMPORT___;
@@ -8281,7 +8281,24 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ "./node_modules/jquery/dist/jquery.js?1157":
+/***/ "./node_modules/jquery/dist/jquery-exposed-exposed.js":
+/*!************************************************************!*\
+  !*** ./node_modules/jquery/dist/jquery-exposed-exposed.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var ___EXPOSE_LOADER_IMPORT___ = __webpack_require__(/*! -!../../expose-loader/dist/cjs.js??ref--8-1!./jquery.js */ "./node_modules/expose-loader/dist/cjs.js?!./node_modules/jquery/dist/jquery-exposed.js");
+var ___EXPOSE_LOADER_GET_GLOBAL_THIS___ = __webpack_require__(/*! ../../expose-loader/dist/runtime/getGlobalThis.js */ "./node_modules/expose-loader/dist/runtime/getGlobalThis.js");
+var ___EXPOSE_LOADER_GLOBAL_THIS___ = ___EXPOSE_LOADER_GET_GLOBAL_THIS___;
+if (typeof ___EXPOSE_LOADER_GLOBAL_THIS___["jQuery"] === 'undefined') ___EXPOSE_LOADER_GLOBAL_THIS___["jQuery"] = ___EXPOSE_LOADER_IMPORT___;
+else throw new Error('[exposes-loader] The "jQuery" value exists in the global scope, it may not be safe to overwrite it, use the "override" option')
+module.exports = ___EXPOSE_LOADER_IMPORT___;
+
+
+/***/ }),
+
+/***/ "./node_modules/jquery/dist/jquery.js":
 /*!********************************************!*\
   !*** ./node_modules/jquery/dist/jquery.js ***!
   \********************************************/
@@ -19170,23 +19187,6 @@ if ( typeof noGlobal === "undefined" ) {
 
 return jQuery;
 } );
-
-
-/***/ }),
-
-/***/ "./node_modules/jquery/dist/jquery.js?a1c9":
-/*!********************************************!*\
-  !*** ./node_modules/jquery/dist/jquery.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var ___EXPOSE_LOADER_IMPORT___ = __webpack_require__(/*! -!../../expose-loader/dist/cjs.js??ref--8-1!./jquery.js */ "./node_modules/expose-loader/dist/cjs.js?!./node_modules/jquery/dist/jquery-exposed.js");
-var ___EXPOSE_LOADER_GET_GLOBAL_THIS___ = __webpack_require__(/*! ../../expose-loader/dist/runtime/getGlobalThis.js */ "./node_modules/expose-loader/dist/runtime/getGlobalThis.js");
-var ___EXPOSE_LOADER_GLOBAL_THIS___ = ___EXPOSE_LOADER_GET_GLOBAL_THIS___;
-if (typeof ___EXPOSE_LOADER_GLOBAL_THIS___["jQuery"] === 'undefined') ___EXPOSE_LOADER_GLOBAL_THIS___["jQuery"] = ___EXPOSE_LOADER_IMPORT___;
-else throw new Error('[exposes-loader] The "jQuery" value exists in the global scope, it may not be safe to overwrite it, use the "override" option')
-module.exports = ___EXPOSE_LOADER_IMPORT___;
 
 
 /***/ }),
@@ -32656,6 +32656,105 @@ function toTrianglesDrawMode( geometry, drawMode ) {
 	return newGeometry;
 
 }
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/shaders/SubsurfaceScatteringShader.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/shaders/SubsurfaceScatteringShader.js ***!
+  \*******************************************************************************/
+/*! exports provided: SubsurfaceScatteringShader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SubsurfaceScatteringShader", function() { return SubsurfaceScatteringShader; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/**
+ * ------------------------------------------------------------------------------------------
+ * Subsurface Scattering shader
+ * Based on GDC 2011 – Approximating Translucency for a Fast, Cheap and Convincing Subsurface Scattering Look
+ * https://colinbarrebrisebois.com/2011/03/07/gdc-2011-approximating-translucency-for-a-fast-cheap-and-convincing-subsurface-scattering-look/
+ *------------------------------------------------------------------------------------------
+ */
+
+function replaceAll( string, find, replace ) {
+
+	return string.split( find ).join( replace );
+
+}
+
+const meshphong_frag_head = three__WEBPACK_IMPORTED_MODULE_0__["ShaderChunk"][ 'meshphong_frag' ].slice( 0, three__WEBPACK_IMPORTED_MODULE_0__["ShaderChunk"][ 'meshphong_frag' ].indexOf( 'void main() {' ) );
+const meshphong_frag_body = three__WEBPACK_IMPORTED_MODULE_0__["ShaderChunk"][ 'meshphong_frag' ].slice( three__WEBPACK_IMPORTED_MODULE_0__["ShaderChunk"][ 'meshphong_frag' ].indexOf( 'void main() {' ) );
+
+const SubsurfaceScatteringShader = {
+
+	uniforms: three__WEBPACK_IMPORTED_MODULE_0__["UniformsUtils"].merge( [
+		three__WEBPACK_IMPORTED_MODULE_0__["ShaderLib"][ 'phong' ].uniforms,
+		{
+			'thicknessMap': { value: null },
+			'thicknessColor': { value: new three__WEBPACK_IMPORTED_MODULE_0__["Color"]( 0xffffff ) },
+			'thicknessDistortion': { value: 0.1 },
+			'thicknessAmbient': { value: 0.0 },
+			'thicknessAttenuation': { value: 0.1 },
+			'thicknessPower': { value: 2.0 },
+			'thicknessScale': { value: 10.0 }
+		}
+
+	] ),
+
+	vertexShader: [
+		'#define USE_UV',
+		three__WEBPACK_IMPORTED_MODULE_0__["ShaderChunk"][ 'meshphong_vert' ],
+	].join( '\n' ),
+
+	fragmentShader: [
+		'#define USE_UV',
+		'#define SUBSURFACE',
+
+		meshphong_frag_head,
+
+		'uniform sampler2D thicknessMap;',
+		'uniform float thicknessPower;',
+		'uniform float thicknessScale;',
+		'uniform float thicknessDistortion;',
+		'uniform float thicknessAmbient;',
+		'uniform float thicknessAttenuation;',
+		'uniform vec3 thicknessColor;',
+
+		'void RE_Direct_Scattering(const in IncidentLight directLight, const in vec2 uv, const in GeometricContext geometry, inout ReflectedLight reflectedLight) {',
+		'	vec3 thickness = thicknessColor * texture2D(thicknessMap, uv).r;',
+		'	vec3 scatteringHalf = normalize(directLight.direction + (geometry.normal * thicknessDistortion));',
+		'	float scatteringDot = pow(saturate(dot(geometry.viewDir, -scatteringHalf)), thicknessPower) * thicknessScale;',
+		'	vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * thickness;',
+		'	reflectedLight.directDiffuse += scatteringIllu * thicknessAttenuation * directLight.color;',
+		'}',
+
+		meshphong_frag_body.replace( '#include <lights_fragment_begin>',
+
+			replaceAll(
+				three__WEBPACK_IMPORTED_MODULE_0__["ShaderChunk"][ 'lights_fragment_begin' ],
+				'RE_Direct( directLight, geometry, material, reflectedLight );',
+				[
+					'RE_Direct( directLight, geometry, material, reflectedLight );',
+
+					'#if defined( SUBSURFACE ) && defined( USE_UV )',
+					' RE_Direct_Scattering(directLight, vUv, geometry, reflectedLight);',
+					'#endif',
+				].join( '\n' )
+			),
+
+		),
+
+	].join( '\n' ),
+
+};
 
 
 

@@ -192,8 +192,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/examples/jsm/loaders/GLTFLoader.js */ "./node_modules/three/examples/jsm/loaders/GLTFLoader.js");
 /* harmony import */ var three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three/examples/jsm/loaders/FBXLoader.js */ "./node_modules/three/examples/jsm/loaders/FBXLoader.js");
-/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/obj-smt/js/web3d/_obj3d.js");
-/* harmony import */ var _web3d_helper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./web3d/_helper */ "./src/obj-smt/js/web3d/_helper.js");
+/* harmony import */ var three_examples_jsm_shaders_SubsurfaceScatteringShader_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! three/examples/jsm/shaders/SubsurfaceScatteringShader.js */ "./node_modules/three/examples/jsm/shaders/SubsurfaceScatteringShader.js");
+/* harmony import */ var _web3d_obj3d__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./web3d/_obj3d */ "./src/obj-smt/js/web3d/_obj3d.js");
+/* harmony import */ var _web3d_helper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./web3d/_helper */ "./src/obj-smt/js/web3d/_helper.js");
+
 
 
 
@@ -486,35 +488,35 @@ web3d = {
     };
     var settings = $.extend(defaults, options);
     if (settings.environment_light.enable) web3d.setupRGBE(settings.environment_light.options);
-    light_key = _web3d_helper__WEBPACK_IMPORTED_MODULE_7__["default"].create_light.spot_light(settings.key_light);
+    light_key = _web3d_helper__WEBPACK_IMPORTED_MODULE_8__["default"].create_light.spot_light(settings.key_light);
 
     if (settings.key_light.enable) {
       scene.add(light_key);
       scene.add(light_key.target);
     }
 
-    light_fill = _web3d_helper__WEBPACK_IMPORTED_MODULE_7__["default"].create_light.spot_light(settings.fill_light);
+    light_fill = _web3d_helper__WEBPACK_IMPORTED_MODULE_8__["default"].create_light.spot_light(settings.fill_light);
 
     if (settings.fill_light.enable) {
       scene.add(light_fill);
       scene.add(light_fill.target);
     }
 
-    light_back = _web3d_helper__WEBPACK_IMPORTED_MODULE_7__["default"].create_light.spot_light(settings.back_light);
+    light_back = _web3d_helper__WEBPACK_IMPORTED_MODULE_8__["default"].create_light.spot_light(settings.back_light);
 
     if (settings.back_light.enable) {
       scene.add(light_back);
       scene.add(light_back.target);
     }
 
-    light_top = _web3d_helper__WEBPACK_IMPORTED_MODULE_7__["default"].create_light.spot_light(settings.top_light);
+    light_top = _web3d_helper__WEBPACK_IMPORTED_MODULE_8__["default"].create_light.spot_light(settings.top_light);
 
     if (settings.top_light.enable) {
       scene.add(light_top);
       scene.add(light_top.target);
     }
 
-    light_bottom = _web3d_helper__WEBPACK_IMPORTED_MODULE_7__["default"].create_light.spot_light(settings.bottom_light);
+    light_bottom = _web3d_helper__WEBPACK_IMPORTED_MODULE_8__["default"].create_light.spot_light(settings.bottom_light);
 
     if (settings.bottom_light.enable) {
       scene.add(light_bottom);
@@ -644,6 +646,40 @@ web3d = {
     return model;
   },
   //---
+  initThickness: async function (options) {
+    const loader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
+    const imgTexture = loader.load('models/fbx/white.jpg');
+    const thicknessTexture = loader.load('assets/Tex//SMT1_SHD_Thickness.png');
+    imgTexture.wrapS = imgTexture.wrapT = three__WEBPACK_IMPORTED_MODULE_0__["RepeatWrapping"];
+    const shader = three_examples_jsm_shaders_SubsurfaceScatteringShader_js__WEBPACK_IMPORTED_MODULE_6__["SubsurfaceScatteringShader"];
+    const uniforms = three__WEBPACK_IMPORTED_MODULE_0__["UniformsUtils"].clone(shader.uniforms);
+    uniforms['map'].value = imgTexture;
+    uniforms['diffuse'].value = new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](1.0, 0.2, 0.2);
+    uniforms['shininess'].value = 500;
+    uniforms['thicknessMap'].value = thicknessTexture;
+    uniforms['thicknessColor'].value = new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](0.5, 0.3, 0.0);
+    uniforms['thicknessDistortion'].value = 0.1;
+    uniforms['thicknessAmbient'].value = 0.4;
+    uniforms['thicknessAttenuation'].value = 0.8;
+    uniforms['thicknessPower'].value = 2.0;
+    uniforms['thicknessScale'].value = 16.0;
+    const material = new three__WEBPACK_IMPORTED_MODULE_0__["ShaderMaterial"]({
+      uniforms: uniforms,
+      vertexShader: shader.vertexShader,
+      fragmentShader: shader.fragmentShader,
+      lights: true
+    });
+    material.extensions.derivatives = true; // LOADER
+
+    const loaderFBX = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__["FBXLoader"]();
+    loaderFBX.load('models/fbx/stanford-bunny.fbx', function (object) {
+      model = object.children[0];
+      model.position.set(0, 0, 10);
+      model.scale.setScalar(1);
+      model.material = material;
+      scene.add(model);
+    });
+  },
   loadObj3d: async function (options) {
     var defaults = {
       //loadObj3d(json) 
@@ -655,7 +691,8 @@ web3d = {
           metallic: "SMT1_Skin_SHD_Metallic.png",
           normal: "SMT1_Skin_SHD_Normal.png",
           roughness: "SMT1_Skin_SHD_Roughness.png",
-          ambient_occlusion: "SMT1_Skin_SHD_AmbientOcclusion.png"
+          ambient_occlusion: "SMT1_Skin_SHD_AmbientOcclusion.png",
+          thickness: "SMT1_SHD_Thickness.png"
         },
         outfit_texture: {
           base_color: "SMT1_SHD_BaseColor.png",
@@ -670,7 +707,7 @@ web3d = {
     var settings = $.extend(defaults, options);
     const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"]();
     $(web3d.el.renderer.addClass("loading"));
-    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_6__["default"].cleanUp(scene, camera);
+    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_7__["default"].cleanUp(scene, camera);
     [data_smt_01] = await Promise.all([glbLoader.loadAsync(settings.smt_01.model)]);
     obj_smt_01 = web3d.setupModel(data_smt_01);
     scene.add(obj_smt_01);
@@ -775,7 +812,7 @@ web3d = {
     const fbxLoader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__["FBXLoader"]();
     var data_fbx, obj_fbx;
     $(web3d.el.renderer.addClass("loading"));
-    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_6__["default"].cleanUp(scene, camera);
+    _web3d_obj3d__WEBPACK_IMPORTED_MODULE_7__["default"].cleanUp(scene, camera);
     [obj_fbx] = await Promise.all([fbxLoader.loadAsync(settings.smt_01.model)]);
     const skin_texture = {
       map: new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]().load(settings.smt_01.dir_texture + settings.smt_01.skin_texture.base_color),
@@ -1015,7 +1052,7 @@ debug = {
   }
 };
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
 /***/ }),
 
@@ -1053,7 +1090,7 @@ window.addEventListener("load", function () {
       break;
   }
 });
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
 /***/ }),
 
@@ -1246,7 +1283,7 @@ var helper = {
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (helper);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
 /***/ }),
 
@@ -1447,7 +1484,7 @@ __webpack_require__.r(__webpack_exports__);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (config);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
 /***/ }),
 
