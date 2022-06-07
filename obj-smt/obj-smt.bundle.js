@@ -646,40 +646,6 @@ web3d = {
     return model;
   },
   //---
-  initThickness: async function (options) {
-    const loader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
-    const imgTexture = loader.load('models/fbx/white.jpg');
-    const thicknessTexture = loader.load('assets/Tex//SMT1_SHD_Thickness.png');
-    imgTexture.wrapS = imgTexture.wrapT = three__WEBPACK_IMPORTED_MODULE_0__["RepeatWrapping"];
-    const shader = three_examples_jsm_shaders_SubsurfaceScatteringShader_js__WEBPACK_IMPORTED_MODULE_6__["SubsurfaceScatteringShader"];
-    const uniforms = three__WEBPACK_IMPORTED_MODULE_0__["UniformsUtils"].clone(shader.uniforms);
-    uniforms['map'].value = imgTexture;
-    uniforms['diffuse'].value = new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](1.0, 0.2, 0.2);
-    uniforms['shininess'].value = 500;
-    uniforms['thicknessMap'].value = thicknessTexture;
-    uniforms['thicknessColor'].value = new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](0.5, 0.3, 0.0);
-    uniforms['thicknessDistortion'].value = 0.1;
-    uniforms['thicknessAmbient'].value = 0.4;
-    uniforms['thicknessAttenuation'].value = 0.8;
-    uniforms['thicknessPower'].value = 2.0;
-    uniforms['thicknessScale'].value = 16.0;
-    const material = new three__WEBPACK_IMPORTED_MODULE_0__["ShaderMaterial"]({
-      uniforms: uniforms,
-      vertexShader: shader.vertexShader,
-      fragmentShader: shader.fragmentShader,
-      lights: true
-    });
-    material.extensions.derivatives = true; // LOADER
-
-    const loaderFBX = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__["FBXLoader"]();
-    loaderFBX.load('models/fbx/stanford-bunny.fbx', function (object) {
-      model = object.children[0];
-      model.position.set(0, 0, 10);
-      model.scale.setScalar(1);
-      model.material = material;
-      scene.add(model);
-    });
-  },
   loadObj3d: async function (options) {
     var defaults = {
       //loadObj3d(json) 
