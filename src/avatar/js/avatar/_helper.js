@@ -131,6 +131,22 @@ var helper = {
             }
 
         },
+        amb_light: function(options) {
+            var defaults = {
+                enable: true,
+                helper: false,
+                options: {
+                    color: 0x404040,
+                    intensity: 0.1
+                }
+            }
+            var settings = $.extend(defaults, options);
+
+            if (settings.enable) {
+                var obj_light = new THREE.AmbientLight(settings.options.color, settings.options.intensity);
+                return obj_light;
+            }
+        },
         spot_light: function (options) {
             var defaults = {
                 enable: true,

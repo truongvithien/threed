@@ -4,6 +4,8 @@ import {avatar, debug} from "./avatar/main";
 
 $(function () {
     avatar.init();
+
+    debug.freeCamera();
 });
 
 window.addEventListener("load", function(){

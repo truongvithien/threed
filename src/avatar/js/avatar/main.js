@@ -69,14 +69,41 @@ const
             smt_hair: {
                 aoMap: null,
                 aoMapIntensity: .1,
-                normalScale: new THREE.Vector2(-1, -1)
+                normalScale: new THREE.Vector2(-1, -1),
+                roughness: 1.5
             },
             st_background: {},
-            st_face: {},
-            st_hair: {},
-            st_outfit: {},
-            st_asset: {},
-            st_eyewear: {}
+            st_face: {
+                aoMapIntensity: .1,
+                // roughness: .8,
+                envMapIntensity: 1,
+                // normalMapType: THREE.ObjectSpaceNormalMap
+            },
+            st_hair: {
+                aoMap: null,
+                aoMapIntensity: .1,
+                normalScale: new THREE.Vector2(.15, .15),
+                // roughness: 1.5,
+                // envMapIntensity: 1.2
+            },
+            st_outfit: {
+                aoMapIntensity: .1,
+                emissiveIntensity: 0,
+                normalScale: new THREE.Vector2(1, 1),
+                envMapIntensity: .8
+                // normalMapType: THREE.ObjectSpaceNormalMap
+            },
+            st_asset: {
+                aoMapIntensity: .1,
+                emissiveIntensity: 2,
+                normalScale: new THREE.Vector2(1.5, 1.5)
+            },
+            st_eyewear: {
+                aoMapIntensity: .1,
+                emissiveIntensity: 2,
+                normalScale: new THREE.Vector2(1.5, 1.5),
+                transparent: true
+            }
         },
         model_suffix: {
             smt: ".fbx",
@@ -106,7 +133,7 @@ const
             scattering: "_Skin_SHD_Scattering.png",
             thickness: "_Skin_SHD_Thickness.png",
             sss: "_Skin_SHD_SSS.png"
-        },
+        }
     };
 
 // MAIN
@@ -406,6 +433,17 @@ avatar = {
             // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
             // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
         }
+        // outfit_texture.map.encoding = THREE.sRGBEncoding;
+
+        // skin in outfit
+        const skinin_texture = {
+            map: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.base_color),
+            metalnessMap: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.metallic),
+            normalMap: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.normal),
+            roughnessMap: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.roughness),
+            // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+            // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
+        }
         const asset_texture = {
             map: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.base_color),
             metalnessMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.metallic),
@@ -498,11 +536,22 @@ avatar = {
             ...outfit_texture,
             ...settings.texture_options.st_outfit
         });
-        starter_outfit_obj.traverse((o) => {
+        var texture_skinin = new THREE.MeshStandardMaterial({
+            ...skinin_texture,
+            ...settings.texture_options.st_face
+        });
+        starter_outfit_obj.children[1].traverse((o) => {
             if (o.isMesh) {
                 o.castShadow = true;
                 o.receiveShadow = true;
                 o.material = texture_outfit;
+            }
+        });
+        starter_outfit_obj.children[0].traverse((o) => {
+            if (o.isMesh) {
+                o.castShadow = true;
+                o.receiveShadow = true;
+                o.material = texture_skinin;
             }
         });
         console.log("Outfit: ");
@@ -519,11 +568,19 @@ avatar = {
             ...asset_texture,
             ...settings.texture_options.st_asset
         });
+        var texture_skinin = new THREE.MeshStandardMaterial({
+            ...skinin_texture,
+            ...settings.texture_options.st_face
+        });
         starter_asset_obj.traverse((o) => {
-            if (o.isMesh) {
+            if (o.isMesh && ["mesh_1"].indexOf(o.name) > -1) {
                 o.castShadow = true;
                 o.receiveShadow = true;
                 o.material = texture_asset;
+            } else {
+                o.castShadow = true;
+                o.receiveShadow = true;
+                o.material = texture_skinin;
             }
         });
         console.log("Asset: ");
@@ -583,8 +640,14 @@ avatar = {
 
         test_background_obj.scale.set(10, 10, 10);
         test_background_obj.position.set(0, 5, 0);
+        // test_background_obj.material = new THREE.MeshLambertMaterial({
+        //     emissive: 0x593b00,
+        //     emissiveIntensity: .8
+        // });
         test_background_obj.material = new THREE.MeshLambertMaterial({
-            emissive: 0x593b00
+            color: 0x0083ad,
+            emissive: 0x0083ad,
+            emissiveIntensity: 1
         });
 
         // const box_helper = new THREE.BoxHelper( obj_bg, 0xffff00 );
@@ -624,6 +687,14 @@ avatar = {
             });
             renderer.setPixelRatio( window.devicePixelRatio );
             renderer.setSize(avatar.dom_width, avatar.dom_height);
+
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.VSMShadowMap;
+            // renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            // renderer.gammaOutput = true;
+            // renderer.gammaFactor = -.1;
+            // renderer.toneMappingExposure = 1.02;
+    
             $(avatar.rendered_element).append(renderer.domElement); 
         },
         camera: function(options) {
@@ -688,7 +759,14 @@ avatar = {
                         enable_background: false,
                     }
                 },
-                hemisphere_light: {
+                ambient_light: {
+                    enable: true,
+                    options: {
+                        color: 0xffffff,
+                        intensity: 0
+                    }
+                },
+                hemisphere_light: { 
                     enable: false,
                     options: {
                         skyColor: 0xffffff,
@@ -706,13 +784,13 @@ avatar = {
                 },
                 key_light: {
                     enable: 1,
-                    helper: 0,
+                    helper: 1,
                     options: {
                         debug_color: 0xff0000,
                         color: 0xffffff,
                         decay: 1,
-                        distance: 35,
-                        intensity: .85,
+                        distance: 30,
+                        intensity: .95,
                         angle: Math.PI/ 2,
                         penumbra: .8,
                         cast_shadow: true,
@@ -731,10 +809,10 @@ avatar = {
                 },
                 fill_light: {
                     enable: 1,
-                    helper: 0,
+                    helper: 1,
                     options: {
                         debug_color: 0xff0000,
-                        color: 0xffffff,
+                        color: 0xffe0a9,
                         decay: 1,
                         distance: 50,
                         intensity: .5,
@@ -756,13 +834,13 @@ avatar = {
                 },
                 back_light: {
                     enable: 1,
-                    helper: 0,
+                    helper: 1,
                     options: {
                         debug_color: 0xff0000,
                         color: 0xffffff,
                         decay: 1,
                         distance: 50,
-                        intensity: .8,
+                        intensity: .9,
                         angle: Math.PI/ 3,
                         penumbra: .8,
                         cast_shadow: true,
@@ -781,14 +859,14 @@ avatar = {
                 },
                 top_light: {
                     enable: 1,
-                    helper: 0,
+                    helper: 1,
                     options: {
                         debug_color: 0xff0000,
                         color: 0xffffff,
                         decay: 1,
                         distance: 50,
-                        intensity: .3,
-                        angle: Math.PI/ 3,
+                        intensity: .4,
+                        angle: Math.PI/ 5,
                         penumbra: .8,
                         cast_shadow: true,
                         shadow_map_size_width: 512,
@@ -806,13 +884,13 @@ avatar = {
                 },
                 bottom_light: {
                     enable: 1,
-                    helper: 0,
+                    helper: 1,
                     options: {
                         debug_color: 0xff0000,
                         color: 0xffffff,
                         decay: 1,
                         distance: 50,
-                        intensity: .1,
+                        intensity: .4,
                         angle: Math.PI/ 3,
                         penumbra: .8,
                         cast_shadow: true,
@@ -822,7 +900,7 @@ avatar = {
                         shadow_camera_far: 200,
                         shadow_focus: .2,
                         position: {
-                            x: 0, y: 1, z: 3
+                            x: 0, y: -1, z: 2
                         },
                         target: {
                             x: 0, y: 3, z: 0
@@ -844,6 +922,14 @@ avatar = {
                         scene.environment = texture;
                     });
             } 
+
+            // 
+
+            light.ambient = helper.create_light.amb_light(settings.ambient_light);
+            if (settings.ambient_light.enable) {
+                scene.add(light.ambient);
+
+            }
             
             
             // helper.create_light.environment_light(settings.environment_light.options);
@@ -852,6 +938,9 @@ avatar = {
             if (settings.key_light.enable) {
                 scene.add( light.key);
                 scene.add( light.key.target );
+                if (settings.key_light.helper) {
+                    console.log(light.key);
+                }
             }
     
             
@@ -859,24 +948,36 @@ avatar = {
             if (settings.fill_light.enable) {
                 scene.add( light.fill);
                 scene.add( light.fill.target );
+                if (settings.fill_light.helper) {
+                    console.log(light.fill);
+                }
             }
             
             light.back = helper.create_light.spot_light(settings.back_light);
             if (settings.back_light.enable) {
                 scene.add( light.back);
                 scene.add( light.back.target );
+                if (settings.back_light.helper) {
+                    console.log(light.back);
+                }
             }
             
             light.top = helper.create_light.spot_light(settings.top_light);
             if (settings.top_light.enable) {
                 scene.add( light.top);
                 scene.add( light.top.target );
+                if (settings.top_light.helper) {
+                    console.log(light.top);
+                }
             }
             
             light.bottom = helper.create_light.spot_light(settings.bottom_light);
             if (settings.bottom_light.enable) {
                 scene.add( light.bottom);
                 scene.add( light.bottom.target );
+                if (settings.bottom_light.helper) {
+                    console.log(light.bottom);
+                }
             }
 
             if (settings.hemisphere_light.enable) {
@@ -891,6 +992,19 @@ avatar = {
                     scene.add(light_hemi_helper);
                 }
             }
+
+            // if (settings.ambient_light.enable) {
+            //     light.hemi = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+            //     light.hemi.color.setHSL(0.6, 1, 0.6);
+            //     light.hemi.groundColor.setHSL(0.095, 1, 0.75);
+            //     light.hemi.position.set(0, 50, 0);
+            //     scene.add(light.hemi);
+    
+            //     if (avatar.helper) {
+            //         const light_hemi_helper = new THREE.HemisphereLightHelper(light.hemi, 10);
+            //         scene.add(light_hemi_helper);
+            //     }
+            // }
     
             if (settings.directional_light.enable) {
                 light.dir = new THREE.DirectionalLight(0xffffff, .8);
