@@ -3,7 +3,7 @@
 
 
 :root {
-    --width-desktop-safe: 720px;
+    --width-desktop-safe: 940px;
     --maxwidth-desktop-safe: calc(100% - 20px * 2);
     --width-mobile-safe: calc(100% - 20px * 2);
 }
@@ -85,6 +85,10 @@
         tr {
             &:not(:last-child) {
                 border-bottom: 1px solid #CCC;
+            }
+
+            &.no-border-bottom {
+                border-bottom: 0px solid #CCC;
             }
         }
         td {

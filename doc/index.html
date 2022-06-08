@@ -19,14 +19,27 @@
 
 			<h2>Khởi tạo </h2>
 
-			<p><strong>HTML Layout</strong></p>
+			<p><strong>HTML</strong></p>
 
-			<p>Chèn ID/ Class vào dom mà bạn muốn render hình ảnh avatar 3d.</p>
+			<p>Cài đặt HTML vị trí để render hình ảnh avatar 3D và 2D: </p>
 
-<pre><code class="language-markup">&lt;div id="rendered_threed" class="rendered_threed">&lt;/div>
+<pre><code class="language-markup">&lt;div id="rendered_avatar" class="rendered_avatar">
+	&lt;!-- Canvas 3D sẽ được render tại đây -->
+&lt;/div>
+&lt;div id="layered_avatar" class="layered_avatar">
+	&lt;!-- Hình ảnh 2D sẽ được xếp chồng lên nhau tại đây -->
+&lt;/div>
 </code></pre>
 
-			<p>Cài đặt vị trí render hình ảnh 3d</p>
+			<p><strong>JS</strong></p>
+
+			<p>Gọi hàm khởi tạo khu vực render hình ảnh avatar 3D và 2D:</p>
+<pre><code class="language-js">// Khởi tạo khu vực render với các giá trị mặc định 
+avatar.init();
+
+// Khởi tạo khu vực render với các giá trị tuỳ biến
+avatar.init(options);
+</code></pre>
 
 			<div class="table">
 				<table>
@@ -40,38 +53,64 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>domElement</td>
+							<td>options {</td>
+							<td>object</td>
+							<td></td>
+							<td>Các thuộc tính tuỳ chỉnh khác (không bắt buộc)</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;rendered_element</td>
 							<td>string</td>
-							<td>"#rendered_threed"</td>
+							<td>"#rendered_avatar"</td>
 							<td>
-							Chuỗi selector để render hình ảnh 3D.
-<pre><code class="language-js">web3d.init(<mark>domElement</mark>);
-</code></pre>
+							Selector để render hình ảnh 3D.
 							</td>
 						</tr>
 						<tr>
-							<td>assetDir</td>
+							<td>&nbsp;&nbsp;layered_element</td>
+							<td>string</td>
+							<td>"#layered_avatar"</td>
+							<td>
+							Selector để render hình ảnh 2D.
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;switch_element</td>
+							<td>string</td>
+							<td>"#switch_dimension"</td>
+							<td>
+							Selector <mark>input:checkbox</mark> để cài đặt chuyển đổi 2D/ 3D.
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;asset_dir</td>
 							<td>string</td>
 							<td>"assets/avatar/"</td>
 							<td>
-							Chuỗi selector để render hình ảnh 3D.
-<pre><code class="language-js">web3d.init(<mark>domElement</mark>);
-</code></pre>
+							Địa chỉ thư mục để asset 3d (.glb, .png, ...)
 							</td>
+						</tr>
+						<tr>
+							<td>}</td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-
-			<p>Ví dụ:</p>
-<pre><code class="language-js">web3d.init({
-	domElement: "#rendered_threed"
-	assetDir: "assets/avatar/"
-});</code></pre>
 
 			<h2>SMT</h2>
 
-<pre><code class="language-js">web3d.loadSMT(<mark>smtCode</mark>);
+			<p>Gọi hàm này để render avatar SMT.</p>
+
+<pre><code class="language-js">var <mark>smt_code</mark> = "SMT1";
+
+// Gọi hàm render avatar SMT với các giá trị mặc định
+avatar.loadSMT(<mark>smt_code</mark>);
+
+// Khởi tạo khu vực render với các giá trị tuỳ biến
+avatar.loadSMT(<mark>smt_code</mark>, options);
 </code></pre>
 
 			<div class="table">
@@ -86,32 +125,159 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>smtCode</td>
+							<td>smt_code</td>
 							<td>string</td>
 							<td><em>null</em></td>
-							<td>Mã định dang của SMT <br>
+							<td>Mã định danh avatar của SMT <br>
 								<em>Các giá trị có thể:  </em> <br><br>
-<pre><code class="language-markup">SMT_01 | SMT_02 | SMT_03 | 
-SMT_04 | SMT_05 | SMT_06 | 
-SMT_07 | SMT_08 | SMT_09</code></pre><br>	
+<pre><code class="language-markup">SMT1 | SMT2 | SMT3 | ... | SMT9</code></pre><br>	
 							</td>
+						</tr>
+						<tr>
+							<td>options {</td>
+							<td>object</td>
+							<td></td>
+							<td>Các thuộc tính tuỳ chỉnh khác (không bắt buộc)</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;asset_dir</td>
+							<td>string</td>
+							<td>"assets/avatar/"</td>
+							<td>
+							Địa chỉ thư mục để asset 3d (.glb, .png, ...)
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;texture_options</td>
+							<td>object</td>
+							<td><em>&rarr;</em></td>
+							<td>Tuỳ biến thêm cho từng texture <br>
+								Mặc định: 
+<pre><code class="language-js">{
+	smt_skin: {
+		aoMapIntensity: .1,
+	},
+	smt_outfit: {
+		aoMapIntensity: .1,
+		emissiveIntensity: 2,
+		normalScale: new THREE.Vector2(1.5, 1.5)
+	},
+	smt_teeth: {
+		aoMapIntensity: .1,
+		emissiveIntensity: 2,
+		normalScale: new THREE.Vector2(1.5, 1.5),
+		roughness: 3
+	},
+	smt_hair: {
+		aoMap: null,
+		aoMapIntensity: .1,
+		normalScale: new THREE.Vector2(-1, -1)
+	},
+	st_background: {},
+	st_face: {},
+	st_hair: {},
+	st_outfit: {},
+	st_asset: {},
+	st_eyewear: {}
+}
+</code></pre>	
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;model_suffix</td>
+							<td>object</td>
+							<td><em>&rarr;</em></td>
+							<td>Phần sau tên của modal <br>
+								Mặc định: 
+<pre><code class="language-js">{
+	smt: ".fbx",
+	st: ".glb",
+	twod: ".png"
+}
+</code></pre>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;texture_suffix</td>
+							<td>object</td>
+							<td><em>&rarr;</em></td>
+							<td>Phần sau tên của các texture. <br>
+								Mặc định: 
+<pre><code class="language-js">{
+	base_color: "_SHD_BaseColor.png",
+	metallic: "_SHD_Metallic.png",
+	normal: "_SHD_Normal.png",
+	roughness: "_SHD_Roughness.png",
+	ambient_occlusion: "_SHD_AmbientOcclusion.png",
+	emissive: "_SHD_Emissive.png",
+	alpha: "_SHD_Opacity.png",
+
+	scattering: "_SHD_Scattering.png",
+	thickness: "_SHD_Thickness.png",
+	sss: "_SHD_SSS.png"
+}
+</code></pre>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;texture_skin_suffix</td>
+							<td>object</td>
+							<td><em>&rarr;</em></td>
+							<td>Phần sau tên của các texture cho thuộc tính các mesh chỉ da người. <br>
+								Mặc định: 
+<pre><code class="language-js">{
+	base_color: "_Skin_SHD_BaseColor.png",
+	metallic: "_Skin_SHD_Metallic.png",
+	normal: "_Skin_SHD_Normal.png",
+	roughness: "_Skin_SHD_Roughness.png",
+	ambient_occlusion: "_Skin_SHD_AmbientOcclusion.png",
+
+	scattering: "_Skin_SHD_Scattering.png",
+	thickness: "_Skin_SHD_Thickness.png",
+	sss: "_Skin_SHD_SSS.png"
+}
+</code></pre>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;scale</td>
+							<td>object</td>
+							<td></td>
+							<td>Thuộc tính scale cho model. <br>
+								Mặc định: 
+<pre><code class="language-js">{
+	x: .1, 
+	y: .1, 
+	z: .1
+}
+</code></pre>
+							</td>
+						</tr>
+						<tr>
+							<td>}</td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 
-			<p>Ví dụ:</p>
-<pre><code class="language-js">web3d.loadSMT('SMT_01');
-</code></pre>
-
 			
-
 
 			<h2>STARTER</h2>
-			
 
-<pre><code class="language-js">web3d.loadStarter(<mark>attributes</mark>);
+			<p>Gọi hàm này để render avatar SMT.</p>
+
+<pre><code class="language-js">var <mark>st_code</mark> = "HM3-EM3-FM3-OM2-A1-T3";
+
+// Gọi hàm render avatar SMT với các giá trị mặc định
+avatar.loadST(<mark>st_code</mark>);
+
+// Khởi tạo khu vực render với các giá trị tuỳ biến
+avatar.loadST(<mark>st_code</mark>, options);
 </code></pre>
+
 
 			<div class="table">
 				<table>
@@ -124,10 +290,10 @@ SMT_07 | SMT_08 | SMT_09</code></pre><br>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>attributes</td>
+						<tr class="no-border-bottom">
+							<td>st_code</td>
 							<td>string</td>
-							<td><em>undefined</em></td>
+							<td><em>null</em></td>
 							<td>Chuỗi định danh các thuộc tính starter theo cấu trúc:
 								<strong class="attribute_structure">
 									<span>AA0</span>-<span>BB0</span>-<span>CC0</span>-<span>DD0</span>-<span>E0</span>-<span>F0</span>
@@ -165,16 +331,16 @@ Nữ: OF1 | OF2 | OF3 | OF4</code></pre><br>
 <pre><code class="language-markup">Nam/ Nữ: T1 | T2 | T3 | ... | T28</code></pre>				
 							</td>
 						</tr>
-						<tr>
+						<tr class="no-border-bottom">
 							<td></td>
 							<td></td>
 							<td colspan="2">hoặc</td>
 						</tr>
 						<tr>
-							<td>attributes</td>
+							<td>st_code</td>
 							<td>object</td>
 							<td><em>undefined</em></td>
-							<td>Định dạng object gọi riêng biệt các thuộc tính:
+							<td>st_code cũng có thể là object, khi đó có thể khai báo riêng biệt từng thuộc tính:
 <pre><code class="language-js">{
 	"hair": "HM1",
 	"eyewear": "EM2",
@@ -186,6 +352,132 @@ Nữ: OF1 | OF2 | OF3 | OF4</code></pre><br>
 </code></pre>	
 								<em>Các giá trị có thể có ở từng trường thông tin tương tự như trên.</em>
 							</td>
+						</tr>
+						<tr>
+							<td>options {</td>
+							<td>object</td>
+							<td></td>
+							<td>Các thuộc tính tuỳ chỉnh khác (không bắt buộc)</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;asset_dir</td>
+							<td>string</td>
+							<td>"assets/avatar/"</td>
+							<td>
+							Địa chỉ thư mục để asset 3d (.glb, .png, ...)
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;texture_options</td>
+							<td>object</td>
+							<td><em>&rarr;</em></td>
+							<td>Tuỳ biến thêm cho từng texture <br>
+								Mặc định: 
+<pre><code class="language-js">{
+	smt_skin: {
+		aoMapIntensity: .1,
+	},
+	smt_outfit: {
+		aoMapIntensity: .1,
+		emissiveIntensity: 2,
+		normalScale: new THREE.Vector2(1.5, 1.5)
+	},
+	smt_teeth: {
+		aoMapIntensity: .1,
+		emissiveIntensity: 2,
+		normalScale: new THREE.Vector2(1.5, 1.5),
+		roughness: 3
+	},
+	smt_hair: {
+		aoMap: null,
+		aoMapIntensity: .1,
+		normalScale: new THREE.Vector2(-1, -1)
+	},
+	st_background: {},
+	st_face: {},
+	st_hair: {},
+	st_outfit: {},
+	st_asset: {},
+	st_eyewear: {}
+}
+</code></pre>	
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;model_suffix</td>
+							<td>object</td>
+							<td><em>&rarr;</em></td>
+							<td>Phần sau tên của modal <br>
+								Mặc định: 
+<pre><code class="language-js">{
+	smt: ".fbx",
+	st: ".glb",
+	twod: ".png"
+}
+</code></pre>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;texture_suffix</td>
+							<td>object</td>
+							<td><em>&rarr;</em></td>
+							<td>Phần sau tên của các texture. <br>
+								Mặc định: 
+<pre><code class="language-js">{
+	base_color: "_SHD_BaseColor.png",
+	metallic: "_SHD_Metallic.png",
+	normal: "_SHD_Normal.png",
+	roughness: "_SHD_Roughness.png",
+	ambient_occlusion: "_SHD_AmbientOcclusion.png",
+	emissive: "_SHD_Emissive.png",
+	alpha: "_SHD_Opacity.png",
+
+	scattering: "_SHD_Scattering.png",
+	thickness: "_SHD_Thickness.png",
+	sss: "_SHD_SSS.png"
+}
+</code></pre>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;texture_skin_suffix</td>
+							<td>object</td>
+							<td><em>&rarr;</em></td>
+							<td>Phần sau tên của các texture cho thuộc tính các mesh chỉ da người. <br>
+								Mặc định: 
+<pre><code class="language-js">{
+	base_color: "_Skin_SHD_BaseColor.png",
+	metallic: "_Skin_SHD_Metallic.png",
+	normal: "_Skin_SHD_Normal.png",
+	roughness: "_Skin_SHD_Roughness.png",
+	ambient_occlusion: "_Skin_SHD_AmbientOcclusion.png",
+
+	scattering: "_Skin_SHD_Scattering.png",
+	thickness: "_Skin_SHD_Thickness.png",
+	sss: "_Skin_SHD_SSS.png"
+}
+</code></pre>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;scale</td>
+							<td>object</td>
+							<td></td>
+							<td>Thuộc tính scale cho model. <br>
+								Mặc định: 
+<pre><code class="language-js">{
+	x: .08, 
+	y: .08, 
+	z: .08
+}
+</code></pre>
+							</td>
+						</tr>
+						<tr>
+							<td>}</td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 					</tbody>
 				</table>
@@ -205,10 +497,19 @@ Nữ: OF1 | OF2 | OF3 | OF4</code></pre><br>
  
 
 
-			<p>Tất cả trường hợp: </p>
+			<h2>TẤT CẢ TRƯỜNG HỢP: </h2>
 
 			<p>
-				<strong>Starter Nam</strong> (32,256 tổ hợp)
+				<strong>SMT</strong> (9)
+			</p>
+
+			<div class="grid_starter">
+<pre><code class="language-markup">SMT1&#9; SMT2&#9; SMT3&#9; SMT4&#9; SMT5&#9; SMT6&#9; SMT7&#9; SMT8&#9; SMT9&#9;
+</code></pre>
+			</div>
+
+			<p>
+				<strong>Starter Nam</strong> (32,256)
 			</p>
 
 			<div class="grid_starter">
@@ -222,7 +523,7 @@ HM4-EM1-FM1-OM1-A1-T1&#9;HM4-EM1-FM1-OM1-A1-T2&#9;HM4-EM1-FM1-OM1-A1-T3&#9;HM4-E
 			</div>
 
 			<p>
-				<strong>Starter Nữ</strong> (32,256 tổ hợp)
+				<strong>Starter Nữ</strong> (32,256)
 			</p>
 
 			<div class="grid_starter">
