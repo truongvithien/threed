@@ -32662,6 +32662,1634 @@ function toTrianglesDrawMode( geometry, drawMode ) {
 
 /***/ }),
 
+/***/ "./node_modules/three/examples/jsm/loaders/LUT3dlLoader.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/loaders/LUT3dlLoader.js ***!
+  \*****************************************************************/
+/*! exports provided: LUT3dlLoader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LUT3dlLoader", function() { return LUT3dlLoader; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+// http://download.autodesk.com/us/systemdocs/help/2011/lustre/index.html?url=./files/WSc4e151a45a3b785a24c3d9a411df9298473-7ffd.htm,topicNumber=d0e9492
+// https://community.foundry.com/discuss/topic/103636/format-spec-for-3dl?mode=Post&postID=895258
+
+
+class LUT3dlLoader extends three__WEBPACK_IMPORTED_MODULE_0__["Loader"] {
+
+	load( url, onLoad, onProgress, onError ) {
+
+		const loader = new three__WEBPACK_IMPORTED_MODULE_0__["FileLoader"]( this.manager );
+		loader.setPath( this.path );
+		loader.setResponseType( 'text' );
+		loader.load( url, text => {
+
+			try {
+
+				onLoad( this.parse( text ) );
+
+			} catch ( e ) {
+
+				if ( onError ) {
+
+					onError( e );
+
+				} else {
+
+					console.error( e );
+
+				}
+
+				this.manager.itemError( url );
+
+			}
+
+		}, onProgress, onError );
+
+	}
+
+	parse( str ) {
+
+		// remove empty lines and comment lints
+		str = str
+			.replace( /^#.*?(\n|\r)/gm, '' )
+			.replace( /^\s*?(\n|\r)/gm, '' )
+			.trim();
+
+		const lines = str.split( /[\n\r]+/g );
+
+		// first line is the positions on the grid that are provided by the LUT
+		const gridLines = lines[ 0 ].trim().split( /\s+/g ).map( e => parseFloat( e ) );
+		const gridStep = gridLines[ 1 ] - gridLines[ 0 ];
+		const size = gridLines.length;
+
+		for ( let i = 1, l = gridLines.length; i < l; i ++ ) {
+
+			if ( gridStep !== ( gridLines[ i ] - gridLines[ i - 1 ] ) ) {
+
+				throw new Error( 'LUT3dlLoader: Inconsistent grid size not supported.' );
+
+			}
+
+		}
+
+		const dataArray = new Array( size * size * size * 4 );
+		let index = 0;
+		let maxOutputValue = 0.0;
+		for ( let i = 1, l = lines.length; i < l; i ++ ) {
+
+			const line = lines[ i ].trim();
+			const split = line.split( /\s/g );
+
+			const r = parseFloat( split[ 0 ] );
+			const g = parseFloat( split[ 1 ] );
+			const b = parseFloat( split[ 2 ] );
+			maxOutputValue = Math.max( maxOutputValue, r, g, b );
+
+			const bLayer = index % size;
+			const gLayer = Math.floor( index / size ) % size;
+			const rLayer = Math.floor( index / ( size * size ) ) % size;
+
+			// b grows first, then g, then r
+			const pixelIndex = bLayer * size * size + gLayer * size + rLayer;
+			dataArray[ 4 * pixelIndex + 0 ] = r;
+			dataArray[ 4 * pixelIndex + 1 ] = g;
+			dataArray[ 4 * pixelIndex + 2 ] = b;
+			dataArray[ 4 * pixelIndex + 3 ] = 1.0;
+			index += 1;
+
+		}
+
+		// Find the apparent bit depth of the stored RGB values and map the
+		// values to [ 0, 255 ].
+		const bits = Math.ceil( Math.log2( maxOutputValue ) );
+		const maxBitValue = Math.pow( 2.0, bits );
+		for ( let i = 0, l = dataArray.length; i < l; i += 4 ) {
+
+			const r = dataArray[ i + 0 ];
+			const g = dataArray[ i + 1 ];
+			const b = dataArray[ i + 2 ];
+			dataArray[ i + 0 ] = 255 * r / maxBitValue; // r
+			dataArray[ i + 1 ] = 255 * g / maxBitValue; // g
+			dataArray[ i + 2 ] = 255 * b / maxBitValue; // b
+
+		}
+
+		const data = new Uint8Array( dataArray );
+		const texture = new three__WEBPACK_IMPORTED_MODULE_0__["DataTexture"]();
+		texture.image.data = data;
+		texture.image.width = size;
+		texture.image.height = size * size;
+		texture.format = three__WEBPACK_IMPORTED_MODULE_0__["RGBAFormat"];
+		texture.type = three__WEBPACK_IMPORTED_MODULE_0__["UnsignedByteType"];
+		texture.magFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+		texture.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+		texture.wrapS = three__WEBPACK_IMPORTED_MODULE_0__["ClampToEdgeWrapping"];
+		texture.wrapT = three__WEBPACK_IMPORTED_MODULE_0__["ClampToEdgeWrapping"];
+		texture.generateMipmaps = false;
+		texture.needsUpdate = true;
+
+		const texture3D = new three__WEBPACK_IMPORTED_MODULE_0__["Data3DTexture"]();
+		texture3D.image.data = data;
+		texture3D.image.width = size;
+		texture3D.image.height = size;
+		texture3D.image.depth = size;
+		texture3D.format = three__WEBPACK_IMPORTED_MODULE_0__["RGBAFormat"];
+		texture3D.type = three__WEBPACK_IMPORTED_MODULE_0__["UnsignedByteType"];
+		texture3D.magFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+		texture3D.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+		texture3D.wrapS = three__WEBPACK_IMPORTED_MODULE_0__["ClampToEdgeWrapping"];
+		texture3D.wrapT = three__WEBPACK_IMPORTED_MODULE_0__["ClampToEdgeWrapping"];
+		texture3D.wrapR = three__WEBPACK_IMPORTED_MODULE_0__["ClampToEdgeWrapping"];
+		texture3D.generateMipmaps = false;
+		texture3D.needsUpdate = true;
+
+		return {
+			size,
+			texture,
+			texture3D,
+		};
+
+	}
+
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/loaders/LUTCubeLoader.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/loaders/LUTCubeLoader.js ***!
+  \******************************************************************/
+/*! exports provided: LUTCubeLoader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LUTCubeLoader", function() { return LUTCubeLoader; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+// https://wwwimages2.adobe.com/content/dam/acom/en/products/speedgrade/cc/pdfs/cube-lut-specification-1.0.pdf
+
+
+
+class LUTCubeLoader extends three__WEBPACK_IMPORTED_MODULE_0__["Loader"] {
+
+	load( url, onLoad, onProgress, onError ) {
+
+		const loader = new three__WEBPACK_IMPORTED_MODULE_0__["FileLoader"]( this.manager );
+		loader.setPath( this.path );
+		loader.setResponseType( 'text' );
+		loader.load( url, text => {
+
+			try {
+
+				onLoad( this.parse( text ) );
+
+			} catch ( e ) {
+
+				if ( onError ) {
+
+					onError( e );
+
+				} else {
+
+					console.error( e );
+
+				}
+
+				this.manager.itemError( url );
+
+			}
+
+		}, onProgress, onError );
+
+	}
+
+	parse( str ) {
+
+		// Remove empty lines and comments
+		str = str
+			.replace( /^#.*?(\n|\r)/gm, '' )
+			.replace( /^\s*?(\n|\r)/gm, '' )
+			.trim();
+
+		let title = null;
+		let size = null;
+		const domainMin = new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"]( 0, 0, 0 );
+		const domainMax = new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"]( 1, 1, 1 );
+
+		const lines = str.split( /[\n\r]+/g );
+		let data = null;
+
+		let currIndex = 0;
+		for ( let i = 0, l = lines.length; i < l; i ++ ) {
+
+			const line = lines[ i ].trim();
+			const split = line.split( /\s/g );
+
+			switch ( split[ 0 ] ) {
+
+				case 'TITLE':
+					title = line.substring( 7, line.length - 1 );
+					break;
+				case 'LUT_3D_SIZE':
+					// TODO: A .CUBE LUT file specifies floating point values and could be represented with
+					// more precision than can be captured with Uint8Array.
+					const sizeToken = split[ 1 ];
+					size = parseFloat( sizeToken );
+					data = new Uint8Array( size * size * size * 4 );
+					break;
+				case 'DOMAIN_MIN':
+					domainMin.x = parseFloat( split[ 1 ] );
+					domainMin.y = parseFloat( split[ 2 ] );
+					domainMin.z = parseFloat( split[ 3 ] );
+					break;
+				case 'DOMAIN_MAX':
+					domainMax.x = parseFloat( split[ 1 ] );
+					domainMax.y = parseFloat( split[ 2 ] );
+					domainMax.z = parseFloat( split[ 3 ] );
+					break;
+				default:
+					const r = parseFloat( split[ 0 ] );
+					const g = parseFloat( split[ 1 ] );
+					const b = parseFloat( split[ 2 ] );
+
+					if (
+						r > 1.0 || r < 0.0 ||
+						g > 1.0 || g < 0.0 ||
+						b > 1.0 || b < 0.0
+					) {
+
+						throw new Error( 'LUTCubeLoader : Non normalized values not supported.' );
+
+					}
+
+					data[ currIndex + 0 ] = r * 255;
+					data[ currIndex + 1 ] = g * 255;
+					data[ currIndex + 2 ] = b * 255;
+					data[ currIndex + 3 ] = 255;
+					currIndex += 4;
+
+			}
+
+		}
+
+		const texture = new three__WEBPACK_IMPORTED_MODULE_0__["DataTexture"]();
+		texture.image.data = data;
+		texture.image.width = size;
+		texture.image.height = size * size;
+		texture.type = three__WEBPACK_IMPORTED_MODULE_0__["UnsignedByteType"];
+		texture.magFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+		texture.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+		texture.wrapS = three__WEBPACK_IMPORTED_MODULE_0__["ClampToEdgeWrapping"];
+		texture.wrapT = three__WEBPACK_IMPORTED_MODULE_0__["ClampToEdgeWrapping"];
+		texture.generateMipmaps = false;
+		texture.needsUpdate = true;
+
+		const texture3D = new three__WEBPACK_IMPORTED_MODULE_0__["Data3DTexture"]();
+		texture3D.image.data = data;
+		texture3D.image.width = size;
+		texture3D.image.height = size;
+		texture3D.image.depth = size;
+		texture3D.type = three__WEBPACK_IMPORTED_MODULE_0__["UnsignedByteType"];
+		texture3D.magFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+		texture3D.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+		texture3D.wrapS = three__WEBPACK_IMPORTED_MODULE_0__["ClampToEdgeWrapping"];
+		texture3D.wrapT = three__WEBPACK_IMPORTED_MODULE_0__["ClampToEdgeWrapping"];
+		texture3D.wrapR = three__WEBPACK_IMPORTED_MODULE_0__["ClampToEdgeWrapping"];
+		texture3D.generateMipmaps = false;
+		texture3D.needsUpdate = true;
+
+		return {
+			title,
+			size,
+			domainMin,
+			domainMax,
+			texture,
+			texture3D,
+		};
+
+	}
+
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/postprocessing/EffectComposer.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/postprocessing/EffectComposer.js ***!
+  \**************************************************************************/
+/*! exports provided: EffectComposer, Pass, FullScreenQuad */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EffectComposer", function() { return EffectComposer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Pass", function() { return Pass; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FullScreenQuad", function() { return FullScreenQuad; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _shaders_CopyShader_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../shaders/CopyShader.js */ "./node_modules/three/examples/jsm/shaders/CopyShader.js");
+/* harmony import */ var _ShaderPass_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ShaderPass.js */ "./node_modules/three/examples/jsm/postprocessing/ShaderPass.js");
+/* harmony import */ var _MaskPass_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MaskPass.js */ "./node_modules/three/examples/jsm/postprocessing/MaskPass.js");
+
+
+
+
+
+
+class EffectComposer {
+
+	constructor( renderer, renderTarget ) {
+
+		this.renderer = renderer;
+
+		if ( renderTarget === undefined ) {
+
+			const size = renderer.getSize( new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"]() );
+			this._pixelRatio = renderer.getPixelRatio();
+			this._width = size.width;
+			this._height = size.height;
+
+			renderTarget = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderTarget"]( this._width * this._pixelRatio, this._height * this._pixelRatio );
+			renderTarget.texture.name = 'EffectComposer.rt1';
+
+		} else {
+
+			this._pixelRatio = 1;
+			this._width = renderTarget.width;
+			this._height = renderTarget.height;
+
+		}
+
+		this.renderTarget1 = renderTarget;
+		this.renderTarget2 = renderTarget.clone();
+		this.renderTarget2.texture.name = 'EffectComposer.rt2';
+
+		this.writeBuffer = this.renderTarget1;
+		this.readBuffer = this.renderTarget2;
+
+		this.renderToScreen = true;
+
+		this.passes = [];
+
+		// dependencies
+
+		if ( _shaders_CopyShader_js__WEBPACK_IMPORTED_MODULE_1__["CopyShader"] === undefined ) {
+
+			console.error( 'THREE.EffectComposer relies on CopyShader' );
+
+		}
+
+		if ( _ShaderPass_js__WEBPACK_IMPORTED_MODULE_2__["ShaderPass"] === undefined ) {
+
+			console.error( 'THREE.EffectComposer relies on ShaderPass' );
+
+		}
+
+		this.copyPass = new _ShaderPass_js__WEBPACK_IMPORTED_MODULE_2__["ShaderPass"]( _shaders_CopyShader_js__WEBPACK_IMPORTED_MODULE_1__["CopyShader"] );
+
+		this.clock = new three__WEBPACK_IMPORTED_MODULE_0__["Clock"]();
+
+	}
+
+	swapBuffers() {
+
+		const tmp = this.readBuffer;
+		this.readBuffer = this.writeBuffer;
+		this.writeBuffer = tmp;
+
+	}
+
+	addPass( pass ) {
+
+		this.passes.push( pass );
+		pass.setSize( this._width * this._pixelRatio, this._height * this._pixelRatio );
+
+	}
+
+	insertPass( pass, index ) {
+
+		this.passes.splice( index, 0, pass );
+		pass.setSize( this._width * this._pixelRatio, this._height * this._pixelRatio );
+
+	}
+
+	removePass( pass ) {
+
+		const index = this.passes.indexOf( pass );
+
+		if ( index !== - 1 ) {
+
+			this.passes.splice( index, 1 );
+
+		}
+
+	}
+
+	isLastEnabledPass( passIndex ) {
+
+		for ( let i = passIndex + 1; i < this.passes.length; i ++ ) {
+
+			if ( this.passes[ i ].enabled ) {
+
+				return false;
+
+			}
+
+		}
+
+		return true;
+
+	}
+
+	render( deltaTime ) {
+
+		// deltaTime value is in seconds
+
+		if ( deltaTime === undefined ) {
+
+			deltaTime = this.clock.getDelta();
+
+		}
+
+		const currentRenderTarget = this.renderer.getRenderTarget();
+
+		let maskActive = false;
+
+		for ( let i = 0, il = this.passes.length; i < il; i ++ ) {
+
+			const pass = this.passes[ i ];
+
+			if ( pass.enabled === false ) continue;
+
+			pass.renderToScreen = ( this.renderToScreen && this.isLastEnabledPass( i ) );
+			pass.render( this.renderer, this.writeBuffer, this.readBuffer, deltaTime, maskActive );
+
+			if ( pass.needsSwap ) {
+
+				if ( maskActive ) {
+
+					const context = this.renderer.getContext();
+					const stencil = this.renderer.state.buffers.stencil;
+
+					//context.stencilFunc( context.NOTEQUAL, 1, 0xffffffff );
+					stencil.setFunc( context.NOTEQUAL, 1, 0xffffffff );
+
+					this.copyPass.render( this.renderer, this.writeBuffer, this.readBuffer, deltaTime );
+
+					//context.stencilFunc( context.EQUAL, 1, 0xffffffff );
+					stencil.setFunc( context.EQUAL, 1, 0xffffffff );
+
+				}
+
+				this.swapBuffers();
+
+			}
+
+			if ( _MaskPass_js__WEBPACK_IMPORTED_MODULE_3__["MaskPass"] !== undefined ) {
+
+				if ( pass instanceof _MaskPass_js__WEBPACK_IMPORTED_MODULE_3__["MaskPass"] ) {
+
+					maskActive = true;
+
+				} else if ( pass instanceof _MaskPass_js__WEBPACK_IMPORTED_MODULE_3__["ClearMaskPass"] ) {
+
+					maskActive = false;
+
+				}
+
+			}
+
+		}
+
+		this.renderer.setRenderTarget( currentRenderTarget );
+
+	}
+
+	reset( renderTarget ) {
+
+		if ( renderTarget === undefined ) {
+
+			const size = this.renderer.getSize( new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"]() );
+			this._pixelRatio = this.renderer.getPixelRatio();
+			this._width = size.width;
+			this._height = size.height;
+
+			renderTarget = this.renderTarget1.clone();
+			renderTarget.setSize( this._width * this._pixelRatio, this._height * this._pixelRatio );
+
+		}
+
+		this.renderTarget1.dispose();
+		this.renderTarget2.dispose();
+		this.renderTarget1 = renderTarget;
+		this.renderTarget2 = renderTarget.clone();
+
+		this.writeBuffer = this.renderTarget1;
+		this.readBuffer = this.renderTarget2;
+
+	}
+
+	setSize( width, height ) {
+
+		this._width = width;
+		this._height = height;
+
+		const effectiveWidth = this._width * this._pixelRatio;
+		const effectiveHeight = this._height * this._pixelRatio;
+
+		this.renderTarget1.setSize( effectiveWidth, effectiveHeight );
+		this.renderTarget2.setSize( effectiveWidth, effectiveHeight );
+
+		for ( let i = 0; i < this.passes.length; i ++ ) {
+
+			this.passes[ i ].setSize( effectiveWidth, effectiveHeight );
+
+		}
+
+	}
+
+	setPixelRatio( pixelRatio ) {
+
+		this._pixelRatio = pixelRatio;
+
+		this.setSize( this._width, this._height );
+
+	}
+
+}
+
+
+class Pass {
+
+	constructor() {
+
+		// if set to true, the pass is processed by the composer
+		this.enabled = true;
+
+		// if set to true, the pass indicates to swap read and write buffer after rendering
+		this.needsSwap = true;
+
+		// if set to true, the pass clears its buffer before rendering
+		this.clear = false;
+
+		// if set to true, the result of the pass is rendered to screen. This is set automatically by EffectComposer.
+		this.renderToScreen = false;
+
+	}
+
+	setSize( /* width, height */ ) {}
+
+	render( /* renderer, writeBuffer, readBuffer, deltaTime, maskActive */ ) {
+
+		console.error( 'THREE.Pass: .render() must be implemented in derived pass.' );
+
+	}
+
+}
+
+// Helper for passes that need to fill the viewport with a single quad.
+
+const _camera = new three__WEBPACK_IMPORTED_MODULE_0__["OrthographicCamera"]( - 1, 1, 1, - 1, 0, 1 );
+
+// https://github.com/mrdoob/three.js/pull/21358
+
+const _geometry = new three__WEBPACK_IMPORTED_MODULE_0__["BufferGeometry"]();
+_geometry.setAttribute( 'position', new three__WEBPACK_IMPORTED_MODULE_0__["Float32BufferAttribute"]( [ - 1, 3, 0, - 1, - 1, 0, 3, - 1, 0 ], 3 ) );
+_geometry.setAttribute( 'uv', new three__WEBPACK_IMPORTED_MODULE_0__["Float32BufferAttribute"]( [ 0, 2, 0, 0, 2, 0 ], 2 ) );
+
+class FullScreenQuad {
+
+	constructor( material ) {
+
+		this._mesh = new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"]( _geometry, material );
+
+	}
+
+	dispose() {
+
+		this._mesh.geometry.dispose();
+
+	}
+
+	render( renderer ) {
+
+		renderer.render( this._mesh, _camera );
+
+	}
+
+	get material() {
+
+		return this._mesh.material;
+
+	}
+
+	set material( value ) {
+
+		this._mesh.material = value;
+
+	}
+
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/postprocessing/LUTPass.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/postprocessing/LUTPass.js ***!
+  \*******************************************************************/
+/*! exports provided: LUTPass */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LUTPass", function() { return LUTPass; });
+/* harmony import */ var _ShaderPass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShaderPass.js */ "./node_modules/three/examples/jsm/postprocessing/ShaderPass.js");
+
+
+const LUTShader = {
+
+	defines: {
+		USE_3DTEXTURE: 1,
+	},
+
+	uniforms: {
+		lut3d: { value: null },
+
+		lut: { value: null },
+		lutSize: { value: 0 },
+
+		tDiffuse: { value: null },
+		intensity: { value: 1.0 },
+	},
+
+	vertexShader: /* glsl */`
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+		}
+
+	`,
+
+
+	fragmentShader: /* glsl */`
+
+		uniform float lutSize;
+		#if USE_3DTEXTURE
+		precision highp sampler3D;
+		uniform sampler3D lut3d;
+		#else
+		uniform sampler2D lut;
+
+		vec3 lutLookup( sampler2D tex, float size, vec3 rgb ) {
+
+			float sliceHeight = 1.0 / size;
+			float yPixelHeight = 1.0 / ( size * size );
+
+			// Get the slices on either side of the sample
+			float slice = rgb.b * size;
+			float interp = fract( slice );
+			float slice0 = slice - interp;
+			float centeredInterp = interp - 0.5;
+
+			float slice1 = slice0 + sign( centeredInterp );
+
+			// Pull y sample in by half a pixel in each direction to avoid color
+			// bleeding from adjacent slices.
+			float greenOffset = clamp( rgb.g * sliceHeight, yPixelHeight * 0.5, sliceHeight - yPixelHeight * 0.5 );
+
+			vec2 uv0 = vec2(
+				rgb.r,
+				slice0 * sliceHeight + greenOffset
+			);
+			vec2 uv1 = vec2(
+				rgb.r,
+				slice1 * sliceHeight + greenOffset
+			);
+
+			vec3 sample0 = texture2D( tex, uv0 ).rgb;
+			vec3 sample1 = texture2D( tex, uv1 ).rgb;
+
+			return mix( sample0, sample1, abs( centeredInterp ) );
+
+		}
+		#endif
+
+		varying vec2 vUv;
+		uniform float intensity;
+		uniform sampler2D tDiffuse;
+		void main() {
+
+			vec4 val = texture2D( tDiffuse, vUv );
+			vec4 lutVal;
+
+			// pull the sample in by half a pixel so the sample begins
+			// at the center of the edge pixels.
+			float pixelWidth = 1.0 / lutSize;
+			float halfPixelWidth = 0.5 / lutSize;
+			vec3 uvw = vec3( halfPixelWidth ) + val.rgb * ( 1.0 - pixelWidth );
+
+			#if USE_3DTEXTURE
+
+			lutVal = vec4( texture( lut3d, uvw ).rgb, val.a );
+
+			#else
+
+			lutVal = vec4( lutLookup( lut, lutSize, uvw ), val.a );
+
+			#endif
+
+			gl_FragColor = vec4( mix( val, lutVal, intensity ) );
+
+		}
+
+	`,
+
+};
+
+class LUTPass extends _ShaderPass_js__WEBPACK_IMPORTED_MODULE_0__["ShaderPass"] {
+
+	set lut( v ) {
+
+		const material = this.material;
+		if ( v !== this.lut ) {
+
+			material.uniforms.lut3d.value = null;
+			material.uniforms.lut.value = null;
+
+			if ( v ) {
+
+				const is3dTextureDefine = v.isData3DTexture ? 1 : 0;
+				if ( is3dTextureDefine !== material.defines.USE_3DTEXTURE ) {
+
+					material.defines.USE_3DTEXTURE = is3dTextureDefine;
+					material.needsUpdate = true;
+
+				}
+
+				material.uniforms.lutSize.value = v.image.width;
+				if ( v.isData3DTexture ) {
+
+					material.uniforms.lut3d.value = v;
+
+				} else {
+
+					material.uniforms.lut.value = v;
+
+				}
+
+			}
+
+		}
+
+	}
+
+	get lut() {
+
+		return this.material.uniforms.lut.value || this.material.uniforms.lut3d.value;
+
+	}
+
+	set intensity( v ) {
+
+		this.material.uniforms.intensity.value = v;
+
+	}
+
+	get intensity() {
+
+		return this.material.uniforms.intensity.value;
+
+	}
+
+	constructor( options = {} ) {
+
+		super( LUTShader );
+		this.lut = options.lut || null;
+		this.intensity = 'intensity' in options ? options.intensity : 1;
+
+	}
+
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/postprocessing/MaskPass.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/postprocessing/MaskPass.js ***!
+  \********************************************************************/
+/*! exports provided: MaskPass, ClearMaskPass */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MaskPass", function() { return MaskPass; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClearMaskPass", function() { return ClearMaskPass; });
+/* harmony import */ var _Pass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Pass.js */ "./node_modules/three/examples/jsm/postprocessing/Pass.js");
+
+
+class MaskPass extends _Pass_js__WEBPACK_IMPORTED_MODULE_0__["Pass"] {
+
+	constructor( scene, camera ) {
+
+		super();
+
+		this.scene = scene;
+		this.camera = camera;
+
+		this.clear = true;
+		this.needsSwap = false;
+
+		this.inverse = false;
+
+	}
+
+	render( renderer, writeBuffer, readBuffer /*, deltaTime, maskActive */ ) {
+
+		const context = renderer.getContext();
+		const state = renderer.state;
+
+		// don't update color or depth
+
+		state.buffers.color.setMask( false );
+		state.buffers.depth.setMask( false );
+
+		// lock buffers
+
+		state.buffers.color.setLocked( true );
+		state.buffers.depth.setLocked( true );
+
+		// set up stencil
+
+		let writeValue, clearValue;
+
+		if ( this.inverse ) {
+
+			writeValue = 0;
+			clearValue = 1;
+
+		} else {
+
+			writeValue = 1;
+			clearValue = 0;
+
+		}
+
+		state.buffers.stencil.setTest( true );
+		state.buffers.stencil.setOp( context.REPLACE, context.REPLACE, context.REPLACE );
+		state.buffers.stencil.setFunc( context.ALWAYS, writeValue, 0xffffffff );
+		state.buffers.stencil.setClear( clearValue );
+		state.buffers.stencil.setLocked( true );
+
+		// draw into the stencil buffer
+
+		renderer.setRenderTarget( readBuffer );
+		if ( this.clear ) renderer.clear();
+		renderer.render( this.scene, this.camera );
+
+		renderer.setRenderTarget( writeBuffer );
+		if ( this.clear ) renderer.clear();
+		renderer.render( this.scene, this.camera );
+
+		// unlock color and depth buffer for subsequent rendering
+
+		state.buffers.color.setLocked( false );
+		state.buffers.depth.setLocked( false );
+
+		// only render where stencil is set to 1
+
+		state.buffers.stencil.setLocked( false );
+		state.buffers.stencil.setFunc( context.EQUAL, 1, 0xffffffff ); // draw if == 1
+		state.buffers.stencil.setOp( context.KEEP, context.KEEP, context.KEEP );
+		state.buffers.stencil.setLocked( true );
+
+	}
+
+}
+
+class ClearMaskPass extends _Pass_js__WEBPACK_IMPORTED_MODULE_0__["Pass"] {
+
+	constructor() {
+
+		super();
+
+		this.needsSwap = false;
+
+	}
+
+	render( renderer /*, writeBuffer, readBuffer, deltaTime, maskActive */ ) {
+
+		renderer.state.buffers.stencil.setLocked( false );
+		renderer.state.buffers.stencil.setTest( false );
+
+	}
+
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/postprocessing/Pass.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/postprocessing/Pass.js ***!
+  \****************************************************************/
+/*! exports provided: Pass, FullScreenQuad */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Pass", function() { return Pass; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FullScreenQuad", function() { return FullScreenQuad; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+
+
+class Pass {
+
+	constructor() {
+
+		// if set to true, the pass is processed by the composer
+		this.enabled = true;
+
+		// if set to true, the pass indicates to swap read and write buffer after rendering
+		this.needsSwap = true;
+
+		// if set to true, the pass clears its buffer before rendering
+		this.clear = false;
+
+		// if set to true, the result of the pass is rendered to screen. This is set automatically by EffectComposer.
+		this.renderToScreen = false;
+
+	}
+
+	setSize( /* width, height */ ) {}
+
+	render( /* renderer, writeBuffer, readBuffer, deltaTime, maskActive */ ) {
+
+		console.error( 'THREE.Pass: .render() must be implemented in derived pass.' );
+
+	}
+
+}
+
+// Helper for passes that need to fill the viewport with a single quad.
+
+const _camera = new three__WEBPACK_IMPORTED_MODULE_0__["OrthographicCamera"]( - 1, 1, 1, - 1, 0, 1 );
+
+// https://github.com/mrdoob/three.js/pull/21358
+
+const _geometry = new three__WEBPACK_IMPORTED_MODULE_0__["BufferGeometry"]();
+_geometry.setAttribute( 'position', new three__WEBPACK_IMPORTED_MODULE_0__["Float32BufferAttribute"]( [ - 1, 3, 0, - 1, - 1, 0, 3, - 1, 0 ], 3 ) );
+_geometry.setAttribute( 'uv', new three__WEBPACK_IMPORTED_MODULE_0__["Float32BufferAttribute"]( [ 0, 2, 0, 0, 2, 0 ], 2 ) );
+
+class FullScreenQuad {
+
+	constructor( material ) {
+
+		this._mesh = new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"]( _geometry, material );
+
+	}
+
+	dispose() {
+
+		this._mesh.geometry.dispose();
+
+	}
+
+	render( renderer ) {
+
+		renderer.render( this._mesh, _camera );
+
+	}
+
+	get material() {
+
+		return this._mesh.material;
+
+	}
+
+	set material( value ) {
+
+		this._mesh.material = value;
+
+	}
+
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/postprocessing/RenderPass.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/postprocessing/RenderPass.js ***!
+  \**********************************************************************/
+/*! exports provided: RenderPass */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RenderPass", function() { return RenderPass; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Pass_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Pass.js */ "./node_modules/three/examples/jsm/postprocessing/Pass.js");
+
+
+
+class RenderPass extends _Pass_js__WEBPACK_IMPORTED_MODULE_1__["Pass"] {
+
+	constructor( scene, camera, overrideMaterial, clearColor, clearAlpha ) {
+
+		super();
+
+		this.scene = scene;
+		this.camera = camera;
+
+		this.overrideMaterial = overrideMaterial;
+
+		this.clearColor = clearColor;
+		this.clearAlpha = ( clearAlpha !== undefined ) ? clearAlpha : 0;
+
+		this.clear = true;
+		this.clearDepth = false;
+		this.needsSwap = false;
+		this._oldClearColor = new three__WEBPACK_IMPORTED_MODULE_0__["Color"]();
+
+	}
+
+	render( renderer, writeBuffer, readBuffer /*, deltaTime, maskActive */ ) {
+
+		const oldAutoClear = renderer.autoClear;
+		renderer.autoClear = false;
+
+		let oldClearAlpha, oldOverrideMaterial;
+
+		if ( this.overrideMaterial !== undefined ) {
+
+			oldOverrideMaterial = this.scene.overrideMaterial;
+
+			this.scene.overrideMaterial = this.overrideMaterial;
+
+		}
+
+		if ( this.clearColor ) {
+
+			renderer.getClearColor( this._oldClearColor );
+			oldClearAlpha = renderer.getClearAlpha();
+
+			renderer.setClearColor( this.clearColor, this.clearAlpha );
+
+		}
+
+		if ( this.clearDepth ) {
+
+			renderer.clearDepth();
+
+		}
+
+		renderer.setRenderTarget( this.renderToScreen ? null : readBuffer );
+
+		// TODO: Avoid using autoClear properties, see https://github.com/mrdoob/three.js/pull/15571#issuecomment-465669600
+		if ( this.clear ) renderer.clear( renderer.autoClearColor, renderer.autoClearDepth, renderer.autoClearStencil );
+		renderer.render( this.scene, this.camera );
+
+		if ( this.clearColor ) {
+
+			renderer.setClearColor( this._oldClearColor, oldClearAlpha );
+
+		}
+
+		if ( this.overrideMaterial !== undefined ) {
+
+			this.scene.overrideMaterial = oldOverrideMaterial;
+
+		}
+
+		renderer.autoClear = oldAutoClear;
+
+	}
+
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/postprocessing/ShaderPass.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/postprocessing/ShaderPass.js ***!
+  \**********************************************************************/
+/*! exports provided: ShaderPass */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShaderPass", function() { return ShaderPass; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Pass_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Pass.js */ "./node_modules/three/examples/jsm/postprocessing/Pass.js");
+
+
+
+class ShaderPass extends _Pass_js__WEBPACK_IMPORTED_MODULE_1__["Pass"] {
+
+	constructor( shader, textureID ) {
+
+		super();
+
+		this.textureID = ( textureID !== undefined ) ? textureID : 'tDiffuse';
+
+		if ( shader instanceof three__WEBPACK_IMPORTED_MODULE_0__["ShaderMaterial"] ) {
+
+			this.uniforms = shader.uniforms;
+
+			this.material = shader;
+
+		} else if ( shader ) {
+
+			this.uniforms = three__WEBPACK_IMPORTED_MODULE_0__["UniformsUtils"].clone( shader.uniforms );
+
+			this.material = new three__WEBPACK_IMPORTED_MODULE_0__["ShaderMaterial"]( {
+
+				defines: Object.assign( {}, shader.defines ),
+				uniforms: this.uniforms,
+				vertexShader: shader.vertexShader,
+				fragmentShader: shader.fragmentShader
+
+			} );
+
+		}
+
+		this.fsQuad = new _Pass_js__WEBPACK_IMPORTED_MODULE_1__["FullScreenQuad"]( this.material );
+
+	}
+
+	render( renderer, writeBuffer, readBuffer /*, deltaTime, maskActive */ ) {
+
+		if ( this.uniforms[ this.textureID ] ) {
+
+			this.uniforms[ this.textureID ].value = readBuffer.texture;
+
+		}
+
+		this.fsQuad.material = this.material;
+
+		if ( this.renderToScreen ) {
+
+			renderer.setRenderTarget( null );
+			this.fsQuad.render( renderer );
+
+		} else {
+
+			renderer.setRenderTarget( writeBuffer );
+			// TODO: Avoid using autoClear properties, see https://github.com/mrdoob/three.js/pull/15571#issuecomment-465669600
+			if ( this.clear ) renderer.clear( renderer.autoClearColor, renderer.autoClearDepth, renderer.autoClearStencil );
+			this.fsQuad.render( renderer );
+
+		}
+
+	}
+
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/shaders/CopyShader.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/shaders/CopyShader.js ***!
+  \***************************************************************/
+/*! exports provided: CopyShader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CopyShader", function() { return CopyShader; });
+/**
+ * Full-screen textured quad shader
+ */
+
+const CopyShader = {
+
+	uniforms: {
+
+		'tDiffuse': { value: null },
+		'opacity': { value: 1.0 }
+
+	},
+
+	vertexShader: /* glsl */`
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+		}`,
+
+	fragmentShader: /* glsl */`
+
+		uniform float opacity;
+
+		uniform sampler2D tDiffuse;
+
+		varying vec2 vUv;
+
+		void main() {
+
+			gl_FragColor = texture2D( tDiffuse, vUv );
+			gl_FragColor.a *= opacity;
+
+
+		}`
+
+};
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/shaders/FXAAShader.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/shaders/FXAAShader.js ***!
+  \***************************************************************/
+/*! exports provided: FXAAShader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FXAAShader", function() { return FXAAShader; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/**
+ * NVIDIA FXAA by Timothy Lottes
+ * https://developer.download.nvidia.com/assets/gamedev/files/sdk/11/FXAA_WhitePaper.pdf
+ * - WebGL port by @supereggbert
+ * http://www.glge.org/demos/fxaa/
+ * Further improved by Daniel Sturk
+ */
+
+const FXAAShader = {
+
+	uniforms: {
+
+		'tDiffuse': { value: null },
+		'resolution': { value: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"]( 1 / 1024, 1 / 512 ) }
+
+	},
+
+	vertexShader: /* glsl */`
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+		}`,
+
+	fragmentShader: `
+	precision highp float;
+
+	uniform sampler2D tDiffuse;
+
+	uniform vec2 resolution;
+
+	varying vec2 vUv;
+
+	// FXAA 3.11 implementation by NVIDIA, ported to WebGL by Agost Biro (biro@archilogic.com)
+
+	//----------------------------------------------------------------------------------
+	// File:        es3-kepler\FXAA\assets\shaders/FXAA_DefaultES.frag
+	// SDK Version: v3.00
+	// Email:       gameworks@nvidia.com
+	// Site:        http://developer.nvidia.com/
+	//
+	// Copyright (c) 2014-2015, NVIDIA CORPORATION. All rights reserved.
+	//
+	// Redistribution and use in source and binary forms, with or without
+	// modification, are permitted provided that the following conditions
+	// are met:
+	//  * Redistributions of source code must retain the above copyright
+	//    notice, this list of conditions and the following disclaimer.
+	//  * Redistributions in binary form must reproduce the above copyright
+	//    notice, this list of conditions and the following disclaimer in the
+	//    documentation and/or other materials provided with the distribution.
+	//  * Neither the name of NVIDIA CORPORATION nor the names of its
+	//    contributors may be used to endorse or promote products derived
+	//    from this software without specific prior written permission.
+	//
+	// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
+	// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+	// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+	// PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+	// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+	// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+	// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+	// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+	// OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+	// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	//
+	//----------------------------------------------------------------------------------
+
+	#ifndef FXAA_DISCARD
+			//
+			// Only valid for PC OpenGL currently.
+			// Probably will not work when FXAA_GREEN_AS_LUMA = 1.
+			//
+			// 1 = Use discard on pixels which don't need AA.
+			//     For APIs which enable concurrent TEX+ROP from same surface.
+			// 0 = Return unchanged color on pixels which don't need AA.
+			//
+			#define FXAA_DISCARD 0
+	#endif
+
+	/*--------------------------------------------------------------------------*/
+	#define FxaaTexTop(t, p) texture2D(t, p, -100.0)
+	#define FxaaTexOff(t, p, o, r) texture2D(t, p + (o * r), -100.0)
+	/*--------------------------------------------------------------------------*/
+
+	#define NUM_SAMPLES 5
+
+	// assumes colors have premultipliedAlpha, so that the calculated color contrast is scaled by alpha
+	float contrast( vec4 a, vec4 b ) {
+			vec4 diff = abs( a - b );
+			return max( max( max( diff.r, diff.g ), diff.b ), diff.a );
+	}
+
+	/*============================================================================
+
+									FXAA3 QUALITY - PC
+
+	============================================================================*/
+
+	/*--------------------------------------------------------------------------*/
+	vec4 FxaaPixelShader(
+			vec2 posM,
+			sampler2D tex,
+			vec2 fxaaQualityRcpFrame,
+			float fxaaQualityEdgeThreshold,
+			float fxaaQualityinvEdgeThreshold
+	) {
+			vec4 rgbaM = FxaaTexTop(tex, posM);
+			vec4 rgbaS = FxaaTexOff(tex, posM, vec2( 0.0, 1.0), fxaaQualityRcpFrame.xy);
+			vec4 rgbaE = FxaaTexOff(tex, posM, vec2( 1.0, 0.0), fxaaQualityRcpFrame.xy);
+			vec4 rgbaN = FxaaTexOff(tex, posM, vec2( 0.0,-1.0), fxaaQualityRcpFrame.xy);
+			vec4 rgbaW = FxaaTexOff(tex, posM, vec2(-1.0, 0.0), fxaaQualityRcpFrame.xy);
+			// . S .
+			// W M E
+			// . N .
+
+			bool earlyExit = max( max( max(
+					contrast( rgbaM, rgbaN ),
+					contrast( rgbaM, rgbaS ) ),
+					contrast( rgbaM, rgbaE ) ),
+					contrast( rgbaM, rgbaW ) )
+					< fxaaQualityEdgeThreshold;
+			// . 0 .
+			// 0 0 0
+			// . 0 .
+
+			#if (FXAA_DISCARD == 1)
+					if(earlyExit) FxaaDiscard;
+			#else
+					if(earlyExit) return rgbaM;
+			#endif
+
+			float contrastN = contrast( rgbaM, rgbaN );
+			float contrastS = contrast( rgbaM, rgbaS );
+			float contrastE = contrast( rgbaM, rgbaE );
+			float contrastW = contrast( rgbaM, rgbaW );
+
+			float relativeVContrast = ( contrastN + contrastS ) - ( contrastE + contrastW );
+			relativeVContrast *= fxaaQualityinvEdgeThreshold;
+
+			bool horzSpan = relativeVContrast > 0.;
+			// . 1 .
+			// 0 0 0
+			// . 1 .
+
+			// 45 deg edge detection and corners of objects, aka V/H contrast is too similar
+			if( abs( relativeVContrast ) < .3 ) {
+					// locate the edge
+					vec2 dirToEdge;
+					dirToEdge.x = contrastE > contrastW ? 1. : -1.;
+					dirToEdge.y = contrastS > contrastN ? 1. : -1.;
+					// . 2 .      . 1 .
+					// 1 0 2  ~=  0 0 1
+					// . 1 .      . 0 .
+
+					// tap 2 pixels and see which ones are "outside" the edge, to
+					// determine if the edge is vertical or horizontal
+
+					vec4 rgbaAlongH = FxaaTexOff(tex, posM, vec2( dirToEdge.x, -dirToEdge.y ), fxaaQualityRcpFrame.xy);
+					float matchAlongH = contrast( rgbaM, rgbaAlongH );
+					// . 1 .
+					// 0 0 1
+					// . 0 H
+
+					vec4 rgbaAlongV = FxaaTexOff(tex, posM, vec2( -dirToEdge.x, dirToEdge.y ), fxaaQualityRcpFrame.xy);
+					float matchAlongV = contrast( rgbaM, rgbaAlongV );
+					// V 1 .
+					// 0 0 1
+					// . 0 .
+
+					relativeVContrast = matchAlongV - matchAlongH;
+					relativeVContrast *= fxaaQualityinvEdgeThreshold;
+
+					if( abs( relativeVContrast ) < .3 ) { // 45 deg edge
+							// 1 1 .
+							// 0 0 1
+							// . 0 1
+
+							// do a simple blur
+							return mix(
+									rgbaM,
+									(rgbaN + rgbaS + rgbaE + rgbaW) * .25,
+									.4
+							);
+					}
+
+					horzSpan = relativeVContrast > 0.;
+			}
+
+			if(!horzSpan) rgbaN = rgbaW;
+			if(!horzSpan) rgbaS = rgbaE;
+			// . 0 .      1
+			// 1 0 1  ->  0
+			// . 0 .      1
+
+			bool pairN = contrast( rgbaM, rgbaN ) > contrast( rgbaM, rgbaS );
+			if(!pairN) rgbaN = rgbaS;
+
+			vec2 offNP;
+			offNP.x = (!horzSpan) ? 0.0 : fxaaQualityRcpFrame.x;
+			offNP.y = ( horzSpan) ? 0.0 : fxaaQualityRcpFrame.y;
+
+			bool doneN = false;
+			bool doneP = false;
+
+			float nDist = 0.;
+			float pDist = 0.;
+
+			vec2 posN = posM;
+			vec2 posP = posM;
+
+			int iterationsUsed = 0;
+			int iterationsUsedN = 0;
+			int iterationsUsedP = 0;
+			for( int i = 0; i < NUM_SAMPLES; i++ ) {
+					iterationsUsed = i;
+
+					float increment = float(i + 1);
+
+					if(!doneN) {
+							nDist += increment;
+							posN = posM + offNP * nDist;
+							vec4 rgbaEndN = FxaaTexTop(tex, posN.xy);
+							doneN = contrast( rgbaEndN, rgbaM ) > contrast( rgbaEndN, rgbaN );
+							iterationsUsedN = i;
+					}
+
+					if(!doneP) {
+							pDist += increment;
+							posP = posM - offNP * pDist;
+							vec4 rgbaEndP = FxaaTexTop(tex, posP.xy);
+							doneP = contrast( rgbaEndP, rgbaM ) > contrast( rgbaEndP, rgbaN );
+							iterationsUsedP = i;
+					}
+
+					if(doneN || doneP) break;
+			}
+
+
+			if ( !doneP && !doneN ) return rgbaM; // failed to find end of edge
+
+			float dist = min(
+					doneN ? float( iterationsUsedN ) / float( NUM_SAMPLES - 1 ) : 1.,
+					doneP ? float( iterationsUsedP ) / float( NUM_SAMPLES - 1 ) : 1.
+			);
+
+			// hacky way of reduces blurriness of mostly diagonal edges
+			// but reduces AA quality
+			dist = pow(dist, .5);
+
+			dist = 1. - dist;
+
+			return mix(
+					rgbaM,
+					rgbaN,
+					dist * .5
+			);
+	}
+
+	void main() {
+			const float edgeDetectionQuality = .2;
+			const float invEdgeDetectionQuality = 1. / edgeDetectionQuality;
+
+			gl_FragColor = FxaaPixelShader(
+					vUv,
+					tDiffuse,
+					resolution,
+					edgeDetectionQuality, // [0,1] contrast needed, otherwise early discard
+					invEdgeDetectionQuality
+			);
+
+	}
+	`
+
+};
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/shaders/GammaCorrectionShader.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/shaders/GammaCorrectionShader.js ***!
+  \**************************************************************************/
+/*! exports provided: GammaCorrectionShader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GammaCorrectionShader", function() { return GammaCorrectionShader; });
+/**
+ * Gamma Correction Shader
+ * http://en.wikipedia.org/wiki/gamma_correction
+ */
+
+const GammaCorrectionShader = {
+
+	uniforms: {
+
+		'tDiffuse': { value: null }
+
+	},
+
+	vertexShader: /* glsl */`
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+		}`,
+
+	fragmentShader: /* glsl */`
+
+		uniform sampler2D tDiffuse;
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vec4 tex = texture2D( tDiffuse, vUv );
+
+			gl_FragColor = LinearTosRGB( tex );
+
+		}`
+
+};
+
+
+
+
+/***/ }),
+
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!

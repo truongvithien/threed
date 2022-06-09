@@ -191,7 +191,8 @@ var helper = {
         options: {
           dir: "assets/hdr/",
           hdri_file: "provence_studio_1k_edit.hdr",
-          enable_background: false
+          enable_background: false,
+          intensity: 1
         }
       };
       var settings = $.extend(defaults, options);
@@ -427,10 +428,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/examples/jsm/loaders/GLTFLoader.js */ "./node_modules/three/examples/jsm/loaders/GLTFLoader.js");
 /* harmony import */ var three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three/examples/jsm/loaders/FBXLoader.js */ "./node_modules/three/examples/jsm/loaders/FBXLoader.js");
-/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./_helper */ "./src/avatar/js/avatar/_helper.js");
+/* harmony import */ var three_examples_jsm_postprocessing_EffectComposer_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! three/examples/jsm/postprocessing/EffectComposer.js */ "./node_modules/three/examples/jsm/postprocessing/EffectComposer.js");
+/* harmony import */ var three_examples_jsm_postprocessing_RenderPass_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! three/examples/jsm/postprocessing/RenderPass.js */ "./node_modules/three/examples/jsm/postprocessing/RenderPass.js");
+/* harmony import */ var three_examples_jsm_shaders_FXAAShader_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! three/examples/jsm/shaders/FXAAShader.js */ "./node_modules/three/examples/jsm/shaders/FXAAShader.js");
+/* harmony import */ var three_examples_jsm_postprocessing_ShaderPass_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! three/examples/jsm/postprocessing/ShaderPass.js */ "./node_modules/three/examples/jsm/postprocessing/ShaderPass.js");
+/* harmony import */ var three_examples_jsm_postprocessing_LUTPass_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! three/examples/jsm/postprocessing/LUTPass.js */ "./node_modules/three/examples/jsm/postprocessing/LUTPass.js");
+/* harmony import */ var three_examples_jsm_loaders_LUTCubeLoader_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! three/examples/jsm/loaders/LUTCubeLoader.js */ "./node_modules/three/examples/jsm/loaders/LUTCubeLoader.js");
+/* harmony import */ var three_examples_jsm_loaders_LUT3dlLoader_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! three/examples/jsm/loaders/LUT3dlLoader.js */ "./node_modules/three/examples/jsm/loaders/LUT3dlLoader.js");
+/* harmony import */ var three_examples_jsm_shaders_GammaCorrectionShader_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! three/examples/jsm/shaders/GammaCorrectionShader.js */ "./node_modules/three/examples/jsm/shaders/GammaCorrectionShader.js");
+/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./_helper */ "./src/avatar/js/avatar/_helper.js");
 
 
  // LOADER
+
+
+
+ // POST - PROCESSING
+
+
+
+
+
 
 
 
@@ -439,7 +457,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var avatar, debug;
-var scene, camera, renderer, controls, mixer;
+var scene, camera, renderer, controls, mixer, composer, lutPass, lutMap;
 var light = {
   hemi: {},
   dir: {},
@@ -498,13 +516,20 @@ const _DEFAULT = {
     st_face: {
       aoMapIntensity: .1,
       // roughness: .8,
-      envMapIntensity: 1 // normalMapType: THREE.ObjectSpaceNormalMap
+      envMapIntensity: .2 // normalMapType: THREE.ObjectSpaceNormalMap
+
+    },
+    st_skin: {
+      aoMapIntensity: .1,
+      // roughness: .8,
+      envMapIntensity: .05 // normalMapType: THREE.ObjectSpaceNormalMap
 
     },
     st_hair: {
       aoMap: null,
       aoMapIntensity: .1,
-      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](.15, .15) // roughness: 1.5,
+      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](.15, .15),
+      envMapIntensity: .1 // roughness: 1.5,
       // envMapIntensity: 1.2
 
     },
@@ -512,18 +537,20 @@ const _DEFAULT = {
       aoMapIntensity: .1,
       emissiveIntensity: 0,
       normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](1, 1),
-      envMapIntensity: .8 // normalMapType: THREE.ObjectSpaceNormalMap
+      envMapIntensity: .3 // normalMapType: THREE.ObjectSpaceNormalMap
 
     },
     st_asset: {
       aoMapIntensity: .1,
       emissiveIntensity: 2,
-      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](1.5, 1.5)
+      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](1.5, 1.5),
+      envMapIntensity: .5
     },
     st_eyewear: {
       aoMapIntensity: .1,
       emissiveIntensity: 2,
       normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](1.5, 1.5),
+      envMapIntensity: .5,
       transparent: true
     }
   },
@@ -553,6 +580,195 @@ const _DEFAULT = {
     scattering: "_Skin_SHD_Scattering.png",
     thickness: "_Skin_SHD_Thickness.png",
     sss: "_Skin_SHD_SSS.png"
+  },
+  post_processing: {
+    lut_asset: "assets/lut/",
+    lut_file: "Presetpro-Cinematic.3dl",
+    lutPass_options: {
+      enable: true,
+      // intensity: .025,
+      intensity: 1
+    }
+  },
+  light_options: {
+    environment_light: {
+      enable: true,
+      options: {
+        dir: "assets/hdr/",
+        hdri_file: "provence_studio_1k_edit.hdr",
+        enable_background: false,
+        intensity: 1
+      }
+    },
+    ambient_light: {
+      enable: true,
+      options: {
+        color: 0xffffff,
+        intensity: .1
+      }
+    },
+    hemisphere_light: {
+      enable: false,
+      options: {
+        skyColor: 0xffffff,
+        groundColor: 0xffffff,
+        intensity: 1,
+        position: {
+          x: 0,
+          y: 50,
+          z: 0
+        }
+      }
+    },
+    directional_light: {
+      enable: false,
+      options: {}
+    },
+    key_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffffff,
+        decay: 1,
+        distance: 30,
+        intensity: .65,
+        angle: Math.PI / 2,
+        penumbra: .8,
+        cast_shadow: true,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 10,
+        shadow_camera_far: 200,
+        shadow_focus: .2,
+        position: {
+          x: 4,
+          y: 3,
+          z: 4
+        },
+        target: {
+          x: 0,
+          y: 2,
+          z: 0
+        }
+      }
+    },
+    fill_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffe0a9,
+        decay: 1,
+        distance: 50,
+        intensity: .5,
+        angle: Math.PI / 3,
+        penumbra: .8,
+        cast_shadow: true,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 10,
+        shadow_camera_far: 200,
+        shadow_focus: .2,
+        position: {
+          x: -7,
+          y: 3,
+          z: 6
+        },
+        target: {
+          x: 0,
+          y: 4,
+          z: 0
+        }
+      }
+    },
+    back_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffffff,
+        decay: 1,
+        distance: 50,
+        intensity: .9,
+        angle: Math.PI / 3,
+        penumbra: .8,
+        cast_shadow: true,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 10,
+        shadow_camera_far: 200,
+        shadow_focus: .2,
+        position: {
+          x: 0,
+          y: 2,
+          z: -4
+        },
+        target: {
+          x: 0,
+          y: 2,
+          z: 0
+        }
+      }
+    },
+    top_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffffff,
+        decay: 1,
+        distance: 50,
+        intensity: .4,
+        angle: Math.PI / 5,
+        penumbra: .8,
+        cast_shadow: true,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 10,
+        shadow_camera_far: 200,
+        shadow_focus: .2,
+        position: {
+          x: 0,
+          y: 8,
+          z: 3
+        },
+        target: {
+          x: 0,
+          y: 4,
+          z: 1
+        }
+      }
+    },
+    bottom_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffffff,
+        decay: 1,
+        distance: 50,
+        intensity: .4,
+        angle: Math.PI / 3,
+        penumbra: .8,
+        cast_shadow: true,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 10,
+        shadow_camera_far: 200,
+        shadow_focus: .2,
+        position: {
+          x: 0,
+          y: -1,
+          z: 2
+        },
+        target: {
+          x: 0,
+          y: 3,
+          z: 0
+        }
+      }
+    }
   }
 }; // MAIN
 
@@ -581,7 +797,7 @@ avatar = {
     avatar.dom_height = $(avatar.rendered_element).innerHeight();
     avatar.setup.all();
     avatar.setup.post_renderer();
-    avatar.setup.helpers(); // helper.setupEnvironment();
+    avatar.setup.helpers();
   },
   // =======
   loadSMT: async function (smt_code, options = {}) {
@@ -603,10 +819,10 @@ avatar = {
 
     const fbxLoader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__["FBXLoader"](),
           texLoader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
-    _helper__WEBPACK_IMPORTED_MODULE_6__["default"].loading(true, {
+    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(true, {
       rendered_element: avatar.rendered_element
     });
-    _helper__WEBPACK_IMPORTED_MODULE_6__["default"].clean(scene);
+    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].clean(scene);
     [smt_avatar_obj] = await Promise.all([fbxLoader.loadAsync(settings.asset_dir + smt_code + "/" + smt_code + settings.model_suffix.smt)]); // LOAD TEXTURE 
 
     const skin_texture = {
@@ -668,7 +884,7 @@ avatar = {
     }); // ADD SMT OBJ TO SCENE
 
     scene.add(smt_avatar_obj);
-    _helper__WEBPACK_IMPORTED_MODULE_6__["default"].loading(false, {
+    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(false, {
       rendered_element: avatar.rendered_element
     });
   },
@@ -731,10 +947,10 @@ avatar = {
 
     const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"](),
           texLoader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
-    _helper__WEBPACK_IMPORTED_MODULE_6__["default"].loading(true, {
+    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(true, {
       rendered_element: avatar.rendered_element
     });
-    _helper__WEBPACK_IMPORTED_MODULE_6__["default"].clean(scene);
+    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].clean(scene);
     [starter_background_data, starter_face_data, starter_hair_data, starter_outfit_data, starter_asset_data, starter_eyewear_data] = await Promise.all([glbLoader.loadAsync(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.model_suffix.st)]);
     starter_background_obj = starter_background_data.scene.children[0];
     starter_face_obj = starter_face_data.scene.children[0];
@@ -855,7 +1071,7 @@ avatar = {
       ...settings.texture_options.st_outfit
     });
     var texture_skinin = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...skinin_texture,
-      ...settings.texture_options.st_face
+      ...settings.texture_options.st_skin
     });
     starter_outfit_obj.children[1].traverse(o => {
       if (o.isMesh) {
@@ -881,7 +1097,7 @@ avatar = {
       ...settings.texture_options.st_asset
     });
     var texture_skinin = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...skinin_texture,
-      ...settings.texture_options.st_face
+      ...settings.texture_options.st_skin
     });
     starter_asset_obj.traverse(o => {
       if (o.isMesh && ["mesh_1"].indexOf(o.name) > -1) {
@@ -919,7 +1135,7 @@ avatar = {
     scene.add(starter_outfit_obj);
     scene.add(starter_asset_obj);
     scene.add(starter_eyewear_obj);
-    _helper__WEBPACK_IMPORTED_MODULE_6__["default"].loading(false, {
+    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(false, {
       rendered_element: avatar.rendered_element
     });
   },
@@ -955,75 +1171,12 @@ avatar = {
       var settings = $.extend(defaults, options);
       avatar.setup.scene();
       avatar.setup.camera();
-      avatar.setup.renderer();
+      avatar.setup.renderer(); // => renderer
+
+      avatar.setup.post_processing(); // => composer
+
       avatar.setup.controls();
-      avatar.setup.lights();
-    },
-    scene: function (options) {
-      var defaults = {};
-      var settings = $.extend(defaults, options);
-      scene = new three__WEBPACK_IMPORTED_MODULE_0__["Scene"]();
-      scene.background = new three__WEBPACK_IMPORTED_MODULE_0__["Color"]().setHSL(0, 0, 0);
-      scene.fog = new three__WEBPACK_IMPORTED_MODULE_0__["Fog"](scene.background, 1, 5000);
-    },
-    renderer: function (options) {
-      var defaults = {};
-      var settings = $.extend(defaults, options);
-      renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]({
-        antialias: true
-      });
-      renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.setSize(avatar.dom_width, avatar.dom_height);
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["VSMShadowMap"]; // renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      // renderer.gammaOutput = true;
-      // renderer.gammaFactor = -.1;
-      // renderer.toneMappingExposure = 1.02;
-
-      $(avatar.rendered_element).append(renderer.domElement);
-    },
-    camera: function (options) {
-      var defaults = {};
-      var settings = $.extend(defaults, options);
-      camera = new three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](75, avatar.dom_width / avatar.dom_height, 0.1, 1000); // camera.position.set(2, 4.1, 5.3);
-
-      camera.position.set(0.6, 4.4, 5.9); // camera.position.set(15.7, 58.4, 60.5);
-
-      camera.lookAt(0, 10, 0);
-    },
-    controls: function (options) {
-      var defaults = {
-        minDistance: 4,
-        maxDistance: 9,
-        zoomSpeed: 1,
-        rotateSpeed: 1,
-        enableDamping: true,
-        enablePan: false,
-        dampingFactor: 0.1,
-        autoRotate: true,
-        autoRotateSpeed: 0.5,
-        minPolarAngle: .8,
-        maxPolarAngle: 1.8,
-        target: {
-          x: 0,
-          y: 2.3,
-          z: 0
-        }
-      };
-      var settings = $.extend(defaults, options);
-      controls = new three__WEBPACK_IMPORTED_MODULE_0__["OrbitControls"](camera, renderer.domElement);
-      controls.minDistance = settings.minDistance;
-      controls.maxDistance = settings.maxDistance;
-      controls.zoomSpeed = settings.zoomSpeed;
-      controls.rotateSpeed = settings.rotateSpeed;
-      controls.enableDamping = settings.enableDamping;
-      controls.enablePan = settings.enablePan;
-      controls.dampingFactor = settings.dampingFactor;
-      controls.autoRotate = settings.autoRotate;
-      controls.autoRotateSpeed = settings.autoRotateSpeed;
-      controls.minPolarAngle = settings.minPolarAngle;
-      controls.maxPolarAngle = settings.maxPolarAngle;
-      controls.target.set(settings.target.x, settings.target.y, settings.target.z);
+      avatar.setup.lights(_DEFAULT.light_options);
     },
     lights: function (options) {
       var defaults = {
@@ -1032,14 +1185,15 @@ avatar = {
           options: {
             dir: "assets/hdr/",
             hdri_file: "provence_studio_1k_edit.hdr",
-            enable_background: false
+            enable_background: false,
+            intensity: 1
           }
         },
         ambient_light: {
           enable: true,
           options: {
             color: 0xffffff,
-            intensity: 0
+            intensity: .1
           }
         },
         hemisphere_light: {
@@ -1061,7 +1215,7 @@ avatar = {
         },
         key_light: {
           enable: 1,
-          helper: 1,
+          helper: 0,
           options: {
             debug_color: 0xff0000,
             color: 0xffffff,
@@ -1090,7 +1244,7 @@ avatar = {
         },
         fill_light: {
           enable: 1,
-          helper: 1,
+          helper: 0,
           options: {
             debug_color: 0xff0000,
             color: 0xffe0a9,
@@ -1119,7 +1273,7 @@ avatar = {
         },
         back_light: {
           enable: 1,
-          helper: 1,
+          helper: 0,
           options: {
             debug_color: 0xff0000,
             color: 0xffffff,
@@ -1148,7 +1302,7 @@ avatar = {
         },
         top_light: {
           enable: 1,
-          helper: 1,
+          helper: 0,
           options: {
             debug_color: 0xff0000,
             color: 0xffffff,
@@ -1177,7 +1331,7 @@ avatar = {
         },
         bottom_light: {
           enable: 1,
-          helper: 1,
+          helper: 0,
           options: {
             debug_color: 0xff0000,
             color: 0xffffff,
@@ -1220,14 +1374,14 @@ avatar = {
       } // 
 
 
-      light.ambient = _helper__WEBPACK_IMPORTED_MODULE_6__["default"].create_light.amb_light(settings.ambient_light);
+      light.ambient = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.amb_light(settings.ambient_light);
 
       if (settings.ambient_light.enable) {
         scene.add(light.ambient);
       } // helper.create_light.environment_light(settings.environment_light.options);
 
 
-      light.key = _helper__WEBPACK_IMPORTED_MODULE_6__["default"].create_light.spot_light(settings.key_light);
+      light.key = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.spot_light(settings.key_light);
 
       if (settings.key_light.enable) {
         scene.add(light.key);
@@ -1238,7 +1392,7 @@ avatar = {
         }
       }
 
-      light.fill = _helper__WEBPACK_IMPORTED_MODULE_6__["default"].create_light.spot_light(settings.fill_light);
+      light.fill = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.spot_light(settings.fill_light);
 
       if (settings.fill_light.enable) {
         scene.add(light.fill);
@@ -1249,7 +1403,7 @@ avatar = {
         }
       }
 
-      light.back = _helper__WEBPACK_IMPORTED_MODULE_6__["default"].create_light.spot_light(settings.back_light);
+      light.back = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.spot_light(settings.back_light);
 
       if (settings.back_light.enable) {
         scene.add(light.back);
@@ -1260,7 +1414,7 @@ avatar = {
         }
       }
 
-      light.top = _helper__WEBPACK_IMPORTED_MODULE_6__["default"].create_light.spot_light(settings.top_light);
+      light.top = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.spot_light(settings.top_light);
 
       if (settings.top_light.enable) {
         scene.add(light.top);
@@ -1271,7 +1425,7 @@ avatar = {
         }
       }
 
-      light.bottom = _helper__WEBPACK_IMPORTED_MODULE_6__["default"].create_light.spot_light(settings.bottom_light);
+      light.bottom = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.spot_light(settings.bottom_light);
 
       if (settings.bottom_light.enable) {
         scene.add(light.bottom);
@@ -1333,6 +1487,131 @@ avatar = {
         }
       }
     },
+    scene: function (options) {
+      var defaults = {};
+      var settings = $.extend(defaults, options);
+      scene = new three__WEBPACK_IMPORTED_MODULE_0__["Scene"]();
+      scene.background = new three__WEBPACK_IMPORTED_MODULE_0__["Color"]().setHSL(0, 0, 0); // scene.fog = new THREE.Fog(scene.background, 1, 5000);
+
+      scene.fog = new three__WEBPACK_IMPORTED_MODULE_0__["FogExp2"](0xffffff, .0);
+    },
+    renderer: function (options) {
+      var defaults = {};
+      var settings = $.extend(defaults, options);
+      renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]({
+        antialias: true
+      });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(avatar.dom_width, avatar.dom_height);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["PCFSoftShadowMap"]; // renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      // renderer.toneMappingExposure = .5;
+      // renderer.gammaOutput = true;
+      // renderer.gammaFactor = -.1;
+      // renderer.toneMappingExposure = 1.02;
+      // composer = new EffectComposer(renderer);
+
+      $(avatar.rendered_element).append(renderer.domElement);
+      window.addEventListener('resize', avatar.setup.onWindowResize);
+    },
+    post_processing: function (options) {
+      var defaults = {
+        lut_asset: _DEFAULT.post_processing.lut_asset,
+        lut_file: _DEFAULT.post_processing.lut_file
+      };
+      var settings = $.extend(defaults, options); // ======
+
+      const target = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderTarget"]({
+        minFilter: three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"],
+        magFilter: three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"],
+        format: three__WEBPACK_IMPORTED_MODULE_0__["RGBAFormat"],
+        encoding: three__WEBPACK_IMPORTED_MODULE_0__["sRGBEncoding"]
+      });
+      composer = new three_examples_jsm_postprocessing_EffectComposer_js__WEBPACK_IMPORTED_MODULE_6__["EffectComposer"](renderer, target);
+      composer.setPixelRatio(window.devicePixelRatio);
+      composer.setSize(avatar.dom_width, avatar.dom_height);
+      const renderPass = new three_examples_jsm_postprocessing_RenderPass_js__WEBPACK_IMPORTED_MODULE_7__["RenderPass"](scene, camera),
+            fxaaPass = new three_examples_jsm_postprocessing_ShaderPass_js__WEBPACK_IMPORTED_MODULE_9__["ShaderPass"](three_examples_jsm_shaders_FXAAShader_js__WEBPACK_IMPORTED_MODULE_8__["FXAAShader"]),
+            shaderPass = new three_examples_jsm_postprocessing_ShaderPass_js__WEBPACK_IMPORTED_MODULE_9__["ShaderPass"](three_examples_jsm_shaders_GammaCorrectionShader_js__WEBPACK_IMPORTED_MODULE_13__["GammaCorrectionShader"]); // renderPass.clearColor = new THREE.Color( 0, 0, 0 );
+      // renderPass.clearAlpha = 0;
+
+      composer.addPass(renderPass);
+      composer.addPass(fxaaPass);
+      composer.addPass(shaderPass);
+      lutPass = new three_examples_jsm_postprocessing_LUTPass_js__WEBPACK_IMPORTED_MODULE_10__["LUTPass"]();
+      composer.addPass(lutPass); // LOADER
+
+      const LUTCUBELoader = new three_examples_jsm_loaders_LUTCubeLoader_js__WEBPACK_IMPORTED_MODULE_11__["LUTCubeLoader"](),
+            LUT3DLLOADER = new three_examples_jsm_loaders_LUT3dlLoader_js__WEBPACK_IMPORTED_MODULE_12__["LUT3dlLoader"]();
+
+      if (/\.CUBE$/i.test(settings.lut_file)) {
+        LUTCUBELoader.load(settings.lut_asset + settings.lut_file, function (result) {
+          lutMap = result;
+          console.log(lutMap);
+        });
+      } else {
+        LUT3DLLOADER.load(settings.lut_asset + settings.lut_file, function (result) {
+          lutMap = result;
+          console.log(lutMap);
+        });
+      }
+    },
+    onWindowResize: function (options) {
+      var defaults = {};
+      var settings = $.extend(defaults, options);
+      camera.aspect = avatar.dom_width / avatar.dom_height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(avatar.dom_width, avatar.dom_height);
+
+      if (composer) {
+        composer.setSize(avatar.dom_width, avatar.dom_height);
+      }
+
+      avatar.setup.animate();
+    },
+    camera: function (options) {
+      var defaults = {};
+      var settings = $.extend(defaults, options);
+      camera = new three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](75, avatar.dom_width / avatar.dom_height, 0.1, 1000); // camera.position.set(2, 4.1, 5.3);
+
+      camera.position.set(0.6, 4.4, 5.9); // camera.position.set(15.7, 58.4, 60.5);
+
+      camera.lookAt(0, 10, 0);
+    },
+    controls: function (options) {
+      var defaults = {
+        minDistance: 4,
+        maxDistance: 9,
+        zoomSpeed: 1,
+        rotateSpeed: 1,
+        enableDamping: true,
+        enablePan: false,
+        dampingFactor: 0.1,
+        autoRotate: true,
+        autoRotateSpeed: 0.5,
+        minPolarAngle: .8,
+        maxPolarAngle: 1.8,
+        target: {
+          x: 0,
+          y: 2.3,
+          z: 0
+        }
+      };
+      var settings = $.extend(defaults, options);
+      controls = new three__WEBPACK_IMPORTED_MODULE_0__["OrbitControls"](camera, renderer.domElement);
+      controls.minDistance = settings.minDistance;
+      controls.maxDistance = settings.maxDistance;
+      controls.zoomSpeed = settings.zoomSpeed;
+      controls.rotateSpeed = settings.rotateSpeed;
+      controls.enableDamping = settings.enableDamping;
+      controls.enablePan = settings.enablePan;
+      controls.dampingFactor = settings.dampingFactor;
+      controls.autoRotate = settings.autoRotate;
+      controls.autoRotateSpeed = settings.autoRotateSpeed;
+      controls.minPolarAngle = settings.minPolarAngle;
+      controls.maxPolarAngle = settings.maxPolarAngle;
+      controls.target.set(settings.target.x, settings.target.y, settings.target.z);
+    },
     helpers: function (options) {
       var defaults = {
         gridHelper: {
@@ -1362,7 +1641,12 @@ avatar = {
     render: function (options) {
       var defaults = {};
       var settings = $.extend(defaults, options);
-      renderer.render(scene, camera);
+
+      if (composer) {
+        composer.render(scene, camera);
+      } else {
+        renderer.render(scene, camera);
+      }
     },
     animate: function (options) {
       requestAnimationFrame(avatar.setup.animate);
@@ -1372,7 +1656,15 @@ avatar = {
 
       if (mixer) mixer.update(delta);
       avatar.callback();
-      avatar.setup.render();
+      avatar.setup.render(); // console.log()
+      // console.log(lutMap);
+
+      if (lutMap) {
+        // console.log(lutMap);
+        lutPass.enable = _DEFAULT.post_processing.lutPass_options.enable, lutPass.lut = lutMap.texture;
+        lutPass.intensity = _DEFAULT.post_processing.lutPass_options.intensity;
+      } // console.log(composer);
+
     }
   },
   callback: function (options) {
@@ -1380,7 +1672,7 @@ avatar = {
     var settings = $.extend(defaults, options);
   },
   // ======
-  switch: function (current_status, options) {
+  switch: function (options) {
     var defaults = {
       asset_dir: avatar.asset_dir,
       texture_options: _DEFAULT.texture_options,
@@ -1388,6 +1680,38 @@ avatar = {
       texture_skin_suffix: _DEFAULT.texture_skin_suffix
     };
     var settings = $.extend(defaults, options);
+    $("body").append(`
+        <div class="controls">
+			<input type="checkbox" id="switch_avatar" class="switch_avatar">
+			<label for="switch_avatar">Switch to <span class="dim">3</span>D</label>
+		</div>
+        `);
+    var url = new URL(window.location.href);
+    var dim = url.searchParams.get("dim"); // if ($(avatar.switch_element).prop('checked', true)) {
+    //     $(avatar.rendered_element).removeClass("active");
+    //     $(avatar.layered_element).addClass("active");
+    //     $(avatar.switch_element + " + label .dim").html(2);
+    // } else {
+    //     $(avatar.layered_element).removeClass("active");
+    //     $(avatar.rendered_element).addClass("active");
+    //     $(avatar.switch_element + " + label .dim").html(3);
+    // }
+
+    if ($(avatar.switch_element).length > 0) {}
+
+    $(avatar.switch_element).on("click", function () {
+      if ($(avatar.switch_element).is(':checked')) {
+        console.log("A");
+        $(avatar.rendered_element).removeClass("active");
+        $(avatar.layered_element).addClass("active");
+        $(avatar.switch_element + " + label .dim").html(3);
+      } else {
+        console.log("B");
+        $(avatar.layered_element).removeClass("active");
+        $(avatar.rendered_element).addClass("active");
+        $(avatar.switch_element + " + label .dim").html(2);
+      }
+    });
   }
 };
 var debug = {
@@ -1487,7 +1811,7 @@ __webpack_require__.r(__webpack_exports__);
 
 $(function () {
   _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].init();
-  _avatar_main__WEBPACK_IMPORTED_MODULE_2__["debug"].freeCamera();
+  _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].switch(); // debug.freeCamera();
 });
 window.addEventListener("load", function () {
   // avatar.loadSMT("SMT1");
@@ -1514,6 +1838,8 @@ window.addEventListener("load", function () {
     case "2":
       if ($("#layered_avatar").length > 0) {
         $("#layered_avatar").addClass("active");
+        $("#switch_avatar").prop("checked", true);
+        $("#switch_avatar + label .dim").html(3);
       }
 
       break;
@@ -1522,6 +1848,8 @@ window.addEventListener("load", function () {
     default:
       if ($("#rendered_avatar").length > 0) {
         $("#rendered_avatar").addClass("active");
+        $("#switch_avatar").prop("checked", false);
+        $("#switch_avatar + label .dim").html(2);
       }
 
       break;

@@ -9,6 +9,7 @@ var helper = {
                     dir: "assets/hdr/",
                     hdri_file: "provence_studio_1k_edit.hdr",
                     enable_background: false,
+                    intensity: 1,
                 }
             }
             var settings = $.extend(defaults, options);

@@ -4,8 +4,9 @@ import {avatar, debug} from "./avatar/main";
 
 $(function () {
     avatar.init();
+    avatar.switch();
 
-    debug.freeCamera();
+    // debug.freeCamera();
 });
 
 window.addEventListener("load", function(){
@@ -33,11 +34,15 @@ window.addEventListener("load", function(){
         case "2": 
             if ($("#layered_avatar").length > 0) {
                 $("#layered_avatar").addClass("active");
+                $("#switch_avatar").prop("checked", true);
+                $("#switch_avatar + label .dim").html(3);
             }
             break;
         case "3": default: 
             if ($("#rendered_avatar").length > 0) {
                 $("#rendered_avatar").addClass("active");
+                $("#switch_avatar").prop("checked", false);
+                $("#switch_avatar + label .dim").html(2);
             }
             
             break;

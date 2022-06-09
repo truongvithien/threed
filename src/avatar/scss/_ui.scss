@@ -97,31 +97,33 @@
     }
 }
 
-.possibility {
-    display: block;
-    position: relative;
-    height: 24vh;
-    padding: 8px 12px 8px 8px;
-    border-radius: 6px;
-    overflow-y: auto;
-    background: #DDD;
-}
+.controls {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
 
-.switch_3d {
-    &:before {
-        content: "2D";
-    }
-    &:after {
-        content: "3D";
-    }
+    .switch_avatar {
+        display: none;
 
-    .form-switch {
-        padding: 0;
-        min-height: initial; 
-        margin:  0 0.3em;
-    }
+        + label {
+            border-radius: 4px;
+            padding: 8px 20px;
+            color: #000;
+            font-weight: bold; 
+            user-select: none;
+        }
 
-    .form-check-input {
-        margin: 0;
+        & + label {  
+            background: linear-gradient(145deg, rgba(#fff, .5), rgba(#7ce9fc, .5));
+            box-shadow:  20px 20px 60px rgba(#6fb3c2, .5),
+                        -20px -20px 60px rgba(#1484a8, .5);
+        }
+
+        &:checked + label {
+            background: linear-gradient(145deg, rgba(#7ce9fc, .5),  rgba(#fff, .5));
+            box-shadow:  20px 20px 60px rgba(#6fb3c2, .5),
+                         -20px -20px 60px rgba(#1484a8, .5);
+        }
     }
 }
