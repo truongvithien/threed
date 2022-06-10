@@ -32,7 +32,7 @@ var scene, camera, renderer, controls,
 
 var light = {
     hemi: {}, dir: {}, key: {}, fill: {},
-    back: {}, top: {}, top2: {}, bottom: {}
+    back: {}, top: {}, bottom: {}
 }
 
 const clock = new THREE.Clock();
@@ -90,25 +90,25 @@ const
             st_background: {
                 emissiveIntensity: 2,
                 normalScale: new THREE.Vector2(-1, -1),
-                // envMapIntensity: 0,
+                envMapIntensity: 0,
                 roughness: 0,
                 transparent: true
             },
             st_text: {
                 emissiveIntensity: 0,
                 normalScale: new THREE.Vector2(0, 0),
-                // envMapIntensity: .5,
+                envMapIntensity: 1,
             },
             st_face: {
                 aoMapIntensity: .1,
                 // roughness: .8,
-                // envMapIntensity: .5,
+                envMapIntensity: .8,
                 // normalMapType: THREE.ObjectSpaceNormalMap
             },
             st_skin: {
-                // aoMapIntensity: .1,
+                aoMapIntensity: .1,
                 // roughness: .8,
-                envMapIntensity: .7,
+                envMapIntensity: .05,
                 // normalMapType: THREE.ObjectSpaceNormalMap
                 
             },
@@ -117,29 +117,29 @@ const
                 // aoMapIntensity: .2,
                 // normalScale: new THREE.Vector2(.15, .15),
                 normalScale: new THREE.Vector2(.5, .5),
-                // envMapIntensity: .5,
+                envMapIntensity: 1.3,
                 
                 // roughness: 1.5,
                 // envMapIntensity: 1.2
             },
             st_outfit: {
-                // aoMapIntensity: .1,
-                // emissiveIntensity: 1,
-                // normalScale: new THREE.Vector2(1, 1),
-                // envMapIntensity: .5,
+                aoMapIntensity: .1,
+                emissiveIntensity: 0,
+                normalScale: new THREE.Vector2(1, 1),
+                envMapIntensity: .3,
                 // normalMapType: THREE.ObjectSpaceNormalMap
             },
             st_asset: {
-                // aoMapIntensity: .1,
-                // emissiveIntensity: 1,
-                // normalScale: new THREE.Vector2(1.5, 1.5),
-                // envMapIntensity: .5,
+                aoMapIntensity: .1,
+                emissiveIntensity: 2,
+                normalScale: new THREE.Vector2(1.5, 1.5),
+                envMapIntensity: .5,
             },
             st_eyewear: {
-                // aoMapIntensity: .1,
-                // emissiveIntensity: 1,
-                // normalScale: new THREE.Vector2(1, 1),
-                // envMapIntensity: .5,
+                aoMapIntensity: .1,
+                emissiveIntensity: 2,
+                normalScale: new THREE.Vector2(1.5, 1.5),
+                envMapIntensity: .5,
                 transparent: true
             }
         },
@@ -187,16 +187,16 @@ const
         },
         light_options: {
             environment_light: {
-                enable: 1,
+                enable: 0,
                 options: {
                     dir: "assets/hdr/",
                     hdri_file: "provence_studio_1k_edit.hdr", 
                     enable_background: false,
-                    intensity: .4,
+                    intensity: 1,
                 }
             },
             ambient_light: {
-                enable: 0,
+                enable: false,
                 options: {
                     color: 0xffffff,
                     intensity: .1
@@ -220,15 +220,15 @@ const
             },
             key_light: {
                 enable: 1,
-                helper: 0,
+                helper: 1,
                 options: {
                     debug_color: 0xff0000,
                     color: 0xffffff,
-                    decay: 0,
-                    distance: 80,
-                    intensity: .8,
+                    decay: 1,
+                    distance: 50,
+                    intensity: .75,
                     angle: Math.PI/ 2,
-                    penumbra: 0,
+                    penumbra: 1,
                     cast_shadow: true,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
@@ -249,11 +249,11 @@ const
                 options: {
                     debug_color: 0xff0000,
                     color: 0xffffff,
-                    decay: 0,
+                    decay: 1,
                     distance: 50,
                     intensity: .6,
                     angle: Math.PI/ 3,
-                    penumbra: 0,
+                    penumbra: .8,
                     cast_shadow: true,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
@@ -274,11 +274,11 @@ const
                 options: {
                     debug_color: 0xff0000,
                     color: 0xffffff,
-                    decay: 0,
+                    decay: 1,
                     distance: 50,
-                    intensity: 1.9,
+                    intensity: .9,
                     angle: Math.PI/ 3,
-                    penumbra: 0,
+                    penumbra: .8,
                     cast_shadow: true,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
@@ -299,11 +299,11 @@ const
                 options: {
                     debug_color: 0xff0000,
                     color: 0xffffff,
-                    decay: 0,
+                    decay: 1,
                     distance: 50,
-                    intensity: 2.8,
+                    intensity: .7,
                     angle: Math.PI/ 5,
-                    penumbra: 0,
+                    penumbra: .8,
                     cast_shadow: true,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
@@ -318,42 +318,17 @@ const
                     }
                 }
             },
-            top2_light: {
-                enable: 1,
-                helper: 0,
-                options: {
-                    debug_color: 0xff0000,
-                    color: 0xffffff,
-                    decay: 0,
-                    distance: 50,
-                    intensity: .7,
-                    angle: Math.PI/ 5,
-                    penumbra: 0,
-                    cast_shadow: true,
-                    shadow_map_size_width: 512,
-                    shadow_map_size_height: 512,
-                    shadow_camera_near: 10,
-                    shadow_camera_far: 200,
-                    shadow_focus: .2,
-                    position: {
-                        x: 0, y: 8, z: -3
-                    },
-                    target: {
-                        x: 0, y: 4, z: 1
-                    }
-                }
-            },
             bottom_light: {
                 enable: 1,
                 helper: 0,
                 options: {
                     debug_color: 0xff0000,
                     color: 0xffffff,
-                    decay: 0,
+                    decay: 1,
                     distance: 50,
-                    intensity: 1.2,
+                    intensity: .2,
                     angle: Math.PI/ 3,
-                    penumbra: 0,
+                    penumbra: .8,
                     cast_shadow: true,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
@@ -974,7 +949,7 @@ avatar = {
                         distance: 30,
                         intensity: .95,
                         angle: Math.PI/ 2,
-                        penumbra: 0,
+                        penumbra: .8,
                         cast_shadow: true,
                         shadow_map_size_width: 512,
                         shadow_map_size_height: 512,
@@ -999,7 +974,7 @@ avatar = {
                         distance: 50,
                         intensity: .5,
                         angle: Math.PI/ 3,
-                        penumbra: 0,
+                        penumbra: .8,
                         cast_shadow: true,
                         shadow_map_size_width: 512,
                         shadow_map_size_height: 512,
@@ -1024,7 +999,7 @@ avatar = {
                         distance: 50,
                         intensity: .9,
                         angle: Math.PI/ 3,
-                        penumbra: 0,
+                        penumbra: .8,
                         cast_shadow: true,
                         shadow_map_size_width: 512,
                         shadow_map_size_height: 512,
@@ -1049,7 +1024,7 @@ avatar = {
                         distance: 50,
                         intensity: .4,
                         angle: Math.PI/ 5,
-                        penumbra: 0,
+                        penumbra: .8,
                         cast_shadow: true,
                         shadow_map_size_width: 512,
                         shadow_map_size_height: 512,
@@ -1074,7 +1049,7 @@ avatar = {
                         distance: 50,
                         intensity: .4,
                         angle: Math.PI/ 3,
-                        penumbra: 0,
+                        penumbra: .8,
                         cast_shadow: true,
                         shadow_map_size_width: 512,
                         shadow_map_size_height: 512,
@@ -1150,15 +1125,6 @@ avatar = {
                 scene.add( light.top.target );
                 if (settings.top_light.helper) {
                     console.log(light.top);
-                }
-            }
-            
-            light.top2 = helper.create_light.spot_light(settings.top2_light);
-            if (settings.top2_light.enable) {
-                scene.add( light.top2);
-                scene.add( light.top2.target );
-                if (settings.top2_light.helper) {
-                    console.log(light.top2);
                 }
             }
             

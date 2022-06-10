@@ -109,21 +109,25 @@
         + label {
             border-radius: 4px;
             padding: 8px 20px;
-            color: #000;
+            color: #fff;
             font-weight: bold; 
             user-select: none;
+
+            text-shadow: 0px 0px 16px rgba(#000,0.3), 
+                        8px 8px 16px rgba(#000,0.3), 
+                        -8px -8px 16px rgba(#000,0.3);
         }
 
         & + label {  
-            background: linear-gradient(145deg, rgba(#fff, .5), rgba(#7ce9fc, .5));
-            box-shadow:  20px 20px 60px rgba(#6fb3c2, .5),
-                        -20px -20px 60px rgba(#1484a8, .5);
+            background: linear-gradient(145deg, rgba(#fff, .5), rgba(#000, .1));
+            box-shadow:  20px 20px 60px rgba(#000, .4),
+                        -20px -20px 60px rgba(#000, .4);
         }
 
         &:checked + label {
-            background: linear-gradient(145deg, rgba(#7ce9fc, .5),  rgba(#fff, .5));
-            box-shadow:  20px 20px 60px rgba(#6fb3c2, .5),
-                         -20px -20px 60px rgba(#1484a8, .5);
+            background: linear-gradient(145deg, rgba(#000, .1),  rgba(#fff, .5));
+            box-shadow:  20px 20px 60px rgba(#000, .4),
+                         -20px -20px 60px rgba(#000, .4);
         }
     }
 }

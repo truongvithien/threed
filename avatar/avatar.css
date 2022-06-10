@@ -9499,18 +9499,19 @@ hr.split {
     .controls .switch_avatar + label {
       border-radius: 4px;
       padding: 8px 20px;
-      color: #000;
+      color: #fff;
       font-weight: bold;
       -webkit-user-select: none;
          -moz-user-select: none;
           -ms-user-select: none;
-              user-select: none; }
+              user-select: none;
+      text-shadow: 0px 0px 16px rgba(0, 0, 0, 0.3), 8px 8px 16px rgba(0, 0, 0, 0.3), -8px -8px 16px rgba(0, 0, 0, 0.3); }
     .controls .switch_avatar + label {
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.5), rgba(124, 233, 252, 0.5));
-      box-shadow: 20px 20px 60px rgba(111, 179, 194, 0.5), -20px -20px 60px rgba(20, 132, 168, 0.5); }
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.1));
+      box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.4), -20px -20px 60px rgba(0, 0, 0, 0.4); }
     .controls .switch_avatar:checked + label {
-      background: linear-gradient(145deg, rgba(124, 233, 252, 0.5), rgba(255, 255, 255, 0.5));
-      box-shadow: 20px 20px 60px rgba(111, 179, 194, 0.5), -20px -20px 60px rgba(20, 132, 168, 0.5); }
+      background: linear-gradient(145deg, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.5));
+      box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.4), -20px -20px 60px rgba(0, 0, 0, 0.4); }
 
 
 /*# sourceMappingURL=avatar.css.map*/
