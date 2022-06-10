@@ -403,7 +403,7 @@ var helper = {
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (helper);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
@@ -473,7 +473,7 @@ const frustumSize = 600; // OBJECT 3D
 
 var test_background_data, test_background_obj;
 var smt_background_data, smt_background_obj, smt_background_2d, smt_avatar_data, smt_avatar_obj, smt_avatar_2d;
-var starter_all_obj, fake_cam_obj, starter_background_data, starter_background_obj, starter_background_2d, starter_face_data, starter_face_obj, starter_face_2d, starter_hair_data, starter_hair_obj, starter_hair_2d, starter_outfit_data, starter_outfit_obj, starter_outfit_2d, starter_asset_data, starter_asset_obj, starter_asset_2d, starter_eyewear_data, starter_eyewear_obj, starter_eyewear_2d; // DEFAULT SETUP 
+var starter_all_obj, starter_anim_obj, starter_background_data, starter_background_obj, starter_background_2d, starter_face_data, starter_face_obj, starter_face_2d, starter_hair_data, starter_hair_obj, starter_hair_2d, starter_outfit_data, starter_outfit_obj, starter_outfit_2d, starter_asset_data, starter_asset_obj, starter_asset_2d, starter_eyewear_data, starter_eyewear_obj, starter_eyewear_2d; // DEFAULT SETUP 
 
 const _DEFAULT = {
   rendered_element: "#rendered_avatar",
@@ -1212,6 +1212,228 @@ avatar = {
       rendered_element: avatar.rendered_element
     });
   },
+  loadSTDEMO: async function (st_code, options) {
+    var defaults = {
+      asset_dir: avatar.asset_dir,
+      texture_options: _DEFAULT.texture_options,
+      model_suffix: _DEFAULT.model_suffix,
+      texture_suffix: _DEFAULT.texture_suffix,
+      texture_skin_suffix: _DEFAULT.texture_skin_suffix,
+      texture_text_suffix: _DEFAULT.texture_text_suffix,
+      scale: _DEFAULT.scale.st
+    };
+    var settings = $.extend(defaults, options); // st_code job
+    // {
+    // 	"hair": "HM1",
+    // 	"eyewear": "EM2",
+    // 	"face": "FM3",
+    // 	"outfit": "OM1",
+    // 	"asset": "A2",
+    // 	"background_text": "T6"
+    // }
+
+    var obj_st = {}; // console.log(typeof st_code);
+
+    switch (typeof st_code) {
+      case "object":
+        obj_st = st_code;
+        break;
+
+      case "string":
+      default:
+        let array_st = st_code.split("-");
+        obj_st = {
+          "hair": array_st[0],
+          "eyewear": array_st[1],
+          "face": array_st[2],
+          "outfit": array_st[3],
+          "asset": array_st[4],
+          "background_text": array_st[5]
+        };
+        break;
+    } // LOAD 2D
+
+
+    starter_background_2d = settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.twod;
+    starter_face_2d = settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.model_suffix.twod;
+    starter_hair_2d = settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.model_suffix.twod;
+    starter_outfit_2d = settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.model_suffix.twod;
+    starter_asset_2d = settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.twod;
+    starter_eyewear_2d = settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.model_suffix.twod;
+    $(avatar.layered_element).empty();
+    $(avatar.layered_element).append(`
+            <img src="${starter_background_2d}" alt="background_text">
+            <img src="${starter_face_2d}" alt="face">
+            <img src="${starter_hair_2d}" alt="hair">
+            <img src="${starter_outfit_2d}" alt="outfit">
+            <img src="${starter_asset_2d}" alt="asset"> 
+            <img src="${starter_eyewear_2d}" alt="eyewear">
+        `); // LOAD 3D
+
+    const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"](),
+          fbxLoader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__["FBXLoader"](),
+          texLoader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
+    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(true, {
+      rendered_element: avatar.rendered_element
+    });
+    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].clean(scene);
+    [starter_background_data, starter_anim_obj] = await Promise.all([glbLoader.loadAsync(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st), fbxLoader.loadAsync(settings.asset_dir + "DEMO/DEMO" + settings.model_suffix.smt)]);
+    starter_background_obj = starter_background_data.scene.children[0]; // LOAD TEXTURE
+
+    const background_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.ambient_occlusion),
+
+    };
+    const body_texture = {
+      map: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.alpha),
+
+    };
+    const hair_texture = {
+      map: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.roughness),
+      aoMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.ambient_occlusion) // alphaMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.alpha),
+
+    };
+    const outfit_texture = {
+      map: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.alpha),
+
+    }; // outfit_texture.map.encoding = THREE.sRGBEncoding;
+
+    const eyewear_texture = {
+      map: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.roughness),
+      // aoMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.ambient_occlusion),
+      alphaMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.alpha)
+    };
+    const text_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_text_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
+
+    }; // LOAD ANIMATION
+
+    mixer = new three__WEBPACK_IMPORTED_MODULE_0__["AnimationMixer"](starter_anim_obj);
+    const action = mixer.clipAction(starter_anim_obj.animations[0]);
+    action.play(); // SCALE, SHADOW, TEXTURE OPTIONS FOR MESHES
+
+    starter_background_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    starter_background_obj.receiveShadow = false;
+    starter_background_obj.castShadow = false;
+    var texture_background = new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ ...background_texture,
+      ...settings.texture_options.st_background
+    });
+    var texture_text = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...text_texture,
+      ...settings.texture_options.st_background
+    });
+    starter_background_obj.traverse(o => {
+      if (o.isMesh && o.name == "mesh_0") {
+        o.castShadow = true;
+        o.receiveShadow = true;
+        o.material = texture_background;
+      } else if (o.isMesh) {
+        o.castShadow = false;
+        o.receiveShadow = false;
+        o.material = texture_text;
+      }
+    });
+    console.log("BG/Text: ");
+    console.log(starter_background_obj); // ====
+
+    starter_anim_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    starter_anim_obj.receiveShadow = true;
+    starter_anim_obj.castShadow = true;
+    var texture_background = new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ ...background_texture,
+      ...settings.texture_options.st_background
+    });
+    var texture_text = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...text_texture,
+      ...settings.texture_options.st_background
+    });
+    var texture_skin = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...body_texture,
+      ...settings.texture_options.st_skin
+    });
+    var texture_outfit = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...outfit_texture,
+      ...settings.texture_options.st_outfit
+    });
+    var texture_hair = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...hair_texture,
+      ...settings.texture_options.st_hair
+    });
+    var texture_eyewear = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...eyewear_texture,
+      ...settings.texture_options.st_eyewear
+    });
+    starter_anim_obj.traverse(o => {
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true; // console.log(o.name);
+
+        switch (o.name) {
+          case "Body":
+          case "Body_low":
+          case "Head_low":
+          case "eye_low":
+            o.material = texture_skin;
+            break;
+
+          case "OM2dsdas":
+            o.material = texture_outfit;
+            break;
+
+          case "E3_low":
+          case "eyewear":
+            o.material = texture_eyewear;
+            break;
+
+          case "H3":
+          case "hair01_low":
+          case "hair02_low":
+            o.material = texture_hair;
+            break;
+
+          default:
+            o.material = texture_skin;
+            break;
+        }
+      }
+    });
+    console.log("Anim ST: ");
+    console.log(starter_anim_obj); // ADD ST OBJ TO SCENE
+    // starter_all_obj = new THREE.Object3D();
+    // starter_all_obj.add(starter_background_obj);
+    // starter_all_obj.add(starter_face_obj);
+    // starter_all_obj.add(starter_hair_obj);
+    // starter_all_obj.add(starter_outfit_obj);
+    // starter_all_obj.add(starter_asset_obj);
+    // starter_all_obj.add(starter_eyewear_obj);
+    // console.log("All: ");
+    // console.log(starter_all_obj);
+
+    scene.add(starter_background_obj);
+    scene.add(starter_anim_obj); // scene.add(starter_face_obj);
+    // scene.add(starter_hair_obj);
+    // scene.add(starter_outfit_obj);
+    // scene.add(starter_asset_obj);
+    // scene.add(starter_eyewear_obj);
+
+    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(false, {
+      rendered_element: avatar.rendered_element
+    });
+  },
   // ========
   loadDefaultBg: async function (options) {
     var defaults = {};
@@ -1633,13 +1855,11 @@ avatar = {
 
       if (/\.CUBE$/i.test(settings.lut_file)) {
         LUTCUBELoader.load(settings.lut_asset + settings.lut_file, function (result) {
-          lutMap = result;
-          console.log(lutMap);
+          lutMap = result; // console.log(lutMap);
         });
       } else {
         LUT3DLLOADER.load(settings.lut_asset + settings.lut_file, function (result) {
-          lutMap = result;
-          console.log(lutMap);
+          lutMap = result; // console.log(lutMap);
         });
       }
     },
@@ -1890,7 +2110,7 @@ var debug = {
 // - LookDev 
 // 
 //
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
@@ -1929,8 +2149,24 @@ window.addEventListener("load", function () {
   if (typeof st_code != "undefined" && st_code != null) {
     // if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T3";
     if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T1"; // avatar.loadDefaultBg();
+    // avatar.loadST(st_code); 
 
-    _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadST(st_code);
+    var anim = url.searchParams.get("anim");
+
+    if (typeof anim != "undefined" && anim != null) {
+      _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadSTDEMO(st_code);
+    } else {
+      _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadST(st_code);
+    }
+  }
+
+  var stdemo_code = url.searchParams.get("load_stdemo"); // console.log(st_code);
+
+  if (typeof stdemo_code != "undefined" && stdemo_code != null) {
+    // if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T3";
+    if (stdemo_code.length == 0) stdemo_code = "HM3-EM3-FM3-OM2-A1-T1"; // avatar.loadDefaultBg();
+
+    _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadSTDEMO(stdemo_code);
   }
 
   var dim = url.searchParams.get("dim"); // console.log(dim);
@@ -1957,7 +2193,7 @@ window.addEventListener("load", function () {
   }
 });
 window.debug = _avatar_main__WEBPACK_IMPORTED_MODULE_2__["debug"];
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
@@ -2002,7 +2238,7 @@ __webpack_require__.r(__webpack_exports__);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (config);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
