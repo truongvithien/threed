@@ -1111,7 +1111,7 @@ avatar = {
                         break;
                     case "H3": 
                     case "hair01_low": 
-                    case "hair02_low": 
+                    case "hair02_low":  
                         o.material = texture_hair;
                         break;
                     default:
@@ -1120,8 +1120,8 @@ avatar = {
                 }
             } 
         });
-        console.log("Anim ST: ");
-        console.log(starter_anim_obj);  
+        console.log("Anim ST: "); 
+        console.log(starter_anim_obj);   
         
         // ADD ST OBJ TO SCENE
 
