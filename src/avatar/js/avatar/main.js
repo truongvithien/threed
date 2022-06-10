@@ -1508,7 +1508,7 @@ avatar = {
             scene.background = new THREE.Color().setHSL(0, 0, 0);
             // scene.fog = new THREE.Fog(scene.background, 1, 5000);
             scene.fog = new THREE.FogExp2( 0xffffff, .0 );
-
+ 
             
             // scene.background = new THREE.Color( 0xff0000 );
 			// const pmremGenerator = new THREE.PMREMGenerator( renderer );
