@@ -879,7 +879,7 @@ avatar = {
 
     },
 
-    loadSTDEMO: async function(st_code, options) {
+    loadSTDEMO: async function(st_code, anim_code = "ST_Walk", options) {
         var defaults = {
             asset_dir: avatar.asset_dir,
             texture_options: _DEFAULT.texture_options,
@@ -959,7 +959,7 @@ avatar = {
                 settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st
             ),
             fbxLoader.loadAsync(
-                settings.asset_dir + "DEMO/DEMO" +  settings.model_suffix.smt
+                settings.asset_dir + "DEMO/" + anim_code +  settings.model_suffix.smt
             ),
         ]);
 
@@ -972,7 +972,7 @@ avatar = {
             normalMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.normal),
             roughnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.roughness),
             // aoMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.ambient_occlusion),
-        }
+        } 
         const body_texture = {
             map: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.base_color),
             metalnessMap: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.metallic),
@@ -1053,12 +1053,12 @@ avatar = {
         });
         console.log("BG/Text: ");
         console.log(starter_background_obj);
-
+        starter_background_obj.scale.set(.06, .06, .06)
 
         // ====
         starter_anim_obj.scale.set(
             settings.scale.x,
-            settings.scale.y,
+            settings.scale.y, 
             settings.scale.z,
         );
         starter_anim_obj.receiveShadow = true;
@@ -1130,7 +1130,7 @@ avatar = {
         // starter_all_obj.add(starter_face_obj);
         // starter_all_obj.add(starter_hair_obj);
         // starter_all_obj.add(starter_outfit_obj);
-        // starter_all_obj.add(starter_asset_obj);
+        // starter_all_obj.add(starter_asset_obj); 
         // starter_all_obj.add(starter_eyewear_obj);
 
         // console.log("All: ");
@@ -1710,7 +1710,12 @@ avatar = {
             const delta = clock.getDelta();
     
             if (starter_background_obj) {
-                starter_background_obj.lookAt(camera.position);
+                starter_background_obj.lookAt(
+                    camera.position.x ,
+                    camera.position.y - 2,
+                    camera.position.z
+                    
+                    );
             } 
 
             if ( mixer ) mixer.update( delta );

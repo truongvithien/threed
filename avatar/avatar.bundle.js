@@ -403,7 +403,7 @@ var helper = {
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (helper);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
@@ -1212,7 +1212,7 @@ avatar = {
       rendered_element: avatar.rendered_element
     });
   },
-  loadSTDEMO: async function (st_code, options) {
+  loadSTDEMO: async function (st_code, anim_code = "ST_Walk", options) {
     var defaults = {
       asset_dir: avatar.asset_dir,
       texture_options: _DEFAULT.texture_options,
@@ -1277,7 +1277,7 @@ avatar = {
       rendered_element: avatar.rendered_element
     });
     _helper__WEBPACK_IMPORTED_MODULE_14__["default"].clean(scene);
-    [starter_background_data, starter_anim_obj] = await Promise.all([glbLoader.loadAsync(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st), fbxLoader.loadAsync(settings.asset_dir + "DEMO/DEMO" + settings.model_suffix.smt)]);
+    [starter_background_data, starter_anim_obj] = await Promise.all([glbLoader.loadAsync(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st), fbxLoader.loadAsync(settings.asset_dir + "DEMO/" + anim_code + settings.model_suffix.smt)]);
     starter_background_obj = starter_background_data.scene.children[0]; // LOAD TEXTURE
 
     const background_texture = {
@@ -1354,7 +1354,8 @@ avatar = {
       }
     });
     console.log("BG/Text: ");
-    console.log(starter_background_obj); // ====
+    console.log(starter_background_obj);
+    starter_background_obj.scale.set(.06, .06, .06); // ====
 
     starter_anim_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
     starter_anim_obj.receiveShadow = true;
@@ -1418,7 +1419,7 @@ avatar = {
     // starter_all_obj.add(starter_face_obj);
     // starter_all_obj.add(starter_hair_obj);
     // starter_all_obj.add(starter_outfit_obj);
-    // starter_all_obj.add(starter_asset_obj);
+    // starter_all_obj.add(starter_asset_obj); 
     // starter_all_obj.add(starter_eyewear_obj);
     // console.log("All: ");
     // console.log(starter_all_obj);
@@ -1961,7 +1962,7 @@ avatar = {
       const delta = clock.getDelta();
 
       if (starter_background_obj) {
-        starter_background_obj.lookAt(camera.position);
+        starter_background_obj.lookAt(camera.position.x, camera.position.y - 2, camera.position.z);
       }
 
       if (mixer) mixer.update(delta);
@@ -2110,7 +2111,7 @@ var debug = {
 // - LookDev 
 // 
 //
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
@@ -2151,10 +2152,11 @@ window.addEventListener("load", function () {
     if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T1"; // avatar.loadDefaultBg();
     // avatar.loadST(st_code); 
 
-    var anim = url.searchParams.get("anim");
+    var anim_code = url.searchParams.get("anim");
 
-    if (typeof anim != "undefined" && anim != null) {
-      _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadSTDEMO(st_code);
+    if (typeof anim_code != "undefined" && anim_code != null) {
+      if (anim_code.length == 0) anim_code = "ST_Walk";
+      _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadSTDEMO(st_code, anim_code);
     } else {
       _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadST(st_code);
     }
@@ -2193,7 +2195,7 @@ window.addEventListener("load", function () {
   }
 });
 window.debug = _avatar_main__WEBPACK_IMPORTED_MODULE_2__["debug"];
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 
@@ -2238,7 +2240,7 @@ __webpack_require__.r(__webpack_exports__);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (config);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
 
 /***/ }),
 

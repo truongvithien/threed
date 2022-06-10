@@ -28,9 +28,10 @@ window.addEventListener("load", function(){
         // avatar.loadDefaultBg();
         // avatar.loadST(st_code); 
 
-        var anim = url.searchParams.get("anim");
-        if (typeof anim != "undefined" && anim != null) {
-            avatar.loadSTDEMO(st_code);             
+        var anim_code = url.searchParams.get("anim");
+        if (typeof anim_code != "undefined" && anim_code != null) {
+            if (anim_code.length == 0) anim_code = "ST_Walk";
+            avatar.loadSTDEMO(st_code, anim_code);             
         } else {
             avatar.loadST(st_code); 
         }
