@@ -403,7 +403,7 @@ var helper = {
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (helper);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
 /***/ }),
 
@@ -436,7 +436,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_examples_jsm_loaders_LUTCubeLoader_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! three/examples/jsm/loaders/LUTCubeLoader.js */ "./node_modules/three/examples/jsm/loaders/LUTCubeLoader.js");
 /* harmony import */ var three_examples_jsm_loaders_LUT3dlLoader_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! three/examples/jsm/loaders/LUT3dlLoader.js */ "./node_modules/three/examples/jsm/loaders/LUT3dlLoader.js");
 /* harmony import */ var three_examples_jsm_shaders_GammaCorrectionShader_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! three/examples/jsm/shaders/GammaCorrectionShader.js */ "./node_modules/three/examples/jsm/shaders/GammaCorrectionShader.js");
-/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./_helper */ "./src/avatar/js/avatar/_helper.js");
+/* harmony import */ var three_examples_jsm_environments_RoomEnvironment_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! three/examples/jsm/environments/RoomEnvironment.js */ "./node_modules/three/examples/jsm/environments/RoomEnvironment.js");
+/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./_helper */ "./src/avatar/js/avatar/_helper.js");
 
 
  // LOADER
@@ -444,6 +445,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
  // POST - PROCESSING
+
 
 
 
@@ -597,12 +599,13 @@ const _DEFAULT = {
   },
   post_processing: {
     lut_asset: "assets/lut/",
-    lut_file: "Apple_prores_422_6.A002_02161207_C015.cube",
     // lut_file: "Protect_Highlights_01.cube",
+    // lut_file: "Apple_prores_422_6.A002_02161207_C015.cube",
+    lut_file: "Warm_1.siona_gut.cube",
     lutPass_options: {
       enable: true,
       // intensity: .025,
-      intensity: .55
+      intensity: .4
     }
   },
   light_options: {
@@ -612,7 +615,7 @@ const _DEFAULT = {
         dir: "assets/hdr/",
         hdri_file: "provence_studio_1k_edit.hdr",
         enable_background: false,
-        intensity: .005
+        intensity: .0005
       }
     },
     ambient_light: {
@@ -669,7 +672,7 @@ const _DEFAULT = {
       }
     },
     fill_light: {
-      enable: 1,
+      enable: 0,
       helper: 0,
       options: {
         debug_color: 0xff0000,
@@ -698,7 +701,7 @@ const _DEFAULT = {
       }
     },
     back_light: {
-      enable: 1,
+      enable: 0,
       helper: 0,
       options: {
         debug_color: 0xff0000,
@@ -727,7 +730,7 @@ const _DEFAULT = {
       }
     },
     top_light: {
-      enable: 1,
+      enable: 0,
       helper: 0,
       options: {
         debug_color: 0xff0000,
@@ -756,7 +759,7 @@ const _DEFAULT = {
       }
     },
     top2_light: {
-      enable: 1,
+      enable: 0,
       helper: 0,
       options: {
         debug_color: 0xff0000,
@@ -785,7 +788,7 @@ const _DEFAULT = {
       }
     },
     bottom_light: {
-      enable: 1,
+      enable: 0,
       helper: 0,
       options: {
         debug_color: 0xff0000,
@@ -864,10 +867,10 @@ avatar = {
 
     const fbxLoader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__["FBXLoader"](),
           texLoader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
-    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(true, {
+    _helper__WEBPACK_IMPORTED_MODULE_15__["default"].loading(true, {
       rendered_element: avatar.rendered_element
     });
-    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].clean(scene);
+    _helper__WEBPACK_IMPORTED_MODULE_15__["default"].clean(scene);
     [smt_avatar_obj] = await Promise.all([fbxLoader.loadAsync(settings.asset_dir + smt_code + "/" + smt_code + settings.model_suffix.smt)]); // LOAD TEXTURE 
 
     const skin_texture = {
@@ -929,7 +932,7 @@ avatar = {
     }); // ADD SMT OBJ TO SCENE
 
     scene.add(smt_avatar_obj);
-    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(false, {
+    _helper__WEBPACK_IMPORTED_MODULE_15__["default"].loading(false, {
       rendered_element: avatar.rendered_element
     });
   },
@@ -993,10 +996,10 @@ avatar = {
 
     const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"](),
           texLoader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
-    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(true, {
+    _helper__WEBPACK_IMPORTED_MODULE_15__["default"].loading(true, {
       rendered_element: avatar.rendered_element
     });
-    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].clean(scene);
+    _helper__WEBPACK_IMPORTED_MODULE_15__["default"].clean(scene);
     [starter_background_data, starter_face_data, starter_hair_data, starter_outfit_data, starter_asset_data, starter_eyewear_data] = await Promise.all([glbLoader.loadAsync(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.model_suffix.st)]);
     starter_background_obj = starter_background_data.scene.children[0];
     starter_face_obj = starter_face_data.scene.children[0];
@@ -1207,7 +1210,7 @@ avatar = {
     // scene.add(starter_asset_obj);
     // scene.add(starter_eyewear_obj);
 
-    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(false, {
+    _helper__WEBPACK_IMPORTED_MODULE_15__["default"].loading(false, {
       rendered_element: avatar.rendered_element
     });
   },
@@ -1272,10 +1275,10 @@ avatar = {
     const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"](),
           fbxLoader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__["FBXLoader"](),
           texLoader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
-    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(true, {
+    _helper__WEBPACK_IMPORTED_MODULE_15__["default"].loading(true, {
       rendered_element: avatar.rendered_element
     });
-    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].clean(scene);
+    _helper__WEBPACK_IMPORTED_MODULE_15__["default"].clean(scene);
     [starter_background_data, starter_anim_obj] = await Promise.all([glbLoader.loadAsync(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st), fbxLoader.loadAsync(settings.asset_dir + "DEMO/" + anim_code + settings.model_suffix.smt)]);
     starter_background_obj = starter_background_data.scene.children[0]; // LOAD TEXTURE
 
@@ -1430,7 +1433,7 @@ avatar = {
     // scene.add(starter_asset_obj);
     // scene.add(starter_eyewear_obj);
 
-    _helper__WEBPACK_IMPORTED_MODULE_14__["default"].loading(false, {
+    _helper__WEBPACK_IMPORTED_MODULE_15__["default"].loading(false, {
       rendered_element: avatar.rendered_element
     });
   },
@@ -1464,10 +1467,10 @@ avatar = {
     all: function (options) {
       var defaults = {};
       var settings = $.extend(defaults, options);
-      avatar.setup.scene();
-      avatar.setup.camera();
       avatar.setup.renderer(); // => renderer
 
+      avatar.setup.scene();
+      avatar.setup.camera();
       avatar.setup.post_processing(); // => composer
 
       avatar.setup.controls();
@@ -1669,14 +1672,14 @@ avatar = {
       } // 
 
 
-      light.ambient = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.amb_light(settings.ambient_light);
+      light.ambient = _helper__WEBPACK_IMPORTED_MODULE_15__["default"].create_light.amb_light(settings.ambient_light);
 
       if (settings.ambient_light.enable) {
         scene.add(light.ambient);
       } // helper.create_light.environment_light(settings.environment_light.options);
 
 
-      light.key = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.spot_light(settings.key_light);
+      light.key = _helper__WEBPACK_IMPORTED_MODULE_15__["default"].create_light.spot_light(settings.key_light);
 
       if (settings.key_light.enable) {
         scene.add(light.key);
@@ -1687,7 +1690,7 @@ avatar = {
         }
       }
 
-      light.fill = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.spot_light(settings.fill_light);
+      light.fill = _helper__WEBPACK_IMPORTED_MODULE_15__["default"].create_light.spot_light(settings.fill_light);
 
       if (settings.fill_light.enable) {
         scene.add(light.fill);
@@ -1698,7 +1701,7 @@ avatar = {
         }
       }
 
-      light.back = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.spot_light(settings.back_light);
+      light.back = _helper__WEBPACK_IMPORTED_MODULE_15__["default"].create_light.spot_light(settings.back_light);
 
       if (settings.back_light.enable) {
         scene.add(light.back);
@@ -1709,7 +1712,7 @@ avatar = {
         }
       }
 
-      light.top = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.spot_light(settings.top_light);
+      light.top = _helper__WEBPACK_IMPORTED_MODULE_15__["default"].create_light.spot_light(settings.top_light);
 
       if (settings.top_light.enable) {
         scene.add(light.top);
@@ -1720,7 +1723,7 @@ avatar = {
         }
       }
 
-      light.top2 = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.spot_light(settings.top2_light);
+      light.top2 = _helper__WEBPACK_IMPORTED_MODULE_15__["default"].create_light.spot_light(settings.top2_light);
 
       if (settings.top2_light.enable) {
         scene.add(light.top2);
@@ -1731,7 +1734,7 @@ avatar = {
         }
       }
 
-      light.bottom = _helper__WEBPACK_IMPORTED_MODULE_14__["default"].create_light.spot_light(settings.bottom_light);
+      light.bottom = _helper__WEBPACK_IMPORTED_MODULE_15__["default"].create_light.spot_light(settings.bottom_light);
 
       if (settings.bottom_light.enable) {
         scene.add(light.bottom);
@@ -1799,7 +1802,9 @@ avatar = {
       scene = new three__WEBPACK_IMPORTED_MODULE_0__["Scene"]();
       scene.background = new three__WEBPACK_IMPORTED_MODULE_0__["Color"]().setHSL(0, 0, 0); // scene.fog = new THREE.Fog(scene.background, 1, 5000);
 
-      scene.fog = new three__WEBPACK_IMPORTED_MODULE_0__["FogExp2"](0xffffff, .0);
+      scene.fog = new three__WEBPACK_IMPORTED_MODULE_0__["FogExp2"](0xffffff, .0); // scene.background = new THREE.Color( 0xff0000 );
+      // const pmremGenerator = new THREE.PMREMGenerator( renderer );
+      // scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.0001 ).texture;
     },
     renderer: function (options) {
       var defaults = {};
@@ -1811,7 +1816,7 @@ avatar = {
       renderer.setPixelRatio(window.devicePixelRatio);
       renderer.setSize(avatar.dom_width, avatar.dom_height);
       renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["PCFSoftShadowMap"];
+      renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["VSMShadowMap"];
       renderer.physicallyCorrectLights = true;
       renderer.outputEncoding = three__WEBPACK_IMPORTED_MODULE_0__["sRGBEncoding"]; // renderer.toneMapping = THREE.ACESFilmicToneMapping;
       // renderer.toneMappingExposure = .5;
@@ -2110,7 +2115,7 @@ var debug = {
 // - LookDev 
 // 
 //
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
 /***/ }),
 
@@ -2197,7 +2202,7 @@ window.addEventListener("load", function () {
 
 });
 window.debug = _avatar_main__WEBPACK_IMPORTED_MODULE_2__["debug"];
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
 /***/ }),
 
@@ -2242,7 +2247,7 @@ __webpack_require__.r(__webpack_exports__);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (config);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
 
 /***/ }),
 

@@ -18,6 +18,7 @@ import { LUTPass } from 'three/examples/jsm/postprocessing/LUTPass.js';
 import { LUTCubeLoader } from 'three/examples/jsm/loaders/LUTCubeLoader.js';
 import { LUT3dlLoader } from 'three/examples/jsm/loaders/LUT3dlLoader.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
 // 
 
@@ -177,12 +178,13 @@ const
         },
         post_processing: {
             lut_asset: "assets/lut/",
-            lut_file: "Apple_prores_422_6.A002_02161207_C015.cube",
             // lut_file: "Protect_Highlights_01.cube",
+            // lut_file: "Apple_prores_422_6.A002_02161207_C015.cube",
+            lut_file: "Warm_1.siona_gut.cube", 
             lutPass_options: {
                 enable: true,
                 // intensity: .025,
-                intensity: .55
+                intensity: .4
             }
         },
         light_options: {
@@ -192,7 +194,7 @@ const
                     dir: "assets/hdr/",
                     hdri_file: "provence_studio_1k_edit.hdr", 
                     enable_background: false,
-                    intensity: .005,
+                    intensity: .0005,
                 }
             },
             ambient_light: {
@@ -244,7 +246,7 @@ const
                 }
             },
             fill_light: {
-                enable: 1,
+                enable: 0,
                 helper: 0,
                 options: {
                     debug_color: 0xff0000,
@@ -269,7 +271,7 @@ const
                 }
             },
             back_light: {
-                enable: 1,
+                enable: 0,
                 helper: 0,
                 options: {
                     debug_color: 0xff0000,
@@ -294,7 +296,7 @@ const
                 }
             },
             top_light: {
-                enable: 1,
+                enable: 0,
                 helper: 0,
                 options: {
                     debug_color: 0xff0000,
@@ -319,7 +321,7 @@ const
                 }
             },
             top2_light: {
-                enable: 1,
+                enable: 0,
                 helper: 0,
                 options: {
                     debug_color: 0xff0000,
@@ -344,7 +346,7 @@ const
                 }
             },
             bottom_light: {
-                enable: 1,
+                enable: 0,
                 helper: 0,
                 options: {
                     debug_color: 0xff0000,
@@ -1192,9 +1194,9 @@ avatar = {
             var defaults = {
             }
             var settings = $.extend(defaults, options); 
+            avatar.setup.renderer(); // => renderer
             avatar.setup.scene();
             avatar.setup.camera();
-            avatar.setup.renderer(); // => renderer
             avatar.setup.post_processing(); // => composer
             avatar.setup.controls();
             avatar.setup.lights(_DEFAULT.light_options);
@@ -1506,6 +1508,12 @@ avatar = {
             scene.background = new THREE.Color().setHSL(0, 0, 0);
             // scene.fog = new THREE.Fog(scene.background, 1, 5000);
             scene.fog = new THREE.FogExp2( 0xffffff, .0 );
+
+            
+            // scene.background = new THREE.Color( 0xff0000 );
+			// const pmremGenerator = new THREE.PMREMGenerator( renderer );
+			// scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.0001 ).texture;
+            
         },
         renderer: function(options) {
             var defaults = {
@@ -1519,7 +1527,7 @@ avatar = {
             renderer.setSize(avatar.dom_width, avatar.dom_height);
 
             renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.shadowMap.type = THREE.VSMShadowMap;
 
             renderer.physicallyCorrectLights = true;
             renderer.outputEncoding =  THREE.sRGBEncoding;
