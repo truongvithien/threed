@@ -88,11 +88,11 @@ const
                 roughness: 1.5
             },
             st_background: {
-                emissiveIntensity: 2,
-                normalScale: new THREE.Vector2(-1, -1),
+                // emissiveIntensity: 2,
+                // normalScale: new THREE.Vector2(-1, -1),
                 // envMapIntensity: 0,
-                roughness: 0,
-                transparent: true
+                // roughness: 0,
+                // transparent: true
             },
             st_text: {
                 emissiveIntensity: 0,
@@ -182,7 +182,7 @@ const
             lutPass_options: {
                 enable: true,
                 // intensity: .025,
-                intensity: .01
+                intensity: .55
             }
         },
         light_options: {
@@ -192,7 +192,7 @@ const
                     dir: "assets/hdr/",
                     hdri_file: "provence_studio_1k_edit.hdr", 
                     enable_background: false,
-                    intensity: .4,
+                    intensity: .005,
                 }
             },
             ambient_light: {
@@ -203,11 +203,11 @@ const
                 }
             },
             hemisphere_light: { 
-                enable: false,
+                enable: 1,
                 options: {
                     skyColor: 0xffffff,
                     groundColor: 0xffffff,
-                    intensity: 1,
+                    intensity: .2,
                     position: {
                         x: 0, y: 50, z: 0
                     }
@@ -224,9 +224,9 @@ const
                 options: {
                     debug_color: 0xff0000,
                     color: 0xffffff,
-                    decay: 0,
+                    decay: .2,
                     distance: 80,
-                    intensity: .8,
+                    intensity: 2.8,
                     angle: Math.PI/ 2,
                     penumbra: 0,
                     cast_shadow: true,
@@ -249,7 +249,7 @@ const
                 options: {
                     debug_color: 0xff0000,
                     color: 0xffffff,
-                    decay: 0,
+                    decay: .2,
                     distance: 50,
                     intensity: .6,
                     angle: Math.PI/ 3,
@@ -274,9 +274,9 @@ const
                 options: {
                     debug_color: 0xff0000,
                     color: 0xffffff,
-                    decay: 0,
+                    decay: .2,
                     distance: 50,
-                    intensity: 1.9,
+                    intensity: 1,
                     angle: Math.PI/ 3,
                     penumbra: 0,
                     cast_shadow: true,
@@ -299,9 +299,9 @@ const
                 options: {
                     debug_color: 0xff0000,
                     color: 0xffffff,
-                    decay: 0,
+                    decay: .2,
                     distance: 50,
-                    intensity: 2.8,
+                    intensity: .6,
                     angle: Math.PI/ 5,
                     penumbra: 0,
                     cast_shadow: true,
@@ -323,10 +323,10 @@ const
                 helper: 0,
                 options: {
                     debug_color: 0xff0000,
-                    color: 0xffffff,
-                    decay: 0,
+                    color: 0xffffff,               
+                    decay: .2,
                     distance: 50,
-                    intensity: .7,
+                    intensity: .4,
                     angle: Math.PI/ 5,
                     penumbra: 0,
                     cast_shadow: true,
@@ -348,8 +348,8 @@ const
                 helper: 0,
                 options: {
                     debug_color: 0xff0000,
-                    color: 0xffffff,
-                    decay: 0,
+                    color: 0xffffff,                    
+                    decay: .2,
                     distance: 50,
                     intensity: 1.2,
                     angle: Math.PI/ 3,
@@ -1239,9 +1239,9 @@ avatar = {
                     options: {
                         debug_color: 0xff0000,
                         color: 0xffffff,
-                        decay: 1,
-                        distance: 30,
-                        intensity: .95,
+                        decay: 0,
+                        distance: 100,
+                        intensity: 1.95,
                         angle: Math.PI/ 2,
                         penumbra: 0,
                         cast_shadow: true,
@@ -1264,7 +1264,7 @@ avatar = {
                     options: {
                         debug_color: 0xff0000,
                         color: 0xffe0a9,
-                        decay: 1,
+                        decay: 0,
                         distance: 50,
                         intensity: .5,
                         angle: Math.PI/ 3,
@@ -1289,7 +1289,7 @@ avatar = {
                     options: {
                         debug_color: 0xff0000,
                         color: 0xffffff,
-                        decay: 1,
+                        decay: 0,
                         distance: 50,
                         intensity: .9,
                         angle: Math.PI/ 3,
@@ -1314,7 +1314,7 @@ avatar = {
                     options: {
                         debug_color: 0xff0000,
                         color: 0xffffff,
-                        decay: 1,
+                        decay: 0,
                         distance: 50,
                         intensity: .4,
                         angle: Math.PI/ 5,
@@ -1339,7 +1339,7 @@ avatar = {
                     options: {
                         debug_color: 0xff0000,
                         color: 0xffffff,
-                        decay: 1,
+                        decay: 0,
                         distance: 50,
                         intensity: .4,
                         angle: Math.PI/ 3,
@@ -1441,9 +1441,9 @@ avatar = {
             }
 
             if (settings.hemisphere_light.enable) {
-                light.hemi = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
-                light.hemi.color.setHSL(0.6, 1, 0.6);
-                light.hemi.groundColor.setHSL(0.095, 1, 0.75);
+                light.hemi = new THREE.HemisphereLight(0xffffff, 0xffffff, settings.hemisphere_light.options.intensity);
+                // light.hemi.color.setHSL(0.6, 1, 0.6);
+                // light.hemi.groundColor.setHSL(0.095, 1, 0.75);
                 light.hemi.position.set(0, 50, 0);
                 scene.add(light.hemi);
     

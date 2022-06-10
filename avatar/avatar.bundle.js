@@ -514,12 +514,11 @@ const _DEFAULT = {
       normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](-1, -1),
       roughness: 1.5
     },
-    st_background: {
-      emissiveIntensity: 2,
-      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](-1, -1),
+    st_background: {// emissiveIntensity: 2,
+      // normalScale: new THREE.Vector2(-1, -1),
       // envMapIntensity: 0,
-      roughness: 0,
-      transparent: true
+      // roughness: 0,
+      // transparent: true
     },
     st_text: {
       emissiveIntensity: 0,
@@ -603,7 +602,7 @@ const _DEFAULT = {
     lutPass_options: {
       enable: true,
       // intensity: .025,
-      intensity: .01
+      intensity: .55
     }
   },
   light_options: {
@@ -613,7 +612,7 @@ const _DEFAULT = {
         dir: "assets/hdr/",
         hdri_file: "provence_studio_1k_edit.hdr",
         enable_background: false,
-        intensity: .4
+        intensity: .005
       }
     },
     ambient_light: {
@@ -624,11 +623,11 @@ const _DEFAULT = {
       }
     },
     hemisphere_light: {
-      enable: false,
+      enable: 1,
       options: {
         skyColor: 0xffffff,
         groundColor: 0xffffff,
-        intensity: 1,
+        intensity: .2,
         position: {
           x: 0,
           y: 50,
@@ -646,9 +645,9 @@ const _DEFAULT = {
       options: {
         debug_color: 0xff0000,
         color: 0xffffff,
-        decay: 0,
+        decay: .2,
         distance: 80,
-        intensity: .8,
+        intensity: 2.8,
         angle: Math.PI / 2,
         penumbra: 0,
         cast_shadow: true,
@@ -675,7 +674,7 @@ const _DEFAULT = {
       options: {
         debug_color: 0xff0000,
         color: 0xffffff,
-        decay: 0,
+        decay: .2,
         distance: 50,
         intensity: .6,
         angle: Math.PI / 3,
@@ -704,9 +703,9 @@ const _DEFAULT = {
       options: {
         debug_color: 0xff0000,
         color: 0xffffff,
-        decay: 0,
+        decay: .2,
         distance: 50,
-        intensity: 1.9,
+        intensity: 1,
         angle: Math.PI / 3,
         penumbra: 0,
         cast_shadow: true,
@@ -733,9 +732,9 @@ const _DEFAULT = {
       options: {
         debug_color: 0xff0000,
         color: 0xffffff,
-        decay: 0,
+        decay: .2,
         distance: 50,
-        intensity: 2.8,
+        intensity: .6,
         angle: Math.PI / 5,
         penumbra: 0,
         cast_shadow: true,
@@ -762,9 +761,9 @@ const _DEFAULT = {
       options: {
         debug_color: 0xff0000,
         color: 0xffffff,
-        decay: 0,
+        decay: .2,
         distance: 50,
-        intensity: .7,
+        intensity: .4,
         angle: Math.PI / 5,
         penumbra: 0,
         cast_shadow: true,
@@ -791,7 +790,7 @@ const _DEFAULT = {
       options: {
         debug_color: 0xff0000,
         color: 0xffffff,
-        decay: 0,
+        decay: .2,
         distance: 50,
         intensity: 1.2,
         angle: Math.PI / 3,
@@ -1515,9 +1514,9 @@ avatar = {
           options: {
             debug_color: 0xff0000,
             color: 0xffffff,
-            decay: 1,
-            distance: 30,
-            intensity: .95,
+            decay: 0,
+            distance: 100,
+            intensity: 1.95,
             angle: Math.PI / 2,
             penumbra: 0,
             cast_shadow: true,
@@ -1544,7 +1543,7 @@ avatar = {
           options: {
             debug_color: 0xff0000,
             color: 0xffe0a9,
-            decay: 1,
+            decay: 0,
             distance: 50,
             intensity: .5,
             angle: Math.PI / 3,
@@ -1573,7 +1572,7 @@ avatar = {
           options: {
             debug_color: 0xff0000,
             color: 0xffffff,
-            decay: 1,
+            decay: 0,
             distance: 50,
             intensity: .9,
             angle: Math.PI / 3,
@@ -1602,7 +1601,7 @@ avatar = {
           options: {
             debug_color: 0xff0000,
             color: 0xffffff,
-            decay: 1,
+            decay: 0,
             distance: 50,
             intensity: .4,
             angle: Math.PI / 5,
@@ -1631,7 +1630,7 @@ avatar = {
           options: {
             debug_color: 0xff0000,
             color: 0xffffff,
-            decay: 1,
+            decay: 0,
             distance: 50,
             intensity: .4,
             angle: Math.PI / 3,
@@ -1744,9 +1743,9 @@ avatar = {
       }
 
       if (settings.hemisphere_light.enable) {
-        light.hemi = new three__WEBPACK_IMPORTED_MODULE_0__["HemisphereLight"](0xffffff, 0xffffff, 0.6);
-        light.hemi.color.setHSL(0.6, 1, 0.6);
-        light.hemi.groundColor.setHSL(0.095, 1, 0.75);
+        light.hemi = new three__WEBPACK_IMPORTED_MODULE_0__["HemisphereLight"](0xffffff, 0xffffff, settings.hemisphere_light.options.intensity); // light.hemi.color.setHSL(0.6, 1, 0.6);
+        // light.hemi.groundColor.setHSL(0.095, 1, 0.75);
+
         light.hemi.position.set(0, 50, 0);
         scene.add(light.hemi);
 
@@ -2149,7 +2148,7 @@ window.addEventListener("load", function () {
 
   if (typeof st_code != "undefined" && st_code != null) {
     // if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T3";
-    if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T1"; // avatar.loadDefaultBg();
+    if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T2"; // avatar.loadDefaultBg();
     // avatar.loadST(st_code); 
 
     var anim_code = url.searchParams.get("anim");
@@ -2192,7 +2191,10 @@ window.addEventListener("load", function () {
       }
 
       break;
-  }
+  } // var color_correction = url.searchParams.get("load_smt");
+  // if (typeof color_correction != "undefined" && color_correction != null) {
+  // }
+
 });
 window.debug = _avatar_main__WEBPACK_IMPORTED_MODULE_2__["debug"];
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js?a1c9")))

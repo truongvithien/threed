@@ -24,7 +24,7 @@ window.addEventListener("load", function(){
     // console.log(st_code);
     if (typeof st_code != "undefined" && st_code != null) {
         // if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T3";
-        if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T1";
+        if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T2";
         // avatar.loadDefaultBg();
         // avatar.loadST(st_code); 
 
@@ -65,6 +65,13 @@ window.addEventListener("load", function(){
             
             break;
     }
+
+    
+    // var color_correction = url.searchParams.get("load_smt");
+    // if (typeof color_correction != "undefined" && color_correction != null) {
+        
+    // }
+
 });
 
  
