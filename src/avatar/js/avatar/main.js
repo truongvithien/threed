@@ -180,11 +180,11 @@ const
             lut_asset: "assets/lut/",
             // lut_file: "Protect_Highlights_01.cube",
             // lut_file: "Apple_prores_422_6.A002_02161207_C015.cube",
-            lut_file: "Warm_1.siona_gut.cube", 
+            lut_file: "Warm_1.siona_gut.cube",  
             lutPass_options: {
                 enable: true,
                 // intensity: .025,
-                intensity: .4
+                intensity: .45
             }
         },
         light_options: {
@@ -227,7 +227,7 @@ const
                     debug_color: 0xff0000,
                     color: 0xffffff,
                     decay: .2,
-                    distance: 80,
+                    distance: 60,
                     intensity: 2.8,
                     angle: Math.PI/ 2,
                     penumbra: 0,
@@ -1498,7 +1498,7 @@ avatar = {
                 }
             }
 
-        },
+        }, 
         scene: function(options) {
             var defaults = {
             }
@@ -1530,10 +1530,10 @@ avatar = {
             renderer.shadowMap.type = THREE.VSMShadowMap;
 
             renderer.physicallyCorrectLights = true;
-            renderer.outputEncoding =  THREE.sRGBEncoding;
+            // renderer.outputEncoding =  THREE.sRGBEncoding;
             // renderer.toneMapping = THREE.ACESFilmicToneMapping;
             // renderer.toneMappingExposure = .5;
-            renderer.gammaOutput = true;
+            // renderer.gammaOutput = true;
             // renderer.gammaFactor = -.1;
             // renderer.toneMappingExposure = 1.02;
 
@@ -1549,7 +1549,7 @@ avatar = {
                 lut_file: _DEFAULT.post_processing.lut_file,
             }
             var settings = $.extend(defaults, options); 
-
+ 
             // ======
             
             const target = new THREE.WebGLRenderTarget( {
@@ -1719,9 +1719,9 @@ avatar = {
     
             if (starter_background_obj) {
                 starter_background_obj.lookAt(
-                    camera.position.x ,
-                    camera.position.y - 2,
-                    camera.position.z
+                    camera.position.x + 1.5,
+                    camera.position.y - 3.5,
+                    camera.position.z + .5
                     
                     );
             } 

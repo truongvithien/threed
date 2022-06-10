@@ -605,7 +605,7 @@ const _DEFAULT = {
     lutPass_options: {
       enable: true,
       // intensity: .025,
-      intensity: .4
+      intensity: .45
     }
   },
   light_options: {
@@ -649,7 +649,7 @@ const _DEFAULT = {
         debug_color: 0xff0000,
         color: 0xffffff,
         decay: .2,
-        distance: 80,
+        distance: 60,
         intensity: 2.8,
         angle: Math.PI / 2,
         penumbra: 0,
@@ -1817,11 +1817,11 @@ avatar = {
       renderer.setSize(avatar.dom_width, avatar.dom_height);
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["VSMShadowMap"];
-      renderer.physicallyCorrectLights = true;
-      renderer.outputEncoding = three__WEBPACK_IMPORTED_MODULE_0__["sRGBEncoding"]; // renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.physicallyCorrectLights = true; // renderer.outputEncoding =  THREE.sRGBEncoding;
+      // renderer.toneMapping = THREE.ACESFilmicToneMapping;
       // renderer.toneMappingExposure = .5;
-
-      renderer.gammaOutput = true; // renderer.gammaFactor = -.1;
+      // renderer.gammaOutput = true;
+      // renderer.gammaFactor = -.1;
       // renderer.toneMappingExposure = 1.02;
       // composer = new EffectComposer(renderer);
 
@@ -1966,7 +1966,7 @@ avatar = {
       const delta = clock.getDelta();
 
       if (starter_background_obj) {
-        starter_background_obj.lookAt(camera.position.x, camera.position.y - 2, camera.position.z);
+        starter_background_obj.lookAt(camera.position.x + 1.5, camera.position.y - 3.5, camera.position.z + .5);
       }
 
       if (mixer) mixer.update(delta);
