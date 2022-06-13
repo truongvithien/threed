@@ -132,9 +132,9 @@ const
                 aoMap: null,
                 // aoMapIntensity: .1,
                 // emissiveIntensity: .8,
-                // normalScale: new THREE.Vector2(1,1),
-                envMapIntensity: 0,
-                // roughness: .3,
+                normalScale: new THREE.Vector2(1,1),
+                envMapIntensity: 1,
+                roughness: .6,
                 // normalMapType: THREE.ObjectSpaceNormalMap
             },
             st_asset: {
@@ -189,12 +189,12 @@ const
         post_processing: {
             lut_asset: "assets/lut/",
             // lut_file: "Protect_Highlights_01.cube",
-            // lut_file: "Apple_prores_422_6.A002_02161207_C015.cube",
-            lut_file: "Warm_1.siona_gut.cube",  
+            lut_file: "Apple_prores_422_6.A002_02161207_C015.cube",
+            // lut_file: "Warm_1.siona_gut.cube",  
             lutPass_options: {
                 enable: true,
                 // intensity: .025,
-                intensity: .3
+                intensity: .6
             }
         },
         light_options: {
@@ -212,11 +212,11 @@ const
                 enable: 1,
                 options: {
                     color: 0xffffff,
-                    intensity: .8
+                    intensity: .2
                 }
             },
             hemisphere_light: { 
-                enable: 1,
+                enable: 0,
                 options: {
                     skyColor: 0xffffff,
                     groundColor: 0xffffff, 
@@ -239,7 +239,7 @@ const
                     color: 0xffffff,
                     decay: 0,
                     distance: 0,
-                    intensity: .9,
+                    intensity: 1.7,
                     angle: Math.PI/ 2,
                     penumbra: 0,
                     cast_shadow: true,
@@ -264,7 +264,7 @@ const
                     color: 0xffffff,
                     decay: 0,
                     distance: 0,
-                    intensity: .7,
+                    intensity: 1.2,
                     angle: Math.PI/ 3,
                     penumbra: 0,
                     cast_shadow: true,
@@ -289,7 +289,7 @@ const
                     color: 0xffffff,
                     decay: 0,
                     distance: 0,
-                    intensity: 1,
+                    intensity: 3,
                     angle: Math.PI/ 3,
                     penumbra: 0,
                     cast_shadow: true,
@@ -314,7 +314,7 @@ const
                     color: 0xffffff,
                     decay: 0,
                     distance: 0,
-                    intensity: 1.2,
+                    intensity: .8,
                     angle: Math.PI/ 5,
                     penumbra: 0,
                     cast_shadow: true,
@@ -324,7 +324,7 @@ const
                     shadow_camera_far: 200,
                     shadow_focus: 1,
                     position: {
-                        x: 0, y: 7, z: 3
+                        x: 0, y: 8, z: 3
                     },
                     target: {
                         x: 0, y: 4, z: 1
@@ -357,14 +357,14 @@ const
                 }
             },
             bottom_light: {
-                enable: 1,
+                enable: 0,
                 helper: 0,
                 options: {
                     debug_color: 0xff0000,
                     color: 0xffffff,                    
                     decay: 0,
                     distance: 0,
-                    intensity: .15,
+                    intensity: .6,
                     angle: Math.PI/ 3,
                     penumbra: 0,
                     cast_shadow: true,
@@ -383,13 +383,13 @@ const
             },
             hand_light: {
                 enable: 1,
-                helper: 0,
+                helper: 1,
                 options: {
                     debug_color: 0xff0000,
                     color: 0xffffff,                    
                     decay: 0,
                     distance: 0,
-                    intensity: .1,
+                    intensity: 1,
                     angle: Math.PI/ 3,
                     penumbra: 0,
                     cast_shadow: true,
@@ -1003,8 +1003,6 @@ avatar = {
 
         starter_background_obj = starter_background_data.scene.children[0];
 
-        // console.log(starter_anim_obj);
-
         // LOAD TEXTURE
         const background_texture = {
             map: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.base_color),
@@ -1138,8 +1136,6 @@ avatar = {
             if (o.isMesh) {
                 o.castShadow = false;
                 o.receiveShadow = false;
-
-                // o.geometry.computeVertexNormals(false);
                 // console.log(o.name);
                 switch (o.name) {
                     case "Body": 

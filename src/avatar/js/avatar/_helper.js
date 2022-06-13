@@ -198,8 +198,8 @@ var helper = {
                 obj_light.distance = settings.options.distance;
     
                 obj_light.castShadow = settings.options.cast_shadow;
-                obj_light.shadow.mapSize.width = settings.options.shadow_map_size_width;
-                obj_light.shadow.mapSize.height = settings.options.shadow_map_size_height;
+                // obj_light.shadow.mapSize.width = settings.options.shadow_map_size_width;
+                // obj_light.shadow.mapSize.height = settings.options.shadow_map_size_height;
                 obj_light.shadow.camera.near = settings.options.shadow_camera_near;
                 obj_light.shadow.camera.far = settings.options.shadow_camera_far;
                 obj_light.shadow.focus = settings.options.shadow_focus;

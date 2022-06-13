@@ -6,7 +6,7 @@ $(function () {
     avatar.init();
     avatar.switch();
 
-    // debug.freeCamera();
+    debug.freeCamera();
 });
 
 window.addEventListener("load", function(){
