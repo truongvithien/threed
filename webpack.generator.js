@@ -216,13 +216,12 @@ module.exports = {
 						}
 					}
 				}
-			},resolve: {
+			},
+			resolve: {
 				alias: {
-				  three$: 'three/build/three.min.js',
-				  'three/.*$': 'three',
-				   // don't need to register alias for every module
+					three$: 'three/build/three.min.js', 
+					'three/.*$': 'three',
 				},
-				// ...
 			},
 			plugins: pluginGenerator(options, dir, fileNames, spriteGroups),
 			node: {

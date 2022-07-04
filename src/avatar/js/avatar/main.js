@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/js/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { LightProbeGenerator } from 'three/examples/js/lights/LightProbeGenerator';
 
 // LOADER
 
-import { RGBELoader } from 'three/examples/js/loaders/RGBELoader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 
@@ -1411,7 +1411,7 @@ avatar = {
     
             if (settings.environment_light.enable) {
 
-                new THREE.RGBELoader()
+                new RGBELoader()
                     .setPath(settings.environment_light.options.dir)
                     .load(settings.environment_light.options.hdri_file, function (texture) {
                         texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -1712,7 +1712,7 @@ avatar = {
             }
             var settings = $.extend(defaults, options);
     
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls = new OrbitControls(camera, renderer.domElement);
             controls.minDistance = settings.minDistance;
             controls.maxDistance = settings.maxDistance;
             controls.zoomSpeed = settings.zoomSpeed;
