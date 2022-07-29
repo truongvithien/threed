@@ -49,6 +49,14 @@ window.addEventListener("load", function(){
         if (stdemo_code.length == 0) stdemo_code = "HM3-EM3-FM3-OM2-A1-T1";
         avatar.loadSTDEMO(stdemo_code); 
     }
+    
+    var stfpx_code = url.searchParams.get("load_stfpx"); 
+    // console.log(st_code);
+    if (typeof stfpx_code != "undefined" && stfpx_code != null) {
+        // if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T3";
+        if (stfpx_code.length == 0) stfpx_code = "HM3-EM3-FM3-OM2-A1-T1";
+        avatar.loadSTFPX(stfpx_code); 
+    }
 
     var dim = url.searchParams.get("dim");
     // console.log(dim);
