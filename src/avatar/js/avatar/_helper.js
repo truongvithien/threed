@@ -160,7 +160,7 @@ var helper = {
                     intensity: .6,
                     angle: Math.PI/ 3,
                     penumbra: 0,
-                    cast_shadow: true,
+                    cast_shadow: false,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
                     shadow_camera_near: 10,
@@ -247,8 +247,14 @@ var helper = {
 
         if (enableLoading) {
             $(settings.rendered_element).addClass(settings.className);
+            $(settings.rendered_element + " canvas").css({
+                opacity: 0
+            });
         } else {
             $(settings.rendered_element).removeClass(settings.className);
+            $(settings.rendered_element + " canvas").css({
+                opacity: 1
+            });
         }
     },
 
