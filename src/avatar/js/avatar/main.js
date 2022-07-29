@@ -124,21 +124,23 @@ const
             },
             st_hair: {
                 aoMap: null,
+                // normalScale: new THREE.Vector2(2, 2),
                 // aoMapIntensity: .2,
                 // normalScale: new THREE.Vector2(.15, .15),
                 // normalScale: new THREE.Vector2(.5, .5),
                 // envMapIntensity: .5,
                 
-                // roughness: 1.5,
+                roughness: 1.5,
                 // envMapIntensity: 1.2
             },
             st_outfit: {
                 aoMap: null,
+                normalScale: new THREE.Vector2(2, 2),
                 // aoMapIntensity: .1,
                 // emissiveIntensity: .8,
                 // normalScale: new THREE.Vector2(1,1),
                 envMapIntensity: .3,
-                // roughness: .3,
+                roughness: 1.4,
                 // normalMapType: THREE.ObjectSpaceNormalMap
             },
             st_asset: {
@@ -248,7 +250,7 @@ const
                     intensity: .9,
                     angle: Math.PI/ 2,
                     penumbra: 0,
-                    cast_shadow: true,
+                    cast_shadow: false,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
                     shadow_camera_near: 0,
@@ -273,7 +275,7 @@ const
                     intensity: .7,
                     angle: Math.PI/ 3,
                     penumbra: 0,
-                    cast_shadow: true,
+                    cast_shadow: false,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
                     shadow_camera_near: 10,
@@ -298,7 +300,7 @@ const
                     intensity: 1,
                     angle: Math.PI/ 3,
                     penumbra: 0,
-                    cast_shadow: true,
+                    cast_shadow: false,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
                     shadow_camera_near: 10,
@@ -323,7 +325,7 @@ const
                     intensity: 1.2,
                     angle: Math.PI/ 5,
                     penumbra: 0,
-                    cast_shadow: true,
+                    cast_shadow: false,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
                     shadow_camera_near: 10,
@@ -348,7 +350,7 @@ const
                     intensity: .4,
                     angle: Math.PI/ 5,
                     penumbra: 0,
-                    cast_shadow: true,
+                    cast_shadow: false,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
                     shadow_camera_near: 10,
@@ -373,7 +375,7 @@ const
                     intensity: .15,
                     angle: Math.PI/ 3,
                     penumbra: 0,
-                    cast_shadow: true,
+                    cast_shadow: false,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
                     shadow_camera_near: 10,
@@ -398,7 +400,7 @@ const
                     intensity: .1,
                     angle: Math.PI/ 3,
                     penumbra: 0,
-                    cast_shadow: true,
+                    cast_shadow: false,
                     shadow_map_size_width: 512,
                     shadow_map_size_height: 512,
                     shadow_camera_near: 10,
@@ -1272,7 +1274,7 @@ avatar = {
         `);
         
         $(avatar.rendered_element).css({
-            backgroundImage: `url(${starter_background_2d})`
+            backgroundImage: `url(${starter_eyewear_2d}),url(${starter_asset_2d}),url(${starter_outfit_2d}),url(${starter_hair_2d}),url(${starter_face_2d}),url(${starter_background_2d})` 
         });
 
         // LOAD 3D
@@ -1415,7 +1417,16 @@ avatar = {
 
         var starter_all_obj = new THREE.Object3D();
 
+        // var starter_plane_obj = new THREE.Mesh(
+        //     new THREE.PlaneGeometry( 20, 20 ),
+        //     new THREE.MeshStandardMaterial( {color: 0xcccccc, side: THREE.DoubleSide} )
+        // );
 
+        // starter_plane_obj.position.set();
+        // starter_plane_obj.rotation.x = Math.PI / 2;
+        // starter_plane_obj.rotation.z = 90;
+        // starter_plane_obj.receiveShadow = true;
+        // starter_plane_obj.castShadow = true;
 
         starter_all_obj.add(starter_face_obj);
         starter_all_obj.add(starter_hair_obj);
@@ -1501,6 +1512,8 @@ avatar = {
         );
         starter_anim_obj.receiveShadow = false;
         starter_anim_obj.castShadow = false;
+        starter_all_obj.receiveShadow = true;
+        starter_all_obj.castShadow = true;
 
         // var texture_background = new THREE.MeshBasicMaterial({
         //     ...background_texture,
@@ -1533,9 +1546,11 @@ avatar = {
         });
 
         starter_all_obj.traverse((o) => {
+            o.castShadow = true;
+            o.receiveShadow = true;
             if (o.isMesh) {
-                o.castShadow = false;
-                o.receiveShadow = false;
+                o.castShadow = true;
+                o.receiveShadow = true;
 
                 // o.geometry.computeVertexNormals(false);
                 // console.log(o.name);
@@ -1582,6 +1597,7 @@ avatar = {
         // console.log(starter_all_obj);
 
         // scene.add(starter_background_obj);
+        // scene.add(starter_plane_obj); 
         scene.add(starter_all_obj);
         // scene.add(starter_face_obj);
         // scene.add(starter_hair_obj);
@@ -1589,7 +1605,14 @@ avatar = {
         // scene.add(starter_asset_obj);
         // scene.add(starter_eyewear_obj);
 
-        helper.loading(false, {rendered_element: avatar.rendered_element});
+
+        
+        setTimeout(function(){
+            $(avatar.rendered_element).css({
+                backgroundImage: `url(${starter_background_2d})` 
+            });
+            helper.loading(false, {rendered_element: avatar.rendered_element});
+        }, 800)
 
     },
 
@@ -1685,7 +1708,7 @@ avatar = {
                         debug_color: 0xff0000,
                         color: 0xffffff,
                         decay: 0,
-                        distance: 100,
+                        distance: 0,
                         intensity: 1.95,
                         angle: Math.PI/ 2,
                         penumbra: 0,
@@ -1974,10 +1997,13 @@ avatar = {
             renderer = new THREE.WebGLRenderer({
                 alpha: true,
                 antialias: true,
-                powerPreference: "high-performance"
+                // preserveDrawingBuffer: true,
+                // powerPreference: "high-performance"
+                powerPreference: "default"
             });
             renderer.setPixelRatio( window.devicePixelRatio );
             renderer.setSize(avatar.dom_width, avatar.dom_height);
+            // renderer.setClearColor(0xEEEEEE);
 
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
