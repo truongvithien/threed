@@ -1287,6 +1287,13 @@ avatar = {
         helper.loading(true, {rendered_element: avatar.rendered_element});
         helper.clean(scene);
 
+        var 
+            starter_anim_default,
+            starter_anim_opt1_obj,
+            starter_anim_opt2_obj,
+            starter_anim_opt3_obj,
+            starter_anim_asset;
+
         [
             // starter_background_obj,
             starter_face_obj, 
@@ -1294,7 +1301,11 @@ avatar = {
             starter_outfit_obj,
             starter_asset_obj,
             starter_eyewear_obj,
-            starter_anim_obj   
+            starter_anim_default,
+            starter_anim_opt1_obj,
+            starter_anim_opt2_obj,
+            starter_anim_opt3_obj,
+            starter_anim_asset
         ] = await Promise.all([
             // fbxLoader.loadAsync(
             //     settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st_fbx
@@ -1318,7 +1329,7 @@ avatar = {
             //     settings.asset_dir_anim + "test/OM2_G_Skin.fbx"
             // ),
             fbxLoader.loadAsync(
-                settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.st_fbx
+                settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.st_fbx_anim
             ),
             fbxLoader.loadAsync(
                 settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.model_suffix.st_fbx_anim
@@ -1329,11 +1340,54 @@ avatar = {
             fbxLoader.loadAsync(
                 settings.asset_dir_anim + anim_code + settings.model_suffix.st_fbx
             ),
+            fbxLoader.loadAsync(
+                settings.asset_dir_anim + "Walk_Asset_Op01_A1_A4_A7" + settings.model_suffix.st_fbx
+            ),
+            fbxLoader.loadAsync(
+                settings.asset_dir_anim + "Walk_Asset_Op02_A3_A5_A6" + settings.model_suffix.st_fbx
+            ),
+            fbxLoader.loadAsync(
+                settings.asset_dir_anim + "Walk_Asset_Op03_A2_A8" + settings.model_suffix.st_fbx
+            ),
+            fbxLoader.loadAsync(
+                settings.asset_dir_anim + "Walk_" + obj_st["asset"] + settings.model_suffix.st_fbx
+            ),
         ]);
 
 
+        // DECIDE ANIM 
+
+        starter_anim_obj = starter_anim_default;
+
+        console.log(obj_st["asset"]);
+
+        switch (obj_st["asset"]) {
+            case "A1": 
+            case "A4": 
+            case "A7":
+                console.log("Walk_Asset_Op01_A1_A4_A7");
+                starter_anim_obj = starter_anim_opt1_obj;
+                break;
+            case "A3":
+            case "A5":
+            case "A6": 
+                console.log("Walk_Asset_Op02_A3_A5_A6");
+                starter_anim_obj = starter_anim_opt2_obj;
+                break;
+            case "A2":
+            case "A8":
+                console.log("Walk_Asset_Op03_A2_A8");
+                starter_anim_obj = starter_anim_opt3_obj;
+                break;
+            default: 
+                console.log("Walk");
+                starter_anim_asset = starter_anim_default;
+
+        }
+
+
         console.log([
-            starter_background_obj,
+            // starter_background_obj,
             starter_face_obj, 
             starter_hair_obj,
             starter_outfit_obj,
@@ -1391,6 +1445,7 @@ avatar = {
             // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
         }
         const asset_texture = {
+            // color: 0x000000,
             map: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.base_color),
             metalnessMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.metallic),
             normalMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.normal),
@@ -1431,11 +1486,11 @@ avatar = {
         starter_all_obj.add(starter_face_obj);
         starter_all_obj.add(starter_hair_obj);
         starter_all_obj.add(starter_outfit_obj);
-        // starter_all_obj.add(starter_asset_obj);
+        starter_all_obj.add(starter_asset_obj);
         starter_all_obj.add(starter_eyewear_obj);
         starter_all_obj.add(starter_anim_obj);
 
-        console.log("All objs: (face, hair, outfit, eye, anim)")
+        console.log("All objs: (face, hair, outfit, assets, eye, anim)")
         console.log(starter_all_obj);
 
         starter_all_obj.scale.set(
@@ -1462,9 +1517,9 @@ avatar = {
         const action_outfit = mixer_outfit.clipAction(starter_anim_obj.animations[0]);
         action_outfit.play();
 
-        // mixer_asset = new THREE.AnimationMixer(starter_asset_obj);
-        // const action_asset = mixer_asset.clipAction(starter_anim_obj.animations[0]);
-        // action_asset.play();
+        mixer_asset = new THREE.AnimationMixer(starter_asset_obj);
+        const action_asset = mixer_asset.clipAction(starter_anim_asset.animations[0]);
+        action_asset.play();
 
         mixer_eyewear = new THREE.AnimationMixer(starter_eyewear_obj);
         const action_eyewear = mixer_eyewear.clipAction(starter_anim_obj.animations[0]);
@@ -1544,6 +1599,18 @@ avatar = {
             ...eyewear_texture,
             ...settings.texture_options.st_eyewear
         });
+        var texture_asset = new THREE.MeshStandardMaterial({
+            ...asset_texture,
+            ...settings.texture_options.st_asset
+        });
+
+
+        if (obj_st["asset"] == "A8") {
+            var texture_asset = new THREE.MeshStandardMaterial({
+                ...texture_asset,
+                metalness: .6
+            });
+        }
 
         starter_all_obj.traverse((o) => {
             o.castShadow = true;
@@ -1573,6 +1640,9 @@ avatar = {
                     case "hair_top":  
                         o.material = texture_hair;
                         o.material.side = THREE.DoubleSide
+                        break;
+                    case "asset": 
+                        o.material = texture_asset;
                         break;
                     default:
                         o.material = texture_skin;

@@ -1,1 +1,2727 @@
-!function(e){function a(a){for(var s,r,n=a[0],d=a[1],l=a[2],c=0,u=[];c<n.length;c++)r=n[c],Object.prototype.hasOwnProperty.call(o,r)&&o[r]&&u.push(o[r][0]),o[r]=0;for(s in d)Object.prototype.hasOwnProperty.call(d,s)&&(e[s]=d[s]);for(_&&_(a);u.length;)u.shift()();return i.push.apply(i,l||[]),t()}function t(){for(var e,a=0;a<i.length;a++){for(var t=i[a],s=!0,n=1;n<t.length;n++){var d=t[n];0!==o[d]&&(s=!1)}s&&(i.splice(a--,1),e=r(r.s=t[0]))}return e}var s={},o={1:0},i=[];function r(a){if(s[a])return s[a].exports;var t=s[a]={i:a,l:!1,exports:{}};return e[a].call(t.exports,t,t.exports,r),t.l=!0,t.exports}r.m=e,r.c=s,r.d=function(e,a,t){r.o(e,a)||Object.defineProperty(e,a,{enumerable:!0,get:t})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,a){if(1&a&&(e=r(e)),8&a)return e;if(4&a&&"object"==typeof e&&e&&e.__esModule)return e;var t=Object.create(null);if(r.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:e}),2&a&&"string"!=typeof e)for(var s in e)r.d(t,s,function(a){return e[a]}.bind(null,s));return t},r.n=function(e){var a=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(a,"a",a),a},r.o=function(e,a){return Object.prototype.hasOwnProperty.call(e,a)},r.p="";var n=window.webpackJsonp=window.webpackJsonp||[],d=n.push.bind(n);n.push=a,n=n.slice();for(var l=0;l<n.length;l++)a(n[l]);var _=d;i.push([18,0]),t()}({1:function(e,a,t){"use strict";(function(e){var s=t(0),o={create_light:{environment_light:function(a){var t=e.extend({enable:!0,options:{dir:"assets/hdr/",hdri_file:"provence_studio_1k_edit.hdr",enable_background:!1,intensity:1}},a);(new s.RGBELoader).setPath(t.dir).load(t.hdri_file,(function(e){e.mapping=s.EquirectangularReflectionMapping,t.enable_background&&(scene.background=e),scene.environment=e}))},point_light:function(a){var t=e.extend({enable:!0,helper:!1,options:{debug_color:16711680,color:16777215,decay:1,distance:100,intensity:.6,physically_correct:0,power:0,shadow_bias:-.01,map_size_width:1e3,map_size_height:2e3,camera_near:.5,camera_far:500,position:{x:4,y:4,z:4}}},a),o=new s.SphereGeometry(.2,32,32);if(t.options){var i=new s.PointLight(t.options.color,t.options.intensity,t.options.distance,t.options.decay,t.options.physically_correct);return t.helper&&i.add(new s.Mesh(o,new s.MeshBasicMaterial({color:t.options.debug_color}))),i.castShadow=!0,i.shadow.bias=t.options.shadow_bias,i.position.set(t.options.position.x,t.options.position.y,t.options.position.z),i}},dir_light:function(a){var t=e.extend({enable:!0,helper:!1,options:{debug_color:16711680,color:16777215,decay:1,distance:100,intensity:.6,physically_correct:0,power:0,shadow_bias:-.01,map_size_width:1e3,map_size_height:2e3,camera_near:.5,camera_far:500,position:{x:4,y:4,z:4}}},a);if(t.enable){light_dir=new s.DirectionalLight(16777215,.8),light_dir.color.setHSL(.1,1,.95),light_dir.position.set(-1,1.75,1),light_dir.position.multiplyScalar(100),t.light_dir&&scene.add(light_dir),light_dir.castShadow=!0,light_dir.shadow.mapSize.width=2048,light_dir.shadow.mapSize.height=2048;const e=50;if(light_dir.shadow.camera.left=-e,light_dir.shadow.camera.right=e,light_dir.shadow.camera.top=e,light_dir.shadow.camera.bottom=-e,light_dir.shadow.camera.far=3500,light_dir.shadow.bias=-1e-4,t.light_dir&&web3d.helper){const e=new s.DirectionalLightHelper(light_dir,10);scene.add(e)}}},amb_light:function(a){var t=e.extend({enable:!0,helper:!1,options:{color:4210752,intensity:.1}},a);if(t.enable)return new s.AmbientLight(t.options.color,t.options.intensity)},spot_light:function(a){var t={enable:!0,helper:!1,options:{debug_color:16711680,color:16777215,decay:1,distance:0,intensity:.6,angle:Math.PI/3,penumbra:0,cast_shadow:!1,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:1,position:{x:4,y:4,z:4},target:{x:4,y:4,z:4}}},o=e.extend(t,a);if(o.enable){var i=new s.SpotLight(o.options.color,o.options.intensity,o.options.distance,o.options.angle,o.options.penumbra,o.options.decay);if(i.position.set(o.options.position.x,o.options.position.y,o.options.position.z),i.angle=o.options.angle,i.penumbra=o.options.penumbra,i.decay=o.options.decay,i.distance=o.options.distance,i.castShadow=o.options.cast_shadow,i.shadow.camera.near=o.options.shadow_camera_near,i.shadow.camera.far=o.options.shadow_camera_far,i.shadow.focus=o.options.shadow_focus,i.receiveShadow=!0,i.castShadow=!0,i.target.position.set(o.options.target.x,o.options.target.y,o.options.target.z),o.helper){var r=new s.SpotLightHelper(i),n=new s.CameraHelper(i.shadow.camera);i.add(r),i.add(n)}return i}}},loading:function(a,t){var s=e.extend({rendered_element:"#rendered_avatar",className:"loading"},t);a?(e(s.rendered_element).addClass(s.className),e(s.rendered_element+" canvas").css({opacity:0})):(e(s.rendered_element).removeClass(s.className),e(s.rendered_element+" canvas").css({opacity:1}))},clean:function(a,t){e.extend({},t)}};a.a=o}).call(this,t(6))},18:function(e,a,t){e.exports=t(27)},19:function(e,a,t){"use strict";(function(e){t(23),t(26);var a=t(4);e((function(){a.a.init()})),window.addEventListener("load",(function(){var t=new URL(window.location.href),s=t.searchParams.get("load_smt");void 0!==s&&null!=s&&(0==s.length&&(s="SMT1"),a.a.loadSMT(s));var o=t.searchParams.get("load_st");if(void 0!==o&&null!=o){0==o.length&&(o="HM3-EM3-FM3-OM2-A1-T2");var i=t.searchParams.get("anim");void 0!==i&&null!=i?(0==i.length&&(i="ST_Walk"),a.a.loadSTDEMO(o,i)):a.a.loadST(o)}var r=t.searchParams.get("load_stdemo");void 0!==r&&null!=r&&(0==r.length&&(r="HM3-EM3-FM3-OM2-A1-T1"),a.a.loadSTDEMO(r));var n=t.searchParams.get("load_stfpx");switch(void 0!==n&&null!=n&&(0==n.length&&(n="HM3-EM3-FM3-OM2-A1-T1"),a.a.loadSTFPX(n)),t.searchParams.get("dim")){case"3":e("#rendered_avatar").length>0&&(e("#rendered_avatar").addClass("active"),e("#switch_avatar").prop("checked",!1),e("#switch_avatar + label .dim").html(2));break;case"2":default:e("#layered_avatar").length>0&&(e("#layered_avatar").addClass("active"),e("#switch_avatar").prop("checked",!0),e("#switch_avatar + label .dim").html(3))}})),window.debug=a.b}).call(this,t(6))},23:function(e,a,t){"use strict";(function(e){}).call(this,t(6))},27:function(e,a,t){"use strict";t.r(a);t(19)},4:function(e,a,t){"use strict";(function(e){t.d(a,"a",(function(){return s})),t.d(a,"b",(function(){return se}));var s,o,i,r,n,d,l,_,c,u,h,f,m,p=t(0),x=t(9),g=t(10),w=t(5),b=t(7),y=t(17),M=t(11),k=t(12),S=t(2),v=t(13),z=t(14),P=t(15),D=t(16),A=(t(24),t(25),t(1)),H={hemi:{},dir:{},key:{},fill:{},back:{},top:{},top2:{},bottom:{},hand:{}};const O=new p.Clock;var B,E,T,L,$,j,C,R,I,F,G,W,N,V,q,U,J,X,K,Q,Y,Z,ee,ae;const te={rendered_element:"#rendered_avatar",layered_element:"#layered_avatar",switch_element:"#switch_avatar",asset_dir:"assets/avatar/",asset_dir_fbx:"assets/avatar-fbx/",asset_dir_anim:"assets/avatar-fbx/anim/",background:"assets/bg-default.glb",scale:{smt:{x:.1,y:.1,z:.1},st:{x:.08,y:.08,z:.08}},texture_options:{smt_skin:{aoMapIntensity:.1},smt_outfit:{aoMapIntensity:.1,emissiveIntensity:2,normalScale:new p.Vector2(1.5,1.5)},smt_teeth:{aoMapIntensity:.1,emissiveIntensity:2,normalScale:new p.Vector2(1.5,1.5),roughness:3},smt_hair:{aoMap:null,aoMapIntensity:.1,normalScale:new p.Vector2(1,1),roughness:1.5},st_background:{},st_text:{},st_face:{aoMap:null},st_skin:{aoMap:null,envMapIntensity:.3},st_hair:{aoMap:null,roughness:1.5},st_outfit:{aoMap:null,normalScale:new p.Vector2(2,2),envMapIntensity:.3,roughness:1.4},st_asset:{aoMap:null},st_eyewear:{aoMap:null,transparent:!0}},model_suffix:{smt:".fbx",st:".glb",st_fbx:".fbx",st_fbx_anim:"_G_Skin.fbx",twod:".png"},texture_suffix:{base_color:"_SHD_BaseColor.png",metallic:"_SHD_Metallic.png",normal:"_SHD_Normal.png",roughness:"_SHD_Roughness.png",ambient_occlusion:"_SHD_AmbientOcclusion.png",emissive:"_SHD_Emissive.png",alpha:"_SHD_Opacity.png",scattering:"_SHD_Scattering.png",thickness:"_SHD_Thickness.png",sss:"_SHD_SSS.png"},texture_skin_suffix:{base_color:"_Skin_SHD_BaseColor.png",metallic:"_Skin_SHD_Metallic.png",normal:"_Skin_SHD_Normal.png",roughness:"_Skin_SHD_Roughness.png",ambient_occlusion:"_Skin_SHD_AmbientOcclusion.png",scattering:"_Skin_SHD_Scattering.png",thickness:"_Skin_SHD_Thickness.png",sss:"_Skin_SHD_SSS.png"},texture_text_suffix:{base_color:"_Text_SHD_BaseColor.png"},post_processing:{lut_asset:"assets/lut/",lut_file:"Warm_1.siona_gut.cube",lutPass_options:{enable:!0,intensity:.3}},light_options:{environment_light:{enable:1,options:{dir:"assets/hdr/",hdri_file:"provence_studio_1k_edit.hdr",enable_background:!1}},ambient_light:{enable:1,options:{color:16777215,intensity:.8}},hemisphere_light:{enable:1,options:{skyColor:16777215,groundColor:16777215,intensity:.025,position:{x:0,y:50,z:0}}},directional_light:{enable:!1,options:{}},key_light:{enable:1,helper:0,options:{debug_color:16711680,color:16777215,decay:0,distance:0,intensity:.9,angle:Math.PI/2,penumbra:0,cast_shadow:!1,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:0,shadow_camera_far:500,shadow_focus:1,position:{x:4,y:3,z:4},target:{x:0,y:2,z:0}}},fill_light:{enable:1,helper:0,options:{debug_color:16711680,color:16777215,decay:0,distance:0,intensity:.7,angle:Math.PI/3,penumbra:0,cast_shadow:!1,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:1,position:{x:-7,y:3,z:6},target:{x:0,y:4,z:0}}},back_light:{enable:1,helper:0,options:{debug_color:16711680,color:16777215,decay:0,distance:0,intensity:1,angle:Math.PI/3,penumbra:0,cast_shadow:!1,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:1,position:{x:0,y:2,z:-4},target:{x:0,y:2,z:0}}},top_light:{enable:1,helper:0,options:{debug_color:16711680,color:16777215,decay:0,distance:0,intensity:1.2,angle:Math.PI/5,penumbra:0,cast_shadow:!1,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:1,position:{x:0,y:7,z:3},target:{x:0,y:4,z:1}}},top2_light:{enable:1,helper:0,options:{debug_color:16711680,color:16777215,decay:0,distance:0,intensity:.4,angle:Math.PI/5,penumbra:0,cast_shadow:!1,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:1,position:{x:0,y:8,z:-3},target:{x:0,y:4,z:1}}},bottom_light:{enable:1,helper:0,options:{debug_color:16711680,color:16777215,decay:0,distance:0,intensity:.15,angle:Math.PI/3,penumbra:0,cast_shadow:!1,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:.2,position:{x:0,y:-1,z:2},target:{x:0,y:3,z:0}}},hand_light:{enable:1,helper:0,options:{debug_color:16711680,color:16777215,decay:0,distance:0,intensity:.1,angle:Math.PI/3,penumbra:0,cast_shadow:!1,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:2,position:{x:3.5,y:.5,z:0},target:{x:0,y:1,z:0}}}}};s={rendered_element:te.rendered_element,layered_element:te.layered_element,switch_element:te.switch_element,rendered_element:te.rendered_element,layered_element:te.layered_element,switch_element:te.switch_element,default_bg:te.background,dom_width:100,dom_height:100,asset_dir:te.asset_dir,asset_dir_fbx:te.asset_dir_fbx,asset_dir_anim:te.asset_dir_anim,init:function(a){var t={rendered_element:te.rendered_element,layered_element:te.layered_element,switch_element:te.switch_element,asset_dir:te.asset_dir},o=e.extend(t,a);s.rendered_element=o.rendered_element,s.asset_dir=o.asset_dir,s.dom_width=e(s.rendered_element).innerWidth(),s.dom_height=e(s.rendered_element).innerHeight(),s.setup.all(),s.setup.post_renderer(),s.setup.helpers()},loadSMT:async function(a,t={}){var i={asset_dir:s.asset_dir,texture_options:te.texture_options,model_suffix:te.model_suffix,texture_suffix:te.texture_suffix,texture_skin_suffix:te.texture_skin_suffix,texture_text_suffix:te.texture_text_suffix,scale:te.scale.smt},r=e.extend(i,t);L=r.asset_dir+a+"/"+a+r.model_suffix.twod,e(s.layered_element).empty(),e(s.layered_element).append(`\n            <img src="${L}" alt="${a}">\n        `);const n=new b.a,l=new p.TextureLoader;A.a.loading(!0,{rendered_element:s.rendered_element}),A.a.clean(o),[T]=await Promise.all([n.loadAsync(r.asset_dir+a+"/"+a+r.model_suffix.smt)]);const _={map:l.load(r.asset_dir+a+"/"+a+r.texture_skin_suffix.base_color),metalnessMap:l.load(r.asset_dir+a+"/"+a+r.texture_skin_suffix.metallic),normalMap:l.load(r.asset_dir+a+"/"+a+r.texture_skin_suffix.normal),roughnessMap:l.load(r.asset_dir+a+"/"+a+r.texture_skin_suffix.roughness),aoMap:l.load(r.asset_dir+a+"/"+a+r.texture_skin_suffix.ambient_occlusion)},c={map:l.load(r.asset_dir+a+"/"+a+r.texture_suffix.base_color),metalnessMap:l.load(r.asset_dir+a+"/"+a+r.texture_suffix.metallic),normalMap:l.load(r.asset_dir+a+"/"+a+r.texture_suffix.normal),roughnessMap:l.load(r.asset_dir+a+"/"+a+r.texture_suffix.roughness),aoMap:l.load(r.asset_dir+a+"/"+a+r.texture_suffix.ambient_occlusion),emissiveMap:l.load(r.asset_dir+a+"/"+a+r.texture_suffix.emissive)};(d=new p.AnimationMixer(T)).clipAction(T.animations[0]).play(),T.scale.set(r.scale.x,r.scale.y,r.scale.z),T.receiveShadow=!0,T.castShadow=!0;var u=new p.MeshStandardMaterial({..._,...r.texture_options.smt_skin}),h=new p.MeshStandardMaterial({...c,...r.texture_options.smt_outfit}),f=new p.MeshStandardMaterial({...c,...r.texture_options.smt_teeth}),m=new p.MeshStandardMaterial({...c,...r.texture_options.smt_hair});T.traverse(e=>{e.isMesh&&(e.castShadow=!0,e.receiveShadow=!0),e.isMesh&&["mesh_6","mesh_7","mesh_8","neck_low","hand_low","Face_low"].indexOf(e.name)>-1?e.material=u:e.isMesh&&(e.material=h),e.isMesh&&["mesh_3","Hair_low"].indexOf(e.name)>-1&&(e.material=m),e.isMesh&&"Teeth_low"==e.name&&(e.material=f)}),o.add(T),A.a.loading(!1,{rendered_element:s.rendered_element})},loadST:async function(a,t){var i={asset_dir:s.asset_dir,texture_options:te.texture_options,model_suffix:te.model_suffix,texture_suffix:te.texture_suffix,texture_skin_suffix:te.texture_skin_suffix,texture_text_suffix:te.texture_text_suffix,scale:te.scale.st},r=e.extend(i,t),n={};switch(typeof a){case"object":n=a;break;case"string":default:let e=a.split("-");n={hair:e[0],eyewear:e[1],face:e[2],outfit:e[3],asset:e[4],background_text:e[5]}}I=r.asset_dir+n.background_text+"/"+n.background_text+r.model_suffix.twod,W=r.asset_dir+n.face+"/"+n.face+r.model_suffix.twod,q=r.asset_dir+n.hair+"/"+n.hair+r.model_suffix.twod,X=r.asset_dir+n.outfit+"/"+n.outfit+r.model_suffix.twod,Y=r.asset_dir+n.asset+"/"+n.asset+r.model_suffix.twod,ae=r.asset_dir+n.eyewear+"/"+n.eyewear+r.model_suffix.twod,e(s.layered_element).empty(),e(s.layered_element).append(`\n            <img src="${I}" alt="background_text">\n            <img src="${W}" alt="face">\n            <img src="${q}" alt="hair">\n            <img src="${X}" alt="outfit">\n            <img src="${Y}" alt="asset">\n            <img src="${ae}" alt="eyewear">\n        `);const d=new w.a,l=new p.TextureLoader;A.a.loading(!0,{rendered_element:s.rendered_element}),A.a.clean(o),[C,F,N,U,K,Z]=await Promise.all([d.loadAsync(r.asset_dir+n.background_text+"/"+n.background_text+r.model_suffix.st),d.loadAsync(r.asset_dir+n.face+"/"+n.face+r.model_suffix.st),d.loadAsync(r.asset_dir+n.hair+"/"+n.hair+r.model_suffix.st),d.loadAsync(r.asset_dir+n.outfit+"/"+n.outfit+r.model_suffix.st),d.loadAsync(r.asset_dir+n.asset+"/"+n.asset+r.model_suffix.st),d.loadAsync(r.asset_dir+n.eyewear+"/"+n.eyewear+r.model_suffix.st)]),R=C.scene.children[0],G=F.scene.children[0],V=N.scene.children[0],J=U.scene.children[0],Q=K.scene.children[0],ee=Z.scene.children[0];const _={map:l.load(r.asset_dir+n.background_text+"/"+n.background_text+r.texture_suffix.base_color),metalnessMap:l.load(r.asset_dir+n.background_text+"/"+n.background_text+r.texture_suffix.metallic),normalMap:l.load(r.asset_dir+n.background_text+"/"+n.background_text+r.texture_suffix.normal),roughnessMap:l.load(r.asset_dir+n.background_text+"/"+n.background_text+r.texture_suffix.roughness)},c={map:l.load(r.asset_dir+n.face+"/"+n.face+r.texture_suffix.base_color),metalnessMap:l.load(r.asset_dir+n.face+"/"+n.face+r.texture_suffix.metallic),normalMap:l.load(r.asset_dir+n.face+"/"+n.face+r.texture_suffix.normal),roughnessMap:l.load(r.asset_dir+n.face+"/"+n.face+r.texture_suffix.roughness)},u={map:l.load(r.asset_dir+n.hair+"/"+n.hair+r.texture_suffix.base_color),metalnessMap:l.load(r.asset_dir+n.hair+"/"+n.hair+r.texture_suffix.metallic),normalMap:l.load(r.asset_dir+n.hair+"/"+n.hair+r.texture_suffix.normal),roughnessMap:l.load(r.asset_dir+n.hair+"/"+n.hair+r.texture_suffix.roughness),aoMap:l.load(r.asset_dir+n.hair+"/"+n.hair+r.texture_suffix.ambient_occlusion)},h={map:l.load(r.asset_dir+n.outfit+"/"+n.outfit+r.texture_suffix.base_color),metalnessMap:l.load(r.asset_dir+n.outfit+"/"+n.outfit+r.texture_suffix.metallic),normalMap:l.load(r.asset_dir+n.outfit+"/"+n.outfit+r.texture_suffix.normal),roughnessMap:l.load(r.asset_dir+n.outfit+"/"+n.outfit+r.texture_suffix.roughness)},f={map:l.load(r.asset_dir+"Bodybase/Bodybase"+r.texture_suffix.base_color),metalnessMap:l.load(r.asset_dir+"Bodybase/Bodybase"+r.texture_suffix.metallic),normalMap:l.load(r.asset_dir+"Bodybase/Bodybase"+r.texture_suffix.normal),roughnessMap:l.load(r.asset_dir+"Bodybase/Bodybase"+r.texture_suffix.roughness)},m={map:l.load(r.asset_dir+n.asset+"/"+n.asset+r.texture_suffix.base_color),metalnessMap:l.load(r.asset_dir+n.asset+"/"+n.asset+r.texture_suffix.metallic),normalMap:l.load(r.asset_dir+n.asset+"/"+n.asset+r.texture_suffix.normal),roughnessMap:l.load(r.asset_dir+n.asset+"/"+n.asset+r.texture_suffix.roughness)},x={map:l.load(r.asset_dir+n.eyewear+"/"+n.eyewear+r.texture_suffix.base_color),metalnessMap:l.load(r.asset_dir+n.eyewear+"/"+n.eyewear+r.texture_suffix.metallic),normalMap:l.load(r.asset_dir+n.eyewear+"/"+n.eyewear+r.texture_suffix.normal),roughnessMap:l.load(r.asset_dir+n.eyewear+"/"+n.eyewear+r.texture_suffix.roughness),alphaMap:l.load(r.asset_dir+n.eyewear+"/"+n.eyewear+r.texture_suffix.alpha)},g={map:l.load(r.asset_dir+n.background_text+"/"+n.background_text+r.texture_text_suffix.base_color),metalnessMap:l.load(r.asset_dir+n.background_text+"/"+n.background_text+r.texture_suffix.metallic),normalMap:l.load(r.asset_dir+n.background_text+"/"+n.background_text+r.texture_suffix.normal),roughnessMap:l.load(r.asset_dir+n.background_text+"/"+n.background_text+r.texture_suffix.roughness)};R.scale.set(r.scale.x,r.scale.y,r.scale.z),R.receiveShadow=!1,R.castShadow=!1;var b=new p.MeshBasicMaterial({..._,...r.texture_options.st_background}),y=new p.MeshStandardMaterial({...g,...r.texture_options.st_background});R.traverse(e=>{e.isMesh&&"mesh_0"==e.name?(e.castShadow=!0,e.receiveShadow=!0,e.material=b):e.isMesh&&(e.castShadow=!1,e.receiveShadow=!1,e.material=y)}),console.log("BG/Text: "),console.log(R),G.scale.set(r.scale.x,r.scale.y,r.scale.z),G.receiveShadow=!0,G.castShadow=!0;var M=new p.MeshStandardMaterial({...c,...r.texture_options.st_face});G.traverse(e=>{e.isMesh&&(e.castShadow=!0,e.receiveShadow=!0,e.material=M)}),console.log("Face: "),console.log(G),V.scale.set(r.scale.x,r.scale.y,r.scale.z),V.receiveShadow=!0,V.castShadow=!0;var k=new p.MeshStandardMaterial({...u,...r.texture_options.st_hair});V.traverse(e=>{e.isMesh&&(e.castShadow=!0,e.receiveShadow=!0,e.material=k)}),console.log("Hair: "),console.log(V),J.scale.set(r.scale.x,r.scale.y,r.scale.z),J.receiveShadow=!0,J.castShadow=!0;var S=new p.MeshStandardMaterial({...h,...r.texture_options.st_outfit}),v=new p.MeshStandardMaterial({...f,...r.texture_options.st_skin});J.children[1].traverse(e=>{e.isMesh&&(e.castShadow=!0,e.receiveShadow=!0,e.material=S)}),J.children[0].traverse(e=>{e.isMesh&&(e.castShadow=!0,e.receiveShadow=!0,e.material=v)}),console.log("Outfit: "),console.log(J),Q.scale.set(r.scale.x,r.scale.y,r.scale.z),Q.receiveShadow=!0,Q.castShadow=!0;var z=new p.MeshStandardMaterial({...m,...r.texture_options.st_asset});v=new p.MeshStandardMaterial({...f,...r.texture_options.st_skin});Q.traverse(e=>{e.isMesh&&["mesh_1"].indexOf(e.name)>-1?(e.castShadow=!0,e.receiveShadow=!0,e.material=z):(e.castShadow=!0,e.receiveShadow=!0,e.material=v)}),console.log("Asset: "),console.log(Q),ee.scale.set(r.scale.x,r.scale.y,r.scale.z),ee.receiveShadow=!0,ee.castShadow=!0;var P=new p.MeshStandardMaterial({...x,...r.texture_options.st_eyewear});ee.traverse(e=>{e.isMesh&&(e.castShadow=!0,e.receiveShadow=!0,e.material=P)}),console.log("Eyewear: "),console.log(ee),($=new p.Object3D).add(R),$.add(G),$.add(V),$.add(J),$.add(Q),$.add(ee),console.log("All: "),console.log($),o.add($),A.a.loading(!1,{rendered_element:s.rendered_element})},loadSTDEMO:async function(a,t="ST_Walk",i){var r={asset_dir:s.asset_dir,texture_options:te.texture_options,model_suffix:te.model_suffix,texture_suffix:te.texture_suffix,texture_skin_suffix:te.texture_skin_suffix,texture_text_suffix:te.texture_text_suffix,scale:te.scale.st},n=e.extend(r,i),l={};switch(typeof a){case"object":l=a;break;case"string":default:let e=a.split("-");l={hair:e[0],eyewear:e[1],face:e[2],outfit:e[3],asset:e[4],background_text:e[5]}}I=n.asset_dir+l.background_text+"/"+l.background_text+n.model_suffix.twod,W=n.asset_dir+l.face+"/"+l.face+n.model_suffix.twod,q=n.asset_dir+l.hair+"/"+l.hair+n.model_suffix.twod,X=n.asset_dir+l.outfit+"/"+l.outfit+n.model_suffix.twod,Y=n.asset_dir+l.asset+"/"+l.asset+n.model_suffix.twod,ae=n.asset_dir+l.eyewear+"/"+l.eyewear+n.model_suffix.twod,e(s.layered_element).empty(),e(s.layered_element).append(`\n            <img src="${I}" alt="background_text">\n            <img src="${W}" alt="face">\n            <img src="${q}" alt="hair">\n            <img src="${X}" alt="outfit">\n            <img src="${Y}" alt="asset"> \n            <img src="${ae}" alt="eyewear">\n        `);const _=new w.a,c=new b.a,u=new p.TextureLoader;A.a.loading(!0,{rendered_element:s.rendered_element}),A.a.clean(o),[C,j]=await Promise.all([_.loadAsync(n.asset_dir+l.background_text+"/"+l.background_text+n.model_suffix.st),c.loadAsync(n.asset_dir+"DEMO/"+t+n.model_suffix.smt)]),R=C.scene.children[0];const h={map:u.load(n.asset_dir+l.background_text+"/"+l.background_text+n.texture_suffix.base_color),metalnessMap:u.load(n.asset_dir+l.background_text+"/"+l.background_text+n.texture_suffix.metallic),normalMap:u.load(n.asset_dir+l.background_text+"/"+l.background_text+n.texture_suffix.normal),roughnessMap:u.load(n.asset_dir+l.background_text+"/"+l.background_text+n.texture_suffix.roughness)},f={map:u.load(n.asset_dir+"DEMO/Body"+n.texture_suffix.base_color),metalnessMap:u.load(n.asset_dir+"DEMO/Body"+n.texture_suffix.metallic),normalMap:u.load(n.asset_dir+"DEMO/Body"+n.texture_suffix.normal),roughnessMap:u.load(n.asset_dir+"DEMO/Body"+n.texture_suffix.roughness)},m={map:u.load(n.asset_dir+"DEMO/"+l.hair+n.texture_suffix.base_color),metalnessMap:u.load(n.asset_dir+"DEMO/"+l.hair+n.texture_suffix.metallic),normalMap:u.load(n.asset_dir+"DEMO/"+l.hair+n.texture_suffix.normal),roughnessMap:u.load(n.asset_dir+"DEMO/"+l.hair+n.texture_suffix.roughness),aoMap:u.load(n.asset_dir+"DEMO/"+l.hair+n.texture_suffix.ambient_occlusion)},x={map:u.load(n.asset_dir+"DEMO/"+l.outfit+n.texture_suffix.base_color),metalnessMap:u.load(n.asset_dir+"DEMO/"+l.outfit+n.texture_suffix.metallic),normalMap:u.load(n.asset_dir+"DEMO/"+l.outfit+n.texture_suffix.normal),roughnessMap:u.load(n.asset_dir+"DEMO/"+l.outfit+n.texture_suffix.roughness)},g={map:u.load(n.asset_dir+"DEMO/"+l.eyewear+n.texture_suffix.base_color)},y={map:u.load(n.asset_dir+l.background_text+"/"+l.background_text+n.texture_text_suffix.base_color),metalnessMap:u.load(n.asset_dir+l.background_text+"/"+l.background_text+n.texture_suffix.metallic),normalMap:u.load(n.asset_dir+l.background_text+"/"+l.background_text+n.texture_suffix.normal),roughnessMap:u.load(n.asset_dir+l.background_text+"/"+l.background_text+n.texture_suffix.roughness)};(d=new p.AnimationMixer(j)).clipAction(j.animations[0]).play(),R.scale.set(n.scale.x,n.scale.y,n.scale.z),R.receiveShadow=!1,R.castShadow=!1;var M=new p.MeshBasicMaterial({...h,...n.texture_options.st_background}),k=new p.MeshStandardMaterial({...y,...n.texture_options.st_background});R.traverse(e=>{e.isMesh&&"mesh_0"==e.name?(e.castShadow=!0,e.receiveShadow=!0,e.material=M):e.isMesh&&(e.castShadow=!1,e.receiveShadow=!1,e.material=k)}),console.log("BG/Text: "),console.log(R),R.scale.set(.06,.06,.06),j.scale.set(n.scale.x,n.scale.y,n.scale.z),j.receiveShadow=!1,j.castShadow=!1;M=new p.MeshBasicMaterial({...h,...n.texture_options.st_background}),k=new p.MeshStandardMaterial({...y,...n.texture_options.st_background});var S=new p.MeshStandardMaterial({...f,...n.texture_options.st_face}),v=new p.MeshStandardMaterial({...f,...n.texture_options.st_skin}),z=new p.MeshStandardMaterial({...x,...n.texture_options.st_outfit}),P=new p.MeshStandardMaterial({...m,...n.texture_options.st_hair}),D=new p.MeshStandardMaterial({...g,...n.texture_options.st_eyewear});j.traverse(e=>{if(e.isMesh)switch(e.castShadow=!1,e.receiveShadow=!1,e.name){case"Body":case"Head_low":case"eye_low":e.material=S;break;case"Body_low":e.material=v;break;case"OM2dsdas":e.material=z;break;case"E3_low":case"eyewear":e.material=D;break;case"H3":case"hair01_low":case"hair02_low":e.material=P;break;default:e.material=v}}),console.log("Anim ST: "),console.log(j),o.add(R),o.add(j),A.a.loading(!1,{rendered_element:s.rendered_element})},loadSTFPX:async function(a,t="Walk",i){var r={asset_dir:s.asset_dir_fbx,asset_dir_anim:s.asset_dir_anim,texture_options:te.texture_options,model_suffix:te.model_suffix,texture_suffix:te.texture_suffix,texture_skin_suffix:te.texture_skin_suffix,texture_text_suffix:te.texture_text_suffix,scale:te.scale.st},n=e.extend(r,i),d={};switch(typeof a){case"object":d=a;break;case"string":default:let e=a.split("-");d={hair:e[0],eyewear:e[1],face:e[2],outfit:e[3],asset:e[4],background_text:e[5]}}I=n.asset_dir+d.background_text+"/"+d.background_text+n.model_suffix.twod,W=n.asset_dir+d.face+"/"+d.face+n.model_suffix.twod,q=n.asset_dir+d.hair+"/"+d.hair+n.model_suffix.twod,X=n.asset_dir+d.outfit+"/"+d.outfit+n.model_suffix.twod,Y=n.asset_dir+d.asset+"/"+d.asset+n.model_suffix.twod,ae=n.asset_dir+d.eyewear+"/"+d.eyewear+n.model_suffix.twod,e(s.layered_element).empty(),e(s.layered_element).append(`\n            <img src="${I}" alt="background_text">\n            <img src="${W}" alt="face">\n            <img src="${q}" alt="hair">\n            <img src="${X}" alt="outfit">\n            <img src="${Y}" alt="asset"> \n            <img src="${ae}" alt="eyewear">\n        `),e(s.rendered_element).css({backgroundImage:`url(${ae}),url(${Y}),url(${X}),url(${q}),url(${W}),url(${I})`});new w.a;const l=new b.a,_=new p.TextureLoader;A.a.loading(!0,{rendered_element:s.rendered_element}),A.a.clean(o),[G,V,J,Q,ee,j]=await Promise.all([l.loadAsync(n.asset_dir+d.face+"/"+d.face+n.model_suffix.st_fbx_anim),l.loadAsync(n.asset_dir+d.hair+"/"+d.hair+n.model_suffix.st_fbx_anim),l.loadAsync(n.asset_dir+d.outfit+"/"+d.outfit+n.model_suffix.st_fbx_anim),l.loadAsync(n.asset_dir+d.asset+"/"+d.asset+n.model_suffix.st_fbx),l.loadAsync(n.asset_dir+d.eyewear+"/"+d.eyewear+n.model_suffix.st_fbx_anim),l.loadAsync(n.asset_dir_anim+t+n.model_suffix.st_fbx)]),console.log([R,G,V,J,Q,ee,j]);const c={map:_.load(n.asset_dir+d.face+"/"+d.face+n.texture_suffix.base_color),metalnessMap:_.load(n.asset_dir+d.face+"/"+d.face+n.texture_suffix.metallic),normalMap:_.load(n.asset_dir+d.face+"/"+d.face+n.texture_suffix.normal),roughnessMap:_.load(n.asset_dir+d.face+"/"+d.face+n.texture_suffix.roughness)},x={map:_.load(n.asset_dir+d.hair+"/"+d.hair+n.texture_suffix.base_color),metalnessMap:_.load(n.asset_dir+d.hair+"/"+d.hair+n.texture_suffix.metallic),normalMap:_.load(n.asset_dir+d.hair+"/"+d.hair+n.texture_suffix.normal),roughnessMap:_.load(n.asset_dir+d.hair+"/"+d.hair+n.texture_suffix.roughness),aoMap:_.load(n.asset_dir+d.hair+"/"+d.hair+n.texture_suffix.ambient_occlusion)},g={map:_.load(n.asset_dir+d.outfit+"/"+d.outfit+n.texture_suffix.base_color),metalnessMap:_.load(n.asset_dir+d.outfit+"/"+d.outfit+n.texture_suffix.metallic),normalMap:_.load(n.asset_dir+d.outfit+"/"+d.outfit+n.texture_suffix.normal),roughnessMap:_.load(n.asset_dir+d.outfit+"/"+d.outfit+n.texture_suffix.roughness)},y={map:_.load(n.asset_dir+"Bodybase/Bodybase"+n.texture_suffix.base_color),metalnessMap:_.load(n.asset_dir+"Bodybase/Bodybase"+n.texture_suffix.metallic),normalMap:_.load(n.asset_dir+"Bodybase/Bodybase"+n.texture_suffix.normal),roughnessMap:_.load(n.asset_dir+"Bodybase/Bodybase"+n.texture_suffix.roughness)},M=(_.load(n.asset_dir+d.asset+"/"+d.asset+n.texture_suffix.base_color),_.load(n.asset_dir+d.asset+"/"+d.asset+n.texture_suffix.metallic),_.load(n.asset_dir+d.asset+"/"+d.asset+n.texture_suffix.normal),_.load(n.asset_dir+d.asset+"/"+d.asset+n.texture_suffix.roughness),{map:_.load(n.asset_dir+d.eyewear+"/"+d.eyewear+n.texture_suffix.base_color),metalnessMap:_.load(n.asset_dir+d.eyewear+"/"+d.eyewear+n.texture_suffix.metallic),normalMap:_.load(n.asset_dir+d.eyewear+"/"+d.eyewear+n.texture_suffix.normal),roughnessMap:_.load(n.asset_dir+d.eyewear+"/"+d.eyewear+n.texture_suffix.roughness),alphaMap:_.load(n.asset_dir+d.eyewear+"/"+d.eyewear+n.texture_suffix.alpha)}),k={map:_.load(n.asset_dir+d.background_text+"/"+d.background_text+n.texture_text_suffix.base_color),metalnessMap:_.load(n.asset_dir+d.background_text+"/"+d.background_text+n.texture_suffix.metallic),normalMap:_.load(n.asset_dir+d.background_text+"/"+d.background_text+n.texture_suffix.normal),roughnessMap:_.load(n.asset_dir+d.background_text+"/"+d.background_text+n.texture_suffix.roughness)};var S=new p.Object3D;S.add(G),S.add(V),S.add(J),S.add(ee),S.add(j),console.log("All objs: (face, hair, outfit, eye, anim)"),console.log(S),S.scale.set(n.scale.x,n.scale.y,n.scale.z);(u=new p.AnimationMixer(G)).clipAction(j.animations[0]).play();(h=new p.AnimationMixer(V)).clipAction(j.animations[0]).play();(f=new p.AnimationMixer(J)).clipAction(j.animations[0]).play();(m=new p.AnimationMixer(ee)).clipAction(j.animations[0]).play(),j.scale.set(n.scale.x,n.scale.y,n.scale.z),j.receiveShadow=!1,j.castShadow=!1,S.receiveShadow=!0,S.castShadow=!0;new p.MeshStandardMaterial({...k,...n.texture_options.st_background});var v=new p.MeshStandardMaterial({...c,...n.texture_options.st_face}),z=new p.MeshStandardMaterial({...y,...n.texture_options.st_skin}),P=new p.MeshStandardMaterial({...g,...n.texture_options.st_outfit}),D=new p.MeshStandardMaterial({...x,...n.texture_options.st_hair}),H=new p.MeshStandardMaterial({...M,...n.texture_options.st_eyewear});S.traverse(e=>{if(e.castShadow=!0,e.receiveShadow=!0,e.isMesh)switch(e.castShadow=!0,e.receiveShadow=!0,e.name){case"face":case"head":e.material=v;break;case"body":e.material=z;break;case"outfit":e.material=P;break;case"eyewear":e.material=H;break;case"hair":case"hair_bot":case"hair_top":e.material=D,e.material.side=p.DoubleSide;break;default:e.material=z}}),console.log("Anim ST: "),console.log(j),o.add(S),setTimeout((function(){e(s.rendered_element).css({backgroundImage:`url(${I})`}),A.a.loading(!1,{rendered_element:s.rendered_element})}),800)},loadDefaultBg:async function(a){e.extend({},a);const t=new w.a;[B]=await Promise.all([t.loadAsync(s.default_bg)]),E=B.scene.children[0],o.add(E),E.receiveShadow=!1,E.castShadow=!0,E.scale.set(10,10,10),E.position.set(0,5,0),E.material=new p.MeshLambertMaterial({color:33709,emissive:33709,emissiveIntensity:1}),console.log(E)},setup:{all:function(a){e.extend({},a);s.setup.renderer(),s.setup.scene(),s.setup.camera(),s.setup.post_processing(),s.setup.controls(),s.setup.lights(te.light_options)},lights:function(a){var t={environment_light:{enable:!0,options:{dir:"assets/hdr/",hdri_file:"provence_studio_1k_edit.hdr",enable_background:!1,intensity:1}},ambient_light:{enable:!0,options:{color:16777215,intensity:.1}},hemisphere_light:{enable:!1,options:{skyColor:16777215,groundColor:16777215,intensity:1,position:{x:0,y:50,z:0}}},directional_light:{enable:!1,options:{}},key_light:{enable:1,helper:0,options:{debug_color:16711680,color:16777215,decay:0,distance:0,intensity:1.95,angle:Math.PI/2,penumbra:0,cast_shadow:!0,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:.2,position:{x:4,y:3,z:4},target:{x:0,y:2,z:0}}},fill_light:{enable:1,helper:0,options:{debug_color:16711680,color:16769193,decay:0,distance:50,intensity:.5,angle:Math.PI/3,penumbra:0,cast_shadow:!0,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:.2,position:{x:-7,y:3,z:6},target:{x:0,y:4,z:0}}},back_light:{enable:1,helper:0,options:{debug_color:16711680,color:16777215,decay:0,distance:50,intensity:.9,angle:Math.PI/3,penumbra:0,cast_shadow:!0,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:.2,position:{x:0,y:2,z:-4},target:{x:0,y:2,z:0}}},top_light:{enable:1,helper:0,options:{debug_color:16711680,color:16777215,decay:0,distance:50,intensity:.4,angle:Math.PI/5,penumbra:0,cast_shadow:!0,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:.2,position:{x:0,y:8,z:3},target:{x:0,y:4,z:1}}},bottom_light:{enable:1,helper:0,options:{debug_color:16711680,color:16777215,decay:0,distance:50,intensity:.4,angle:Math.PI/3,penumbra:0,cast_shadow:!0,shadow_map_size_width:512,shadow_map_size_height:512,shadow_camera_near:10,shadow_camera_far:200,shadow_focus:.2,position:{x:0,y:-1,z:2},target:{x:0,y:3,z:0}}}},i=e.extend(t,a);if(i.environment_light.enable&&(new g.a).setPath(i.environment_light.options.dir).load(i.environment_light.options.hdri_file,(function(e){e.mapping=p.EquirectangularReflectionMapping,i.environment_light.options.enable_background&&(o.background=e),o.environment=e})),H.ambient=A.a.create_light.amb_light(i.ambient_light),i.ambient_light.enable&&o.add(H.ambient),H.key=A.a.create_light.spot_light(i.key_light),i.key_light.enable&&(o.add(H.key),o.add(H.key.target),i.key_light.helper&&console.log(H.key)),H.fill=A.a.create_light.spot_light(i.fill_light),i.fill_light.enable&&(o.add(H.fill),o.add(H.fill.target),i.fill_light.helper&&console.log(H.fill)),H.back=A.a.create_light.spot_light(i.back_light),i.back_light.enable&&(o.add(H.back),o.add(H.back.target),i.back_light.helper&&console.log(H.back)),H.top=A.a.create_light.spot_light(i.top_light),i.top_light.enable&&(o.add(H.top),o.add(H.top.target),i.top_light.helper&&console.log(H.top)),H.top2=A.a.create_light.spot_light(i.top2_light),i.top2_light.enable&&(o.add(H.top2),o.add(H.top2.target),i.top2_light.helper&&console.log(H.top2)),H.bottom=A.a.create_light.spot_light(i.bottom_light),i.bottom_light.enable&&(o.add(H.bottom),o.add(H.bottom.target),i.bottom_light.helper&&console.log(H.bottom)),H.hand=A.a.create_light.spot_light(i.hand_light),i.hand_light.enable&&(o.add(H.hand),o.add(H.hand.target),i.hand_light.helper&&console.log(H.hand)),i.hemisphere_light.enable&&(H.hemi=new p.HemisphereLight(16777215,16777215,i.hemisphere_light.options.intensity),H.hemi.position.set(0,50,0),o.add(H.hemi),s.helper)){const e=new p.HemisphereLightHelper(H.hemi,10);o.add(e)}if(i.directional_light.enable){H.dir=new p.DirectionalLight(16777215,.8),H.dir.color.setHSL(.1,1,.95),H.dir.position.set(-1,1.75,1),H.dir.position.multiplyScalar(100),i.light.dir&&o.add(H.dir),H.dir.castShadow=!0,H.dir.shadow.mapSize.width=2048,H.dir.shadow.mapSize.height=2048;const e=50;if(H.dir.shadow.camera.left=-e,H.dir.shadow.camera.right=e,H.dir.shadow.camera.top=e,H.dir.shadow.camera.bottom=-e,H.dir.shadow.camera.far=3500,H.dir.shadow.bias=-1e-4,i.light.dir&&s.helper){const e=new p.DirectionalLightHelper(H.dir,10);o.add(e)}}},scene:function(a){e.extend({},a);(o=new p.Scene).fog=new p.FogExp2(16777215,0)},renderer:function(a){e.extend({},a);(r=new p.WebGLRenderer({alpha:!0,antialias:!0,powerPreference:"default"})).setPixelRatio(window.devicePixelRatio),r.setSize(s.dom_width,s.dom_height),r.shadowMap.enabled=!0,r.shadowMap.type=p.PCFSoftShadowMap,r.physicallyCorrectLights=!0,r.outputEncoding=p.sRGBEncoding,e(s.rendered_element).append(r.domElement),window.addEventListener("resize",s.setup.onWindowResize)},post_processing:function(a){var t={lut_asset:te.post_processing.lut_asset,lut_file:te.post_processing.lut_file},n=e.extend(t,a);const d=new p.WebGLRenderTarget({minFilter:p.LinearFilter,magFilter:p.LinearFilter,format:p.RGBAFormat,encoding:p.sRGBEncoding});(l=new y.a(r,d)).setPixelRatio(window.devicePixelRatio),l.setSize(s.dom_width,s.dom_height);const u=new M.a(o,i),h=new S.a(k.a);new S.a(D.a);l.addPass(u),l.addPass(h),_=new v.a,l.addPass(_);const f=new z.a,m=new P.a;/\.CUBE$/i.test(n.lut_file)?f.load(n.lut_asset+n.lut_file,(function(e){c=e})):m.load(n.lut_asset+n.lut_file,(function(e){c=e}))},onWindowResize:function(a){e.extend({},a);i.aspect=s.dom_width/s.dom_height,i.updateProjectionMatrix(),r.setSize(s.dom_width,s.dom_height),l&&l.setSize(s.dom_width,s.dom_height),s.setup.animate()},camera:function(a){e.extend({},a);(i=new p.PerspectiveCamera(85,s.dom_width/s.dom_height,.01,1e3)).position.set(1.42,1.47,5.05),i.lookAt(0,12,0)},controls:function(a){var t=e.extend({minDistance:4,maxDistance:9,zoomSpeed:1,rotateSpeed:1,enableDamping:!0,enablePan:!1,dampingFactor:.1,autoRotate:!0,autoRotateSpeed:.5,minPolarAngle:.8,maxPolarAngle:1.8,target:{x:0,y:3,z:0}},a);(n=new x.a(i,r.domElement)).minDistance=t.minDistance,n.maxDistance=t.maxDistance,n.zoomSpeed=t.zoomSpeed,n.rotateSpeed=t.rotateSpeed,n.enableDamping=t.enableDamping,n.enablePan=t.enablePan,n.dampingFactor=t.dampingFactor,n.autoRotate=t.autoRotate,n.autoRotateSpeed=t.autoRotateSpeed,n.minPolarAngle=t.minPolarAngle,n.maxPolarAngle=t.maxPolarAngle,n.target.set(t.target.x,t.target.y,t.target.z)},helpers:function(a){var t=e.extend({gridHelper:{enable:!1,size:100,divisions:100,colorCenterLine:255,colorGrid:8421504}},a);if(t.gridHelper.enable){const e=new p.GridHelper(t.gridHelper.size,t.gridHelper.divisions,t.gridHelper.colorCenterLine,t.gridHelper.colorGrid);o.add(e)}},post_renderer:function(a){e.extend({},a);s.setup.animate(),n.addEventListener("change",(function(){s.setup.render()})),n.update()},render:function(a){e.extend({},a);l?l.render(o,i):r.render(o,i)},animate:function(e){requestAnimationFrame(s.setup.animate);const a=O.getDelta();R&&R.lookAt(i.position.x+1.5,i.position.y-3.5,i.position.z+.5),d&&d.update(a),u&&u.update(a),f&&f.update(a),h&&h.update(a),m&&m.update(a),s.callback(),s.setup.render(),c&&(_.enable=te.post_processing.lutPass_options.enable,_.lut=c.texture,_.intensity=te.post_processing.lutPass_options.intensity)}},callback:function(a){e.extend({},a)},switch:function(a){var t={asset_dir:s.asset_dir,texture_options:te.texture_options,texture_suffix:te.texture_suffix,texture_skin_suffix:te.texture_skin_suffix};e.extend(t,a);e("body").append('\n        <div class="controls">\n\t\t\t<input type="checkbox" id="switch_avatar" class="switch_avatar">\n\t\t\t<label for="switch_avatar">Switch to <span class="dim">3</span>D</label>\n\t\t</div>\n        ');new URL(window.location.href).searchParams.get("dim");e(s.switch_element).length,e(s.switch_element).on("click",(function(){e(s.switch_element).is(":checked")?(console.log("A"),e(s.rendered_element).removeClass("active"),e(s.layered_element).addClass("active"),e(s.switch_element+" + label .dim").html(3)):(console.log("B"),e(s.layered_element).removeClass("active"),e(s.rendered_element).addClass("active"),e(s.switch_element+" + label .dim").html(2))}))}};var se={freeCamera:()=>{n.minDistance=0,n.maxDistance=1/0,n.zoomSpeed=1,n.rotateSpeed=1,n.enableDamping=!1,n.enablePan=!0,n.autoRotate=!0,n.autoRotateSpeed=1,n.maxPolarAngle=Math.PI},getCamera:()=>i,getControls:()=>n,getObject:e=>{switch(e){case"fake_cam_obj":return fake_cam_obj;case"smt_background_obj":return;case"smt_avatar_obj":return T;case"starter_background_obj":return R;case"starter_face_obj":return G;case"starter_hair_obj":return V;case"starter_outfit_obj":return J;case"starter_asset_obj":return Q;case"starter_eyewear_obj":return ee;case"light.hemi":return H.hemi;case"light.dir":return H.dir;case"light.key":return H.key;case"light.fill":return H.fill;case"light.back":return H.back;case"light.top":return H.top;case"light.bottom":return H.bottom}},watch:e=>(s.callback=function(){console.log(e)},"[ debug watch started ]"),endWatch:()=>(s.callback=function(){},"[ debug watch ended ]")}}).call(this,t(6))}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/ 		var executeModules = data[2];
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 		// add entry modules from loaded chunk to deferred list
+/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
+/******/
+/******/ 		// run deferred modules when all chunks ready
+/******/ 		return checkDeferredModules();
+/******/ 	};
+/******/ 	function checkDeferredModules() {
+/******/ 		var result;
+/******/ 		for(var i = 0; i < deferredModules.length; i++) {
+/******/ 			var deferredModule = deferredModules[i];
+/******/ 			var fulfilled = true;
+/******/ 			for(var j = 1; j < deferredModule.length; j++) {
+/******/ 				var depId = deferredModule[j];
+/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 			}
+/******/ 			if(fulfilled) {
+/******/ 				deferredModules.splice(i--, 1);
+/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 			}
+/******/ 		}
+/******/
+/******/ 		return result;
+/******/ 	}
+/******/
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"main": 0
+/******/ 	};
+/******/
+/******/ 	var deferredModules = [];
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
+/******/
+/******/
+/******/ 	// add entry module to deferred list
+/******/ 	deferredModules.push([0,"0"]);
+/******/ 	// run deferred modules when ready
+/******/ 	return checkDeferredModules();
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/avatar/index.js":
+/*!*****************************!*\
+  !*** ./src/avatar/index.js ***!
+  \*****************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _js_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/index.js */ "./src/avatar/js/index.js");
+/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scss/index.scss */ "./src/avatar/scss/index.scss");
+
+
+
+/***/ }),
+
+/***/ "./src/avatar/js/avatar/_helper.js":
+/*!*****************************************!*\
+  !*** ./src/avatar/js/avatar/_helper.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+
+var helper = {
+  create_light: {
+    environment_light: function (options) {
+      var defaults = {
+        enable: true,
+        options: {
+          dir: "assets/hdr/",
+          hdri_file: "provence_studio_1k_edit.hdr",
+          enable_background: false,
+          intensity: 1
+        }
+      };
+      var settings = $.extend(defaults, options);
+      new three__WEBPACK_IMPORTED_MODULE_0__["RGBELoader"]().setPath(settings.dir).load(settings.hdri_file, function (texture) {
+        texture.mapping = three__WEBPACK_IMPORTED_MODULE_0__["EquirectangularReflectionMapping"];
+
+        if (settings.enable_background) {
+          scene.background = texture;
+        }
+
+        scene.environment = texture;
+      });
+    },
+    point_light: function (options) {
+      var defaults = {
+        enable: true,
+        helper: false,
+        options: {
+          debug_color: 0xff0000,
+          color: 0xffffff,
+          decay: 1,
+          distance: 100,
+          intensity: .6,
+          physically_correct: 0.0,
+          power: 0.0,
+          shadow_bias: -0.01,
+          map_size_width: 1000,
+          map_size_height: 2000,
+          camera_near: 0.5,
+          camera_far: 500,
+          position: {
+            x: 4,
+            y: 4,
+            z: 4
+          }
+        }
+      };
+      var settings = $.extend(defaults, options);
+      var sphere_light = new three__WEBPACK_IMPORTED_MODULE_0__["SphereGeometry"](0.2, 32, 32);
+
+      if (settings.options) {
+        var obj_light = new three__WEBPACK_IMPORTED_MODULE_0__["PointLight"](settings.options.color, settings.options.intensity, settings.options.distance, settings.options.decay, settings.options.physically_correct);
+
+        if (settings.helper) {
+          obj_light.add(new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](sphere_light, new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
+            color: settings.options.debug_color
+          })));
+        }
+
+        obj_light.castShadow = true;
+        obj_light.shadow.bias = settings.options.shadow_bias;
+        obj_light.position.set(settings.options.position.x, settings.options.position.y, settings.options.position.z);
+        return obj_light;
+      }
+    },
+    dir_light: function (options) {
+      var defaults = {
+        enable: true,
+        helper: false,
+        options: {
+          debug_color: 0xff0000,
+          color: 0xffffff,
+          decay: 1,
+          distance: 100,
+          intensity: .6,
+          physically_correct: 0.0,
+          power: 0.0,
+          shadow_bias: -0.01,
+          map_size_width: 1000,
+          map_size_height: 2000,
+          camera_near: 0.5,
+          camera_far: 500,
+          position: {
+            x: 4,
+            y: 4,
+            z: 4
+          }
+        }
+      };
+      var settings = $.extend(defaults, options);
+
+      if (settings.enable) {
+        light_dir = new three__WEBPACK_IMPORTED_MODULE_0__["DirectionalLight"](0xffffff, .8);
+        light_dir.color.setHSL(0.1, 1, 0.95);
+        light_dir.position.set(-1, 1.75, 1);
+        light_dir.position.multiplyScalar(100);
+
+        if (settings.light_dir) {
+          scene.add(light_dir);
+        }
+
+        light_dir.castShadow = true;
+        light_dir.shadow.mapSize.width = 2048;
+        light_dir.shadow.mapSize.height = 2048;
+        const d = 50;
+        light_dir.shadow.camera.left = -d;
+        light_dir.shadow.camera.right = d;
+        light_dir.shadow.camera.top = d;
+        light_dir.shadow.camera.bottom = -d;
+        light_dir.shadow.camera.far = 3500;
+        light_dir.shadow.bias = -0.0001;
+
+        if (settings.light_dir && web3d.helper) {
+          const light_dir_helper = new three__WEBPACK_IMPORTED_MODULE_0__["DirectionalLightHelper"](light_dir, 10);
+          scene.add(light_dir_helper);
+        }
+      }
+    },
+    amb_light: function (options) {
+      var defaults = {
+        enable: true,
+        helper: false,
+        options: {
+          color: 0x404040,
+          intensity: 0.1
+        }
+      };
+      var settings = $.extend(defaults, options);
+
+      if (settings.enable) {
+        var obj_light = new three__WEBPACK_IMPORTED_MODULE_0__["AmbientLight"](settings.options.color, settings.options.intensity);
+        return obj_light;
+      }
+    },
+    spot_light: function (options) {
+      var defaults = {
+        enable: true,
+        helper: false,
+        options: {
+          debug_color: 0xff0000,
+          color: 0xffffff,
+          decay: 1,
+          distance: 0,
+          intensity: .6,
+          angle: Math.PI / 3,
+          penumbra: 0,
+          cast_shadow: false,
+          shadow_map_size_width: 512,
+          shadow_map_size_height: 512,
+          shadow_camera_near: 10,
+          shadow_camera_far: 200,
+          shadow_focus: 1,
+          position: {
+            x: 4,
+            y: 4,
+            z: 4
+          },
+          target: {
+            x: 4,
+            y: 4,
+            z: 4
+          }
+        }
+      };
+      var settings = $.extend(defaults, options);
+
+      if (settings.enable) {
+        var obj_light = new three__WEBPACK_IMPORTED_MODULE_0__["SpotLight"](settings.options.color, settings.options.intensity, settings.options.distance, settings.options.angle, settings.options.penumbra, settings.options.decay);
+        obj_light.position.set(settings.options.position.x, settings.options.position.y, settings.options.position.z);
+        obj_light.angle = settings.options.angle;
+        obj_light.penumbra = settings.options.penumbra;
+        obj_light.decay = settings.options.decay;
+        obj_light.distance = settings.options.distance;
+        obj_light.castShadow = settings.options.cast_shadow; // obj_light.shadow.mapSize.width = settings.options.shadow_map_size_width;
+        // obj_light.shadow.mapSize.height = settings.options.shadow_map_size_height;
+
+        obj_light.shadow.camera.near = settings.options.shadow_camera_near;
+        obj_light.shadow.camera.far = settings.options.shadow_camera_far;
+        obj_light.shadow.focus = settings.options.shadow_focus;
+        obj_light.receiveShadow = true;
+        obj_light.castShadow = true;
+        obj_light.target.position.set(settings.options.target.x, settings.options.target.y, settings.options.target.z); // obj_light.target.x =  settings.options.target.x; 
+        // obj_light.target.y =  settings.options.target.y; 
+        // obj_light.target.z =  settings.options.target.z; 
+        //     settings.options.target.y, 
+        //     settings.options.target.z, 
+        // ;
+        // console.log(obj_light);
+
+        if (settings.helper) {
+          var lightHelper = new three__WEBPACK_IMPORTED_MODULE_0__["SpotLightHelper"](obj_light);
+          var shadowCameraHelper = new three__WEBPACK_IMPORTED_MODULE_0__["CameraHelper"](obj_light.shadow.camera);
+          obj_light.add(lightHelper);
+          obj_light.add(shadowCameraHelper);
+        }
+
+        return obj_light;
+      }
+    }
+  },
+  loading: function (enableLoading, options) {
+    var defaults = {
+      rendered_element: "#rendered_avatar",
+      className: "loading"
+    };
+    var settings = $.extend(defaults, options);
+
+    if (enableLoading) {
+      $(settings.rendered_element).addClass(settings.className);
+      $(settings.rendered_element + " canvas").css({
+        opacity: 0
+      });
+    } else {
+      $(settings.rendered_element).removeClass(settings.className);
+      $(settings.rendered_element + " canvas").css({
+        opacity: 1
+      });
+    }
+  },
+  clean: function (scene, options) {
+    var defaults = {};
+    var settings = $.extend(defaults, options); // CLEAN 2D
+    // CLEAN 3D
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (helper);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+
+/***/ }),
+
+/***/ "./src/avatar/js/avatar/main.js":
+/*!**************************************!*\
+  !*** ./src/avatar/js/avatar/main.js ***!
+  \**************************************/
+/*! exports provided: avatar, debug */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "avatar", function() { return avatar; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "debug", function() { return debug; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.min.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls */ "./node_modules/three/examples/jsm/controls/OrbitControls.js");
+/* harmony import */ var three_examples_js_lights_LightProbeGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/examples/js/lights/LightProbeGenerator */ "./node_modules/three/examples/js/lights/LightProbeGenerator.js");
+/* harmony import */ var three_examples_js_lights_LightProbeGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(three_examples_js_lights_LightProbeGenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var three_examples_jsm_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/examples/jsm/loaders/RGBELoader.js */ "./node_modules/three/examples/jsm/loaders/RGBELoader.js");
+/* harmony import */ var three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/examples/jsm/loaders/GLTFLoader.js */ "./node_modules/three/examples/jsm/loaders/GLTFLoader.js");
+/* harmony import */ var three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three/examples/jsm/loaders/FBXLoader.js */ "./node_modules/three/examples/jsm/loaders/FBXLoader.js");
+/* harmony import */ var three_examples_jsm_postprocessing_EffectComposer_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! three/examples/jsm/postprocessing/EffectComposer.js */ "./node_modules/three/examples/jsm/postprocessing/EffectComposer.js");
+/* harmony import */ var three_examples_jsm_postprocessing_RenderPass_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! three/examples/jsm/postprocessing/RenderPass.js */ "./node_modules/three/examples/jsm/postprocessing/RenderPass.js");
+/* harmony import */ var three_examples_jsm_shaders_FXAAShader_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! three/examples/jsm/shaders/FXAAShader.js */ "./node_modules/three/examples/jsm/shaders/FXAAShader.js");
+/* harmony import */ var three_examples_jsm_postprocessing_ShaderPass_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! three/examples/jsm/postprocessing/ShaderPass.js */ "./node_modules/three/examples/jsm/postprocessing/ShaderPass.js");
+/* harmony import */ var three_examples_jsm_postprocessing_LUTPass_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! three/examples/jsm/postprocessing/LUTPass.js */ "./node_modules/three/examples/jsm/postprocessing/LUTPass.js");
+/* harmony import */ var three_examples_jsm_loaders_LUTCubeLoader_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! three/examples/jsm/loaders/LUTCubeLoader.js */ "./node_modules/three/examples/jsm/loaders/LUTCubeLoader.js");
+/* harmony import */ var three_examples_jsm_loaders_LUT3dlLoader_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! three/examples/jsm/loaders/LUT3dlLoader.js */ "./node_modules/three/examples/jsm/loaders/LUT3dlLoader.js");
+/* harmony import */ var three_examples_jsm_shaders_GammaCorrectionShader_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! three/examples/jsm/shaders/GammaCorrectionShader.js */ "./node_modules/three/examples/jsm/shaders/GammaCorrectionShader.js");
+/* harmony import */ var three_examples_jsm_shaders_LuminosityShader_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! three/examples/jsm/shaders/LuminosityShader.js */ "./node_modules/three/examples/jsm/shaders/LuminosityShader.js");
+/* harmony import */ var three_examples_jsm_environments_RoomEnvironment_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! three/examples/jsm/environments/RoomEnvironment.js */ "./node_modules/three/examples/jsm/environments/RoomEnvironment.js");
+/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./_helper */ "./src/avatar/js/avatar/_helper.js");
+
+
+ // LOADER
+
+
+
+ // POST - PROCESSING
+
+
+
+
+
+
+
+
+
+
+ // 
+
+
+
+var avatar, debug;
+var scene, camera, renderer, controls, mixer, composer, lutPass, lutMap;
+var mixer_face, mixer_hair, mixer_outfit, mixer_asset, mixer_eyewear;
+var light = {
+  hemi: {},
+  dir: {},
+  key: {},
+  fill: {},
+  back: {},
+  top: {},
+  top2: {},
+  bottom: {},
+  hand: {}
+};
+const clock = new three__WEBPACK_IMPORTED_MODULE_0__["Clock"]();
+const frustumSize = 600; // OBJECT 3D
+
+var test_background_data, test_background_obj;
+var smt_background_data, smt_background_obj, smt_background_2d, smt_avatar_data, smt_avatar_obj, smt_avatar_2d;
+var starter_all_obj, starter_anim_obj, starter_background_data, starter_background_obj, starter_background_2d, starter_face_data, starter_face_obj, starter_face_2d, starter_hair_data, starter_hair_obj, starter_hair_2d, starter_outfit_data, starter_outfit_obj, starter_outfit_2d, starter_asset_data, starter_asset_obj, starter_asset_2d, starter_eyewear_data, starter_eyewear_obj, starter_eyewear_2d; // DEFAULT SETUP 
+
+const _DEFAULT = {
+  rendered_element: "#rendered_avatar",
+  layered_element: "#layered_avatar",
+  switch_element: "#switch_avatar",
+  asset_dir: "assets/avatar/",
+  asset_dir_fbx: "assets/avatar-fbx/",
+  asset_dir_anim: "assets/avatar-fbx/anim/",
+  background: "assets/bg-default.glb",
+  scale: {
+    smt: {
+      x: .1,
+      y: .1,
+      z: .1
+    },
+    st: {
+      x: .08,
+      y: .08,
+      z: .08
+    }
+  },
+  texture_options: {
+    smt_skin: {
+      aoMapIntensity: .1
+    },
+    smt_outfit: {
+      aoMapIntensity: .1,
+      emissiveIntensity: 2,
+      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](1.5, 1.5)
+    },
+    smt_teeth: {
+      aoMapIntensity: .1,
+      emissiveIntensity: 2,
+      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](1.5, 1.5),
+      roughness: 3
+    },
+    smt_hair: {
+      aoMap: null,
+      aoMapIntensity: .1,
+      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](1, 1),
+      roughness: 1.5
+    },
+    st_background: {// aoMap: null,
+      // emissiveIntensity: 2,
+      // normalScale: new THREE.Vector2(-1, -1),
+      // envMapIntensity: 0,
+      // roughness: 0,
+      // transparent: true
+    },
+    st_text: {// aoMap: null,
+      // emissiveIntensity: 0,
+      // normalScale: new THREE.Vector2(0, 0),
+      // envMapIntensity: .5,
+    },
+    st_face: {
+      aoMap: null // aoMapIntensity: .1,
+      // roughness: .8,
+      // envMapIntensity: .5,
+      // normalMapType: THREE.ObjectSpaceNormalMap
+
+    },
+    st_skin: {
+      aoMap: null,
+      // aoMapIntensity: .1,
+      // roughness: 1,
+      envMapIntensity: .3 // normalMapType: THREE.ObjectSpaceNormalMap
+
+    },
+    st_hair: {
+      aoMap: null,
+      // normalScale: new THREE.Vector2(2, 2),
+      // aoMapIntensity: .2,
+      // normalScale: new THREE.Vector2(.15, .15),
+      // normalScale: new THREE.Vector2(.5, .5),
+      // envMapIntensity: .5,
+      roughness: 1.5 // envMapIntensity: 1.2
+
+    },
+    st_outfit: {
+      aoMap: null,
+      normalScale: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](2, 2),
+      // aoMapIntensity: .1,
+      // emissiveIntensity: .8,
+      // normalScale: new THREE.Vector2(1,1),
+      envMapIntensity: .3,
+      roughness: 1.4 // normalMapType: THREE.ObjectSpaceNormalMap
+
+    },
+    st_asset: {
+      aoMap: null // aoMapIntensity: .1,
+      // emissiveIntensity: 1,
+      // normalScale: new THREE.Vector2(1.5, 1.5),
+      // envMapIntensity: .5,
+
+    },
+    st_eyewear: {
+      aoMap: null,
+      // aoMapIntensity: .1,
+      // emissiveIntensity: 1,
+      // normalScale: new THREE.Vector2(1, 1),
+      // envMapIntensity: .5,
+      transparent: true // dithering: true
+
+    }
+  },
+  model_suffix: {
+    smt: ".fbx",
+    st: ".glb",
+    st_fbx: ".fbx",
+    st_fbx_anim: "_G_Skin.fbx",
+    twod: ".png"
+  },
+  texture_suffix: {
+    base_color: "_SHD_BaseColor.png",
+    metallic: "_SHD_Metallic.png",
+    normal: "_SHD_Normal.png",
+    roughness: "_SHD_Roughness.png",
+    ambient_occlusion: "_SHD_AmbientOcclusion.png",
+    emissive: "_SHD_Emissive.png",
+    alpha: "_SHD_Opacity.png",
+    scattering: "_SHD_Scattering.png",
+    thickness: "_SHD_Thickness.png",
+    sss: "_SHD_SSS.png"
+  },
+  texture_skin_suffix: {
+    base_color: "_Skin_SHD_BaseColor.png",
+    metallic: "_Skin_SHD_Metallic.png",
+    normal: "_Skin_SHD_Normal.png",
+    roughness: "_Skin_SHD_Roughness.png",
+    ambient_occlusion: "_Skin_SHD_AmbientOcclusion.png",
+    scattering: "_Skin_SHD_Scattering.png",
+    thickness: "_Skin_SHD_Thickness.png",
+    sss: "_Skin_SHD_SSS.png"
+  },
+  texture_text_suffix: {
+    base_color: "_Text_SHD_BaseColor.png"
+  },
+  post_processing: {
+    lut_asset: "assets/lut/",
+    // lut_file: "Protect_Highlights_01.cube",
+    // lut_file: "Apple_prores_422_6.A002_02161207_C015.cube",
+    lut_file: "Warm_1.siona_gut.cube",
+    lutPass_options: {
+      enable: true,
+      // intensity: .025,
+      intensity: .3
+    }
+  },
+  light_options: {
+    environment_light: {
+      enable: 1,
+      options: {
+        dir: "assets/hdr/",
+        hdri_file: "provence_studio_1k_edit.hdr",
+        // hdri_file: "spaichingen_hill_1k.hdr",
+        enable_background: false // intensity: 0,
+
+      }
+    },
+    ambient_light: {
+      enable: 1,
+      options: {
+        color: 0xffffff,
+        intensity: .8
+      }
+    },
+    hemisphere_light: {
+      enable: 1,
+      options: {
+        skyColor: 0xffffff,
+        groundColor: 0xffffff,
+        intensity: .025,
+        position: {
+          x: 0,
+          y: 50,
+          z: 0
+        }
+      }
+    },
+    directional_light: {
+      enable: false,
+      options: {}
+    },
+    key_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffffff,
+        decay: 0,
+        distance: 0,
+        intensity: .9,
+        angle: Math.PI / 2,
+        penumbra: 0,
+        cast_shadow: false,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 0,
+        shadow_camera_far: 500,
+        shadow_focus: 1,
+        position: {
+          x: 4,
+          y: 3,
+          z: 4
+        },
+        target: {
+          x: 0,
+          y: 2,
+          z: 0
+        }
+      }
+    },
+    fill_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffffff,
+        decay: 0,
+        distance: 0,
+        intensity: .7,
+        angle: Math.PI / 3,
+        penumbra: 0,
+        cast_shadow: false,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 10,
+        shadow_camera_far: 200,
+        shadow_focus: 1,
+        position: {
+          x: -7,
+          y: 3,
+          z: 6
+        },
+        target: {
+          x: 0,
+          y: 4,
+          z: 0
+        }
+      }
+    },
+    back_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffffff,
+        decay: 0,
+        distance: 0,
+        intensity: 1,
+        angle: Math.PI / 3,
+        penumbra: 0,
+        cast_shadow: false,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 10,
+        shadow_camera_far: 200,
+        shadow_focus: 1,
+        position: {
+          x: 0,
+          y: 2,
+          z: -4
+        },
+        target: {
+          x: 0,
+          y: 2,
+          z: 0
+        }
+      }
+    },
+    top_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffffff,
+        decay: 0,
+        distance: 0,
+        intensity: 1.2,
+        angle: Math.PI / 5,
+        penumbra: 0,
+        cast_shadow: false,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 10,
+        shadow_camera_far: 200,
+        shadow_focus: 1,
+        position: {
+          x: 0,
+          y: 7,
+          z: 3
+        },
+        target: {
+          x: 0,
+          y: 4,
+          z: 1
+        }
+      }
+    },
+    top2_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffffff,
+        decay: 0,
+        distance: 0,
+        intensity: .4,
+        angle: Math.PI / 5,
+        penumbra: 0,
+        cast_shadow: false,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 10,
+        shadow_camera_far: 200,
+        shadow_focus: 1,
+        position: {
+          x: 0,
+          y: 8,
+          z: -3
+        },
+        target: {
+          x: 0,
+          y: 4,
+          z: 1
+        }
+      }
+    },
+    bottom_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffffff,
+        decay: 0,
+        distance: 0,
+        intensity: .15,
+        angle: Math.PI / 3,
+        penumbra: 0,
+        cast_shadow: false,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 10,
+        shadow_camera_far: 200,
+        shadow_focus: .2,
+        position: {
+          x: 0,
+          y: -1,
+          z: 2
+        },
+        target: {
+          x: 0,
+          y: 3,
+          z: 0
+        }
+      }
+    },
+    hand_light: {
+      enable: 1,
+      helper: 0,
+      options: {
+        debug_color: 0xff0000,
+        color: 0xffffff,
+        decay: 0,
+        distance: 0,
+        intensity: .1,
+        angle: Math.PI / 3,
+        penumbra: 0,
+        cast_shadow: false,
+        shadow_map_size_width: 512,
+        shadow_map_size_height: 512,
+        shadow_camera_near: 10,
+        shadow_camera_far: 200,
+        shadow_focus: 2,
+        position: {
+          x: 3.5,
+          y: .5,
+          z: 0
+        },
+        target: {
+          x: 0,
+          y: 1,
+          z: 0
+        }
+      }
+    }
+  }
+}; // MAIN 
+
+avatar = {
+  rendered_element: _DEFAULT.rendered_element,
+  layered_element: _DEFAULT.layered_element,
+  switch_element: _DEFAULT.switch_element,
+  rendered_element: _DEFAULT.rendered_element,
+  layered_element: _DEFAULT.layered_element,
+  switch_element: _DEFAULT.switch_element,
+  default_bg: _DEFAULT.background,
+  dom_width: 100,
+  dom_height: 100,
+  asset_dir: _DEFAULT.asset_dir,
+  asset_dir_fbx: _DEFAULT.asset_dir_fbx,
+  asset_dir_anim: _DEFAULT.asset_dir_anim,
+  init: function (options) {
+    var defaults = {
+      rendered_element: _DEFAULT.rendered_element,
+      layered_element: _DEFAULT.layered_element,
+      switch_element: _DEFAULT.switch_element,
+      asset_dir: _DEFAULT.asset_dir
+    };
+    var settings = $.extend(defaults, options);
+    avatar.rendered_element = settings.rendered_element;
+    avatar.asset_dir = settings.asset_dir;
+    avatar.dom_width = $(avatar.rendered_element).innerWidth();
+    avatar.dom_height = $(avatar.rendered_element).innerHeight();
+    avatar.setup.all();
+    avatar.setup.post_renderer();
+    avatar.setup.helpers();
+  },
+  // =======
+  loadSMT: async function (smt_code, options = {}) {
+    var defaults = {
+      asset_dir: avatar.asset_dir,
+      texture_options: _DEFAULT.texture_options,
+      model_suffix: _DEFAULT.model_suffix,
+      texture_suffix: _DEFAULT.texture_suffix,
+      texture_skin_suffix: _DEFAULT.texture_skin_suffix,
+      texture_text_suffix: _DEFAULT.texture_text_suffix,
+      scale: _DEFAULT.scale.smt
+    };
+    var settings = $.extend(defaults, options); // LOAD 2D
+
+    smt_avatar_2d = settings.asset_dir + smt_code + "/" + smt_code + settings.model_suffix.twod;
+    $(avatar.layered_element).empty();
+    $(avatar.layered_element).append(`
+            <img src="${smt_avatar_2d}" alt="${smt_code}">
+        `); // LOAD 3D
+
+    const fbxLoader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__["FBXLoader"](),
+          texLoader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
+    _helper__WEBPACK_IMPORTED_MODULE_16__["default"].loading(true, {
+      rendered_element: avatar.rendered_element
+    });
+    _helper__WEBPACK_IMPORTED_MODULE_16__["default"].clean(scene);
+    [smt_avatar_obj] = await Promise.all([fbxLoader.loadAsync(settings.asset_dir + smt_code + "/" + smt_code + settings.model_suffix.smt)]); // LOAD TEXTURE 
+
+    const skin_texture = {
+      map: texLoader.load(settings.asset_dir + smt_code + "/" + smt_code + settings.texture_skin_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + smt_code + "/" + smt_code + settings.texture_skin_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + smt_code + "/" + smt_code + settings.texture_skin_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + smt_code + "/" + smt_code + settings.texture_skin_suffix.roughness),
+      aoMap: texLoader.load(settings.asset_dir + smt_code + "/" + smt_code + settings.texture_skin_suffix.ambient_occlusion)
+    };
+    const outfit_texture = {
+      map: texLoader.load(settings.asset_dir + smt_code + "/" + smt_code + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + smt_code + "/" + smt_code + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + smt_code + "/" + smt_code + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + smt_code + "/" + smt_code + settings.texture_suffix.roughness),
+      aoMap: texLoader.load(settings.asset_dir + smt_code + "/" + smt_code + settings.texture_suffix.ambient_occlusion),
+      emissiveMap: texLoader.load(settings.asset_dir + smt_code + "/" + smt_code + settings.texture_suffix.emissive)
+    }; // LOAD ANIMATION
+
+    mixer = new three__WEBPACK_IMPORTED_MODULE_0__["AnimationMixer"](smt_avatar_obj);
+    const action = mixer.clipAction(smt_avatar_obj.animations[0]);
+    action.play(); // SCALE, SHADOW, TEXTURE OPTIONS FOR MESHES
+
+    smt_avatar_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    smt_avatar_obj.receiveShadow = true;
+    smt_avatar_obj.castShadow = true;
+    var texture_skin = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...skin_texture,
+      ...settings.texture_options.smt_skin
+    });
+    var texture_outfit = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...outfit_texture,
+      ...settings.texture_options.smt_outfit
+    });
+    var texture_teeth = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...outfit_texture,
+      ...settings.texture_options.smt_teeth
+    });
+    var texture_hair = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...outfit_texture,
+      ...settings.texture_options.smt_hair
+    });
+    smt_avatar_obj.traverse(o => {
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+      }
+
+      if (o.isMesh && ["mesh_6", "mesh_7", "mesh_8", "neck_low", "hand_low", "Face_low"].indexOf(o.name) > -1) {
+        // skin                
+        o.material = texture_skin;
+      } else if (o.isMesh) {
+        // outfit
+        o.material = texture_outfit;
+      }
+
+      if (o.isMesh && ["mesh_3", "Hair_low"].indexOf(o.name) > -1) {
+        o.material = texture_hair;
+      }
+
+      if (o.isMesh && o.name == "Teeth_low") {
+        o.material = texture_teeth;
+      }
+    }); // ADD SMT OBJ TO SCENE
+
+    scene.add(smt_avatar_obj);
+    _helper__WEBPACK_IMPORTED_MODULE_16__["default"].loading(false, {
+      rendered_element: avatar.rendered_element
+    });
+  },
+  loadST: async function (st_code, options) {
+    var defaults = {
+      asset_dir: avatar.asset_dir,
+      texture_options: _DEFAULT.texture_options,
+      model_suffix: _DEFAULT.model_suffix,
+      texture_suffix: _DEFAULT.texture_suffix,
+      texture_skin_suffix: _DEFAULT.texture_skin_suffix,
+      texture_text_suffix: _DEFAULT.texture_text_suffix,
+      scale: _DEFAULT.scale.st
+    };
+    var settings = $.extend(defaults, options); // st_code job
+    // {
+    // 	"hair": "HM1",
+    // 	"eyewear": "EM2",
+    // 	"face": "FM3",
+    // 	"outfit": "OM1",
+    // 	"asset": "A2",
+    // 	"background_text": "T6"
+    // }
+
+    var obj_st = {}; // console.log(typeof st_code);
+
+    switch (typeof st_code) {
+      case "object":
+        obj_st = st_code;
+        break;
+
+      case "string":
+      default:
+        let array_st = st_code.split("-");
+        obj_st = {
+          "hair": array_st[0],
+          "eyewear": array_st[1],
+          "face": array_st[2],
+          "outfit": array_st[3],
+          "asset": array_st[4],
+          "background_text": array_st[5]
+        };
+        break;
+    } // LOAD 2D
+
+
+    starter_background_2d = settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.twod;
+    starter_face_2d = settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.model_suffix.twod;
+    starter_hair_2d = settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.model_suffix.twod;
+    starter_outfit_2d = settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.model_suffix.twod;
+    starter_asset_2d = settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.twod;
+    starter_eyewear_2d = settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.model_suffix.twod;
+    $(avatar.layered_element).empty();
+    $(avatar.layered_element).append(`
+            <img src="${starter_background_2d}" alt="background_text">
+            <img src="${starter_face_2d}" alt="face">
+            <img src="${starter_hair_2d}" alt="hair">
+            <img src="${starter_outfit_2d}" alt="outfit">
+            <img src="${starter_asset_2d}" alt="asset">
+            <img src="${starter_eyewear_2d}" alt="eyewear">
+        `); // LOAD 3D
+
+    const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"](),
+          texLoader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
+    _helper__WEBPACK_IMPORTED_MODULE_16__["default"].loading(true, {
+      rendered_element: avatar.rendered_element
+    });
+    _helper__WEBPACK_IMPORTED_MODULE_16__["default"].clean(scene);
+    [starter_background_data, starter_face_data, starter_hair_data, starter_outfit_data, starter_asset_data, starter_eyewear_data] = await Promise.all([glbLoader.loadAsync(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.st), glbLoader.loadAsync(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.model_suffix.st)]);
+    starter_background_obj = starter_background_data.scene.children[0];
+    starter_face_obj = starter_face_data.scene.children[0];
+    starter_hair_obj = starter_hair_data.scene.children[0];
+    starter_outfit_obj = starter_outfit_data.scene.children[0];
+    starter_asset_obj = starter_asset_data.scene.children[0];
+    starter_eyewear_obj = starter_eyewear_data.scene.children[0]; // LOAD TEXTURE
+
+    const background_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.ambient_occlusion),
+
+    };
+    const face_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.alpha),
+
+    };
+    const hair_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.roughness),
+      aoMap: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.ambient_occlusion) // alphaMap: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.alpha),
+
+    };
+    const outfit_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
+
+    }; // outfit_texture.map.encoding = THREE.sRGBEncoding;
+    // skin in outfit
+
+    const skinin_texture = {
+      map: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
+
+    };
+    const asset_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.alpha),
+
+    };
+    const eyewear_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.roughness),
+      // aoMap: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.ambient_occlusion),
+      alphaMap: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.alpha)
+    };
+    const text_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_text_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
+
+    }; // SCALE, SHADOW, TEXTURE OPTIONS FOR MESHES
+
+    starter_background_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    starter_background_obj.receiveShadow = false;
+    starter_background_obj.castShadow = false;
+    var texture_background = new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ ...background_texture,
+      ...settings.texture_options.st_background
+    });
+    var texture_text = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...text_texture,
+      ...settings.texture_options.st_background
+    });
+    starter_background_obj.traverse(o => {
+      if (o.isMesh && o.name == "mesh_0") {
+        o.castShadow = true;
+        o.receiveShadow = true;
+        o.material = texture_background;
+      } else if (o.isMesh) {
+        o.castShadow = false;
+        o.receiveShadow = false;
+        o.material = texture_text;
+      }
+    });
+    console.log("BG/Text: ");
+    console.log(starter_background_obj); //--- FACE
+
+    starter_face_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    starter_face_obj.receiveShadow = true;
+    starter_face_obj.castShadow = true;
+    var texture_face = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...face_texture,
+      ...settings.texture_options.st_face
+    });
+    starter_face_obj.traverse(o => {
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+        o.material = texture_face;
+      }
+    });
+    console.log("Face: ");
+    console.log(starter_face_obj); //--- HAIR
+
+    starter_hair_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    starter_hair_obj.receiveShadow = true;
+    starter_hair_obj.castShadow = true;
+    var texture_hair = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...hair_texture,
+      ...settings.texture_options.st_hair
+    });
+    starter_hair_obj.traverse(o => {
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+        o.material = texture_hair;
+      }
+    });
+    console.log("Hair: ");
+    console.log(starter_hair_obj); //--- OUTFIT
+
+    starter_outfit_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    starter_outfit_obj.receiveShadow = true;
+    starter_outfit_obj.castShadow = true;
+    var texture_outfit = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...outfit_texture,
+      ...settings.texture_options.st_outfit
+    });
+    var texture_skinin = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...skinin_texture,
+      ...settings.texture_options.st_skin
+    });
+    starter_outfit_obj.children[1].traverse(o => {
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+        o.material = texture_outfit;
+      }
+    });
+    starter_outfit_obj.children[0].traverse(o => {
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+        o.material = texture_skinin;
+      }
+    });
+    console.log("Outfit: ");
+    console.log(starter_outfit_obj); //--- ASSET
+
+    starter_asset_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    starter_asset_obj.receiveShadow = true;
+    starter_asset_obj.castShadow = true;
+    var texture_asset = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...asset_texture,
+      ...settings.texture_options.st_asset
+    });
+    var texture_skinin = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...skinin_texture,
+      ...settings.texture_options.st_skin
+    });
+    starter_asset_obj.traverse(o => {
+      if (o.isMesh && ["mesh_1"].indexOf(o.name) > -1) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+        o.material = texture_asset;
+      } else {
+        o.castShadow = true;
+        o.receiveShadow = true;
+        o.material = texture_skinin;
+      }
+    });
+    console.log("Asset: ");
+    console.log(starter_asset_obj); //--- EYEWEAR
+
+    starter_eyewear_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    starter_eyewear_obj.receiveShadow = true;
+    starter_eyewear_obj.castShadow = true;
+    var texture_eyewear = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...eyewear_texture,
+      ...settings.texture_options.st_eyewear
+    });
+    starter_eyewear_obj.traverse(o => {
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+        o.material = texture_eyewear;
+      }
+    });
+    console.log("Eyewear: ");
+    console.log(starter_eyewear_obj); // ADD ST OBJ TO SCENE
+
+    starter_all_obj = new three__WEBPACK_IMPORTED_MODULE_0__["Object3D"]();
+    starter_all_obj.add(starter_background_obj);
+    starter_all_obj.add(starter_face_obj);
+    starter_all_obj.add(starter_hair_obj);
+    starter_all_obj.add(starter_outfit_obj);
+    starter_all_obj.add(starter_asset_obj);
+    starter_all_obj.add(starter_eyewear_obj);
+    console.log("All: ");
+    console.log(starter_all_obj);
+    scene.add(starter_all_obj); // scene.add(starter_background_obj);
+    // scene.add(starter_face_obj);
+    // scene.add(starter_hair_obj);
+    // scene.add(starter_outfit_obj);
+    // scene.add(starter_asset_obj);
+    // scene.add(starter_eyewear_obj);
+
+    _helper__WEBPACK_IMPORTED_MODULE_16__["default"].loading(false, {
+      rendered_element: avatar.rendered_element
+    });
+  },
+  loadSTDEMO: async function (st_code, anim_code = "ST_Walk", options) {
+    var defaults = {
+      asset_dir: avatar.asset_dir,
+      texture_options: _DEFAULT.texture_options,
+      model_suffix: _DEFAULT.model_suffix,
+      texture_suffix: _DEFAULT.texture_suffix,
+      texture_skin_suffix: _DEFAULT.texture_skin_suffix,
+      texture_text_suffix: _DEFAULT.texture_text_suffix,
+      scale: _DEFAULT.scale.st
+    };
+    var settings = $.extend(defaults, options); // st_code job
+    // {
+    // 	"hair": "HM1",
+    // 	"eyewear": "EM2",
+    // 	"face": "FM3",
+    // 	"outfit": "OM1",
+    // 	"asset": "A2",
+    // 	"background_text": "T6"
+    // }
+
+    var obj_st = {}; // console.log(typeof st_code);
+
+    switch (typeof st_code) {
+      case "object":
+        obj_st = st_code;
+        break;
+
+      case "string":
+      default:
+        let array_st = st_code.split("-");
+        obj_st = {
+          "hair": array_st[0],
+          "eyewear": array_st[1],
+          "face": array_st[2],
+          "outfit": array_st[3],
+          "asset": array_st[4],
+          "background_text": array_st[5]
+        };
+        break;
+    } // LOAD 2D
+
+
+    starter_background_2d = settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.twod;
+    starter_face_2d = settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.model_suffix.twod;
+    starter_hair_2d = settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.model_suffix.twod;
+    starter_outfit_2d = settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.model_suffix.twod;
+    starter_asset_2d = settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.twod;
+    starter_eyewear_2d = settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.model_suffix.twod;
+    $(avatar.layered_element).empty();
+    $(avatar.layered_element).append(`
+            <img src="${starter_background_2d}" alt="background_text">
+            <img src="${starter_face_2d}" alt="face">
+            <img src="${starter_hair_2d}" alt="hair">
+            <img src="${starter_outfit_2d}" alt="outfit">
+            <img src="${starter_asset_2d}" alt="asset"> 
+            <img src="${starter_eyewear_2d}" alt="eyewear">
+        `); // LOAD 3D
+
+    const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"](),
+          fbxLoader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__["FBXLoader"](),
+          texLoader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
+    _helper__WEBPACK_IMPORTED_MODULE_16__["default"].loading(true, {
+      rendered_element: avatar.rendered_element
+    });
+    _helper__WEBPACK_IMPORTED_MODULE_16__["default"].clean(scene);
+    [starter_background_data, starter_anim_obj] = await Promise.all([glbLoader.loadAsync(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st), fbxLoader.loadAsync(settings.asset_dir + "DEMO/" + anim_code + settings.model_suffix.smt)]);
+    starter_background_obj = starter_background_data.scene.children[0]; // console.log(starter_anim_obj);
+    // LOAD TEXTURE
+
+    const background_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.ambient_occlusion),
+
+    };
+    const body_texture = {
+      map: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + "DEMO/Body" + settings.texture_suffix.alpha),
+
+    };
+    const hair_texture = {
+      map: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.roughness),
+      aoMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.ambient_occlusion) // alphaMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["hair"] + settings.texture_suffix.alpha),
+
+    };
+    const outfit_texture = {
+      map: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["outfit"] + settings.texture_suffix.alpha),
+
+    }; // outfit_texture.map.encoding = THREE.sRGBEncoding;
+
+    const eyewear_texture = {
+      map: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.base_color) // metalnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.metallic),
+      // normalMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.normal),
+      // roughnessMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.roughness),
+      // aoMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + "DEMO/" + obj_st["eyewear"] + settings.texture_suffix.alpha),
+
+    };
+    const text_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_text_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
+
+    }; // LOAD ANIMATION
+
+    mixer = new three__WEBPACK_IMPORTED_MODULE_0__["AnimationMixer"](starter_anim_obj);
+    const action = mixer.clipAction(starter_anim_obj.animations[0]);
+    action.play(); // SCALE, SHADOW, TEXTURE OPTIONS FOR MESHES
+
+    starter_background_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    starter_background_obj.receiveShadow = false;
+    starter_background_obj.castShadow = false;
+    var texture_background = new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ ...background_texture,
+      ...settings.texture_options.st_background
+    });
+    var texture_text = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...text_texture,
+      ...settings.texture_options.st_background
+    });
+    starter_background_obj.traverse(o => {
+      if (o.isMesh && o.name == "mesh_0") {
+        o.castShadow = true;
+        o.receiveShadow = true;
+        o.material = texture_background;
+      } else if (o.isMesh) {
+        o.castShadow = false;
+        o.receiveShadow = false;
+        o.material = texture_text;
+      }
+    });
+    console.log("BG/Text: ");
+    console.log(starter_background_obj);
+    starter_background_obj.scale.set(.06, .06, .06); // ====
+
+    starter_anim_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    starter_anim_obj.receiveShadow = false;
+    starter_anim_obj.castShadow = false;
+    var texture_background = new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({ ...background_texture,
+      ...settings.texture_options.st_background
+    });
+    var texture_text = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...text_texture,
+      ...settings.texture_options.st_background
+    });
+    var texture_face = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...body_texture,
+      ...settings.texture_options.st_face
+    });
+    var texture_skin = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...body_texture,
+      ...settings.texture_options.st_skin
+    });
+    var texture_outfit = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...outfit_texture,
+      ...settings.texture_options.st_outfit
+    });
+    var texture_hair = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...hair_texture,
+      ...settings.texture_options.st_hair
+    });
+    var texture_eyewear = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...eyewear_texture,
+      ...settings.texture_options.st_eyewear
+    });
+    starter_anim_obj.traverse(o => {
+      if (o.isMesh) {
+        o.castShadow = false;
+        o.receiveShadow = false; // o.geometry.computeVertexNormals(false);
+        // console.log(o.name);
+
+        switch (o.name) {
+          case "Body":
+          case "Head_low":
+          case "eye_low":
+            o.material = texture_face;
+            break;
+
+          case "Body_low":
+            o.material = texture_skin;
+            break;
+
+          case "OM2dsdas":
+            o.material = texture_outfit;
+            break;
+
+          case "E3_low":
+          case "eyewear":
+            o.material = texture_eyewear;
+            break;
+
+          case "H3":
+          case "hair01_low":
+          case "hair02_low":
+            o.material = texture_hair;
+            break;
+
+          default:
+            o.material = texture_skin;
+            break;
+        }
+      }
+    });
+    console.log("Anim ST: ");
+    console.log(starter_anim_obj); // ADD ST OBJ TO SCENE
+    // starter_all_obj = new THREE.Object3D();
+    // starter_all_obj.add(starter_background_obj);
+    // starter_all_obj.add(starter_face_obj);
+    // starter_all_obj.add(starter_hair_obj);
+    // starter_all_obj.add(starter_outfit_obj);
+    // starter_all_obj.add(starter_asset_obj); 
+    // starter_all_obj.add(starter_eyewear_obj);
+    // console.log("All: ");
+    // console.log(starter_all_obj);
+
+    scene.add(starter_background_obj);
+    scene.add(starter_anim_obj); // scene.add(starter_face_obj);
+    // scene.add(starter_hair_obj);
+    // scene.add(starter_outfit_obj);
+    // scene.add(starter_asset_obj);
+    // scene.add(starter_eyewear_obj);
+
+    _helper__WEBPACK_IMPORTED_MODULE_16__["default"].loading(false, {
+      rendered_element: avatar.rendered_element
+    });
+  },
+  loadSTFPX: async function (st_code, anim_code = "Walk", options) {
+    var defaults = {
+      asset_dir: avatar.asset_dir_fbx,
+      asset_dir_anim: avatar.asset_dir_anim,
+      texture_options: _DEFAULT.texture_options,
+      model_suffix: _DEFAULT.model_suffix,
+      texture_suffix: _DEFAULT.texture_suffix,
+      texture_skin_suffix: _DEFAULT.texture_skin_suffix,
+      texture_text_suffix: _DEFAULT.texture_text_suffix,
+      scale: _DEFAULT.scale.st
+    };
+    var settings = $.extend(defaults, options); // st_code job
+    // {
+    // 	"hair": "HM1",
+    // 	"eyewear": "EM2",
+    // 	"face": "FM3",
+    // 	"outfit": "OM1",
+    // 	"asset": "A2",
+    // 	"background_text": "T6"
+    // }
+
+    var obj_st = {}; // console.log(typeof st_code);
+    // console.log(settings);
+
+    switch (typeof st_code) {
+      case "object":
+        obj_st = st_code;
+        break;
+
+      case "string":
+      default:
+        let array_st = st_code.split("-");
+        obj_st = {
+          "hair": array_st[0],
+          "eyewear": array_st[1],
+          "face": array_st[2],
+          "outfit": array_st[3],
+          "asset": array_st[4],
+          "background_text": array_st[5]
+        };
+        break;
+    } // console.log(obj_st);
+    // LOAD 2D
+
+
+    starter_background_2d = settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.twod;
+    starter_face_2d = settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.model_suffix.twod;
+    starter_hair_2d = settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.model_suffix.twod;
+    starter_outfit_2d = settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.model_suffix.twod;
+    starter_asset_2d = settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.twod;
+    starter_eyewear_2d = settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.model_suffix.twod;
+    $(avatar.layered_element).empty();
+    $(avatar.layered_element).append(`
+            <img src="${starter_background_2d}" alt="background_text">
+            <img src="${starter_face_2d}" alt="face">
+            <img src="${starter_hair_2d}" alt="hair">
+            <img src="${starter_outfit_2d}" alt="outfit">
+            <img src="${starter_asset_2d}" alt="asset"> 
+            <img src="${starter_eyewear_2d}" alt="eyewear">
+        `);
+    $(avatar.rendered_element).css({
+      backgroundImage: `url(${starter_eyewear_2d}),url(${starter_asset_2d}),url(${starter_outfit_2d}),url(${starter_hair_2d}),url(${starter_face_2d}),url(${starter_background_2d})`
+    }); // LOAD 3D
+
+    const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"](),
+          fbxLoader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_5__["FBXLoader"](),
+          texLoader = new three__WEBPACK_IMPORTED_MODULE_0__["TextureLoader"]();
+    _helper__WEBPACK_IMPORTED_MODULE_16__["default"].loading(true, {
+      rendered_element: avatar.rendered_element
+    });
+    _helper__WEBPACK_IMPORTED_MODULE_16__["default"].clean(scene);
+    var starter_anim_default, starter_anim_opt1_obj, starter_anim_opt2_obj, starter_anim_opt3_obj, starter_anim_asset;
+    [// starter_background_obj,
+    starter_face_obj, starter_hair_obj, starter_outfit_obj, starter_asset_obj, starter_eyewear_obj, starter_anim_default, starter_anim_opt1_obj, starter_anim_opt2_obj, starter_anim_opt3_obj, starter_anim_asset] = await Promise.all([// fbxLoader.loadAsync(
+    //     settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st_fbx
+    // ),
+    fbxLoader.loadAsync(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.model_suffix.st_fbx_anim), // fbxLoader.loadAsync(
+    //     settings.asset_dir_anim + "test/FM2_G_Skin.fbx"
+    // ),
+    fbxLoader.loadAsync(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.model_suffix.st_fbx_anim), // fbxLoader.loadAsync(
+    //     settings.asset_dir_anim + "test/HM2_G_Skin.fbx"
+    // ),
+    fbxLoader.loadAsync(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.model_suffix.st_fbx_anim), // fbxLoader.loadAsync(
+    //     settings.asset_dir_anim + "test/OM2_G_Skin.fbx"
+    // ),
+    fbxLoader.loadAsync(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.st_fbx_anim), fbxLoader.loadAsync(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.model_suffix.st_fbx_anim), // fbxLoader.loadAsync(
+    //     settings.asset_dir_anim + "test/EM2_G_Skin.fbx"
+    // ),
+    fbxLoader.loadAsync(settings.asset_dir_anim + anim_code + settings.model_suffix.st_fbx), fbxLoader.loadAsync(settings.asset_dir_anim + "Walk_Asset_Op01_A1_A4_A7" + settings.model_suffix.st_fbx), fbxLoader.loadAsync(settings.asset_dir_anim + "Walk_Asset_Op02_A3_A5_A6" + settings.model_suffix.st_fbx), fbxLoader.loadAsync(settings.asset_dir_anim + "Walk_Asset_Op03_A2_A8" + settings.model_suffix.st_fbx), fbxLoader.loadAsync(settings.asset_dir_anim + "Walk_" + obj_st["asset"] + settings.model_suffix.st_fbx)]); // DECIDE ANIM 
+
+    starter_anim_obj = starter_anim_default;
+    console.log(obj_st["asset"]);
+
+    switch (obj_st["asset"]) {
+      case "A1":
+      case "A4":
+      case "A7":
+        console.log("Walk_Asset_Op01_A1_A4_A7");
+        starter_anim_obj = starter_anim_opt1_obj;
+        break;
+
+      case "A3":
+      case "A5":
+      case "A6":
+        console.log("Walk_Asset_Op02_A3_A5_A6");
+        starter_anim_obj = starter_anim_opt2_obj;
+        break;
+
+      case "A2":
+      case "A8":
+        console.log("Walk_Asset_Op03_A2_A8");
+        starter_anim_obj = starter_anim_opt3_obj;
+        break;
+
+      default:
+        console.log("Walk");
+        starter_anim_asset = starter_anim_default;
+    }
+
+    console.log([// starter_background_obj,
+    starter_face_obj, starter_hair_obj, starter_outfit_obj, starter_asset_obj, starter_eyewear_obj, starter_anim_obj]); // starter_background_obj = starter_background_data.scene.children[0];
+    // console.log(starter_anim_obj); 
+    // LOAD TEXTURE
+    // LOAD TEXTURE
+    // const background_texture = {
+    //     map: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.base_color),
+    //     metalnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.metallic),
+    //     normalMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.normal),
+    //     roughnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.roughness),
+    //     // aoMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.ambient_occlusion),
+    // }
+
+    const face_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.texture_suffix.alpha),
+
+    };
+    const hair_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.roughness),
+      aoMap: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.ambient_occlusion) // alphaMap: texLoader.load(settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.texture_suffix.alpha),
+
+    };
+    const outfit_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
+
+    }; // outfit_texture.map.encoding = THREE.sRGBEncoding;
+    // skin in outfit
+
+    const skinin_texture = {
+      map: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + "Bodybase/Bodybase" + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
+
+    };
+    const asset_texture = {
+      // color: 0x000000,
+      map: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.alpha),
+
+    };
+    const eyewear_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.roughness),
+      // aoMap: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.ambient_occlusion),
+      alphaMap: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.alpha)
+    };
+    const text_texture = {
+      map: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_text_suffix.base_color),
+      metalnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.metallic),
+      normalMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.normal),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+      // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
+
+    };
+    var starter_all_obj = new three__WEBPACK_IMPORTED_MODULE_0__["Object3D"](); // var starter_plane_obj = new THREE.Mesh(
+    //     new THREE.PlaneGeometry( 20, 20 ),
+    //     new THREE.MeshStandardMaterial( {color: 0xcccccc, side: THREE.DoubleSide} )
+    // );
+    // starter_plane_obj.position.set();
+    // starter_plane_obj.rotation.x = Math.PI / 2;
+    // starter_plane_obj.rotation.z = 90;
+    // starter_plane_obj.receiveShadow = true;
+    // starter_plane_obj.castShadow = true;
+
+    starter_all_obj.add(starter_face_obj);
+    starter_all_obj.add(starter_hair_obj);
+    starter_all_obj.add(starter_outfit_obj);
+    starter_all_obj.add(starter_asset_obj);
+    starter_all_obj.add(starter_eyewear_obj);
+    starter_all_obj.add(starter_anim_obj);
+    console.log("All objs: (face, hair, outfit, assets, eye, anim)");
+    console.log(starter_all_obj);
+    starter_all_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z); // LOAD ANIMATION
+    // mixer = new THREE.AnimationMixer (starter_outfit_obj);
+    // const action = mixer.clipAction(starter_anim_obj.animations[ 0 ]);
+    // action.play();
+
+    mixer_face = new three__WEBPACK_IMPORTED_MODULE_0__["AnimationMixer"](starter_face_obj);
+    const action_face = mixer_face.clipAction(starter_anim_obj.animations[0]);
+    action_face.play();
+    mixer_hair = new three__WEBPACK_IMPORTED_MODULE_0__["AnimationMixer"](starter_hair_obj);
+    const action_hair = mixer_hair.clipAction(starter_anim_obj.animations[0]);
+    action_hair.play();
+    mixer_outfit = new three__WEBPACK_IMPORTED_MODULE_0__["AnimationMixer"](starter_outfit_obj);
+    const action_outfit = mixer_outfit.clipAction(starter_anim_obj.animations[0]);
+    action_outfit.play();
+    mixer_asset = new three__WEBPACK_IMPORTED_MODULE_0__["AnimationMixer"](starter_asset_obj);
+    const action_asset = mixer_asset.clipAction(starter_anim_asset.animations[0]);
+    action_asset.play();
+    mixer_eyewear = new three__WEBPACK_IMPORTED_MODULE_0__["AnimationMixer"](starter_eyewear_obj);
+    const action_eyewear = mixer_eyewear.clipAction(starter_anim_obj.animations[0]);
+    action_eyewear.play(); // SCALE, SHADOW, TEXTURE OPTIONS FOR MESHES
+    // starter_background_obj.scale.set(
+    //     settings.scale.x,
+    //     settings.scale.y,
+    //     settings.scale.z,
+    // );
+    // starter_background_obj.receiveShadow = false;
+    // starter_background_obj.castShadow = false;
+    // var texture_background = new THREE.MeshBasicMaterial({
+    //     ...background_texture,
+    //     ...settings.texture_options.st_background 
+    // });
+    // var texture_text = new THREE.MeshStandardMaterial({
+    //     ...text_texture,
+    //     ...settings.texture_options.st_background
+    // });
+    // starter_background_obj.traverse((o) => {
+    //     if (o.parent.isGroup && o.parent.name == "group2") {
+    //         o.castShadow = false;
+    //         o.receiveShadow = false;
+    //         o.material = texture_text;
+    //     } else if (o.isMesh) {
+    //         o.castShadow = true;
+    //         o.receiveShadow = true;
+    //         o.material = texture_background;
+    //     }
+    // });
+    // console.log("BG/Text: ");
+    // console.log(starter_background_obj);
+    // starter_background_obj.scale.set(.06, .06, .06)
+    // ====
+
+    starter_anim_obj.scale.set(settings.scale.x, settings.scale.y, settings.scale.z);
+    starter_anim_obj.receiveShadow = false;
+    starter_anim_obj.castShadow = false;
+    starter_all_obj.receiveShadow = true;
+    starter_all_obj.castShadow = true; // var texture_background = new THREE.MeshBasicMaterial({
+    //     ...background_texture,
+    //     ...settings.texture_options.st_background
+    // });
+
+    var texture_text = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...text_texture,
+      ...settings.texture_options.st_background
+    });
+    var texture_face = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...face_texture,
+      ...settings.texture_options.st_face
+    });
+    var texture_skin = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...skinin_texture,
+      ...settings.texture_options.st_skin
+    });
+    var texture_outfit = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...outfit_texture,
+      ...settings.texture_options.st_outfit
+    });
+    var texture_hair = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...hair_texture,
+      ...settings.texture_options.st_hair
+    });
+    var texture_eyewear = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...eyewear_texture,
+      ...settings.texture_options.st_eyewear
+    });
+    var texture_asset = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...asset_texture,
+      ...settings.texture_options.st_asset
+    });
+
+    if (obj_st["asset"] == "A8") {
+      var texture_asset = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...texture_asset,
+        metalness: .6
+      });
+    }
+
+    starter_all_obj.traverse(o => {
+      o.castShadow = true;
+      o.receiveShadow = true;
+
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true; // o.geometry.computeVertexNormals(false);
+        // console.log(o.name);
+
+        switch (o.name) {
+          case "face":
+          case "head":
+            o.material = texture_face;
+            break;
+
+          case "body":
+            o.material = texture_skin;
+            break;
+
+          case "outfit":
+            o.material = texture_outfit;
+            break;
+
+          case "eyewear":
+            o.material = texture_eyewear;
+            break;
+
+          case "hair":
+          case "hair_bot":
+          case "hair_top":
+            o.material = texture_hair;
+            o.material.side = three__WEBPACK_IMPORTED_MODULE_0__["DoubleSide"];
+            break;
+
+          case "asset":
+            o.material = texture_asset;
+            break;
+
+          default:
+            o.material = texture_skin;
+            break;
+        }
+      }
+    });
+    console.log("Anim ST: ");
+    console.log(starter_anim_obj); // ADD ST OBJ TO SCENE
+    // starter_all_obj = new THREE.Object3D();
+    // starter_all_obj.add(starter_background_obj);
+    // starter_all_obj.add(starter_face_obj);
+    // starter_all_obj.add(starter_hair_obj);
+    // starter_all_obj.add(starter_outfit_obj);
+    // starter_all_obj.add(starter_asset_obj); 
+    // starter_all_obj.add(starter_eyewear_obj);
+    // console.log("All: ");
+    // console.log(starter_all_obj);
+    // scene.add(starter_background_obj);
+    // scene.add(starter_plane_obj); 
+
+    scene.add(starter_all_obj); // scene.add(starter_face_obj);
+    // scene.add(starter_hair_obj);
+    // scene.add(starter_outfit_obj);
+    // scene.add(starter_asset_obj);
+    // scene.add(starter_eyewear_obj);
+
+    setTimeout(function () {
+      $(avatar.rendered_element).css({
+        backgroundImage: `url(${starter_background_2d})`
+      });
+      _helper__WEBPACK_IMPORTED_MODULE_16__["default"].loading(false, {
+        rendered_element: avatar.rendered_element
+      });
+    }, 800);
+  },
+  // ========
+  loadDefaultBg: async function (options) {
+    var defaults = {};
+    var settings = $.extend(defaults, options);
+    const glbLoader = new three_examples_jsm_loaders_GLTFLoader_js__WEBPACK_IMPORTED_MODULE_4__["GLTFLoader"]();
+    [test_background_data] = await Promise.all([glbLoader.loadAsync(avatar.default_bg)]);
+    test_background_obj = test_background_data.scene.children[0];
+    scene.add(test_background_obj);
+    test_background_obj.receiveShadow = false;
+    test_background_obj.castShadow = true;
+    test_background_obj.scale.set(10, 10, 10);
+    test_background_obj.position.set(0, 5, 0); // test_background_obj.material = new THREE.MeshLambertMaterial({
+    //     emissive: 0x593b00,
+    //     emissiveIntensity: .8
+    // });
+
+    test_background_obj.material = new three__WEBPACK_IMPORTED_MODULE_0__["MeshLambertMaterial"]({
+      color: 0x0083ad,
+      emissive: 0x0083ad,
+      emissiveIntensity: 1
+    }); // const box_helper = new THREE.BoxHelper( obj_bg, 0xffff00 );
+    // scene.add(box_helper);
+
+    console.log(test_background_obj);
+  },
+  // ========
+  setup: {
+    all: function (options) {
+      var defaults = {};
+      var settings = $.extend(defaults, options);
+      avatar.setup.renderer(); // => renderer
+
+      avatar.setup.scene();
+      avatar.setup.camera();
+      avatar.setup.post_processing(); // => composer
+
+      avatar.setup.controls();
+      avatar.setup.lights(_DEFAULT.light_options);
+    },
+    lights: function (options) {
+      var defaults = {
+        environment_light: {
+          enable: true,
+          options: {
+            dir: "assets/hdr/",
+            hdri_file: "provence_studio_1k_edit.hdr",
+            enable_background: false,
+            intensity: 1
+          }
+        },
+        ambient_light: {
+          enable: true,
+          options: {
+            color: 0xffffff,
+            intensity: .1
+          }
+        },
+        hemisphere_light: {
+          enable: false,
+          options: {
+            skyColor: 0xffffff,
+            groundColor: 0xffffff,
+            intensity: 1,
+            position: {
+              x: 0,
+              y: 50,
+              z: 0
+            }
+          }
+        },
+        directional_light: {
+          enable: false,
+          options: {}
+        },
+        key_light: {
+          enable: 1,
+          helper: 0,
+          options: {
+            debug_color: 0xff0000,
+            color: 0xffffff,
+            decay: 0,
+            distance: 0,
+            intensity: 1.95,
+            angle: Math.PI / 2,
+            penumbra: 0,
+            cast_shadow: true,
+            shadow_map_size_width: 512,
+            shadow_map_size_height: 512,
+            shadow_camera_near: 10,
+            shadow_camera_far: 200,
+            shadow_focus: .2,
+            position: {
+              x: 4,
+              y: 3,
+              z: 4
+            },
+            target: {
+              x: 0,
+              y: 2,
+              z: 0
+            }
+          }
+        },
+        fill_light: {
+          enable: 1,
+          helper: 0,
+          options: {
+            debug_color: 0xff0000,
+            color: 0xffe0a9,
+            decay: 0,
+            distance: 50,
+            intensity: .5,
+            angle: Math.PI / 3,
+            penumbra: 0,
+            cast_shadow: true,
+            shadow_map_size_width: 512,
+            shadow_map_size_height: 512,
+            shadow_camera_near: 10,
+            shadow_camera_far: 200,
+            shadow_focus: .2,
+            position: {
+              x: -7,
+              y: 3,
+              z: 6
+            },
+            target: {
+              x: 0,
+              y: 4,
+              z: 0
+            }
+          }
+        },
+        back_light: {
+          enable: 1,
+          helper: 0,
+          options: {
+            debug_color: 0xff0000,
+            color: 0xffffff,
+            decay: 0,
+            distance: 50,
+            intensity: .9,
+            angle: Math.PI / 3,
+            penumbra: 0,
+            cast_shadow: true,
+            shadow_map_size_width: 512,
+            shadow_map_size_height: 512,
+            shadow_camera_near: 10,
+            shadow_camera_far: 200,
+            shadow_focus: .2,
+            position: {
+              x: 0,
+              y: 2,
+              z: -4
+            },
+            target: {
+              x: 0,
+              y: 2,
+              z: 0
+            }
+          }
+        },
+        top_light: {
+          enable: 1,
+          helper: 0,
+          options: {
+            debug_color: 0xff0000,
+            color: 0xffffff,
+            decay: 0,
+            distance: 50,
+            intensity: .4,
+            angle: Math.PI / 5,
+            penumbra: 0,
+            cast_shadow: true,
+            shadow_map_size_width: 512,
+            shadow_map_size_height: 512,
+            shadow_camera_near: 10,
+            shadow_camera_far: 200,
+            shadow_focus: .2,
+            position: {
+              x: 0,
+              y: 8,
+              z: 3
+            },
+            target: {
+              x: 0,
+              y: 4,
+              z: 1
+            }
+          }
+        },
+        bottom_light: {
+          enable: 1,
+          helper: 0,
+          options: {
+            debug_color: 0xff0000,
+            color: 0xffffff,
+            decay: 0,
+            distance: 50,
+            intensity: .4,
+            angle: Math.PI / 3,
+            penumbra: 0,
+            cast_shadow: true,
+            shadow_map_size_width: 512,
+            shadow_map_size_height: 512,
+            shadow_camera_near: 10,
+            shadow_camera_far: 200,
+            shadow_focus: .2,
+            position: {
+              x: 0,
+              y: -1,
+              z: 2
+            },
+            target: {
+              x: 0,
+              y: 3,
+              z: 0
+            }
+          }
+        }
+      };
+      var settings = $.extend(defaults, options);
+
+      if (settings.environment_light.enable) {
+        new three_examples_jsm_loaders_RGBELoader_js__WEBPACK_IMPORTED_MODULE_3__["RGBELoader"]().setPath(settings.environment_light.options.dir).load(settings.environment_light.options.hdri_file, function (texture) {
+          texture.mapping = three__WEBPACK_IMPORTED_MODULE_0__["EquirectangularReflectionMapping"];
+
+          if (settings.environment_light.options.enable_background) {
+            scene.background = texture;
+          }
+
+          scene.environment = texture;
+        });
+      } // 
+
+
+      light.ambient = _helper__WEBPACK_IMPORTED_MODULE_16__["default"].create_light.amb_light(settings.ambient_light);
+
+      if (settings.ambient_light.enable) {
+        scene.add(light.ambient);
+      } // helper.create_light.environment_light(settings.environment_light.options);
+
+
+      light.key = _helper__WEBPACK_IMPORTED_MODULE_16__["default"].create_light.spot_light(settings.key_light);
+
+      if (settings.key_light.enable) {
+        scene.add(light.key);
+        scene.add(light.key.target);
+
+        if (settings.key_light.helper) {
+          console.log(light.key);
+        }
+      }
+
+      light.fill = _helper__WEBPACK_IMPORTED_MODULE_16__["default"].create_light.spot_light(settings.fill_light);
+
+      if (settings.fill_light.enable) {
+        scene.add(light.fill);
+        scene.add(light.fill.target);
+
+        if (settings.fill_light.helper) {
+          console.log(light.fill);
+        }
+      }
+
+      light.back = _helper__WEBPACK_IMPORTED_MODULE_16__["default"].create_light.spot_light(settings.back_light);
+
+      if (settings.back_light.enable) {
+        scene.add(light.back);
+        scene.add(light.back.target);
+
+        if (settings.back_light.helper) {
+          console.log(light.back);
+        }
+      }
+
+      light.top = _helper__WEBPACK_IMPORTED_MODULE_16__["default"].create_light.spot_light(settings.top_light);
+
+      if (settings.top_light.enable) {
+        scene.add(light.top);
+        scene.add(light.top.target);
+
+        if (settings.top_light.helper) {
+          console.log(light.top);
+        }
+      }
+
+      light.top2 = _helper__WEBPACK_IMPORTED_MODULE_16__["default"].create_light.spot_light(settings.top2_light);
+
+      if (settings.top2_light.enable) {
+        scene.add(light.top2);
+        scene.add(light.top2.target);
+
+        if (settings.top2_light.helper) {
+          console.log(light.top2);
+        }
+      }
+
+      light.bottom = _helper__WEBPACK_IMPORTED_MODULE_16__["default"].create_light.spot_light(settings.bottom_light);
+
+      if (settings.bottom_light.enable) {
+        scene.add(light.bottom);
+        scene.add(light.bottom.target);
+
+        if (settings.bottom_light.helper) {
+          console.log(light.bottom);
+        }
+      }
+
+      light.hand = _helper__WEBPACK_IMPORTED_MODULE_16__["default"].create_light.spot_light(settings.hand_light);
+
+      if (settings.hand_light.enable) {
+        scene.add(light.hand);
+        scene.add(light.hand.target);
+
+        if (settings.hand_light.helper) {
+          console.log(light.hand);
+        }
+      }
+
+      if (settings.hemisphere_light.enable) {
+        light.hemi = new three__WEBPACK_IMPORTED_MODULE_0__["HemisphereLight"](0xffffff, 0xffffff, settings.hemisphere_light.options.intensity); // light.hemi.color.setHSL(0.6, 1, 0.6);
+        // light.hemi.groundColor.setHSL(0.095, 1, 0.75);
+
+        light.hemi.position.set(0, 50, 0);
+        scene.add(light.hemi);
+
+        if (avatar.helper) {
+          const light_hemi_helper = new three__WEBPACK_IMPORTED_MODULE_0__["HemisphereLightHelper"](light.hemi, 10);
+          scene.add(light_hemi_helper);
+        }
+      } // if (settings.ambient_light.enable) {
+      //     light.hemi = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+      //     light.hemi.color.setHSL(0.6, 1, 0.6);
+      //     light.hemi.groundColor.setHSL(0.095, 1, 0.75);
+      //     light.hemi.position.set(0, 50, 0);
+      //     scene.add(light.hemi);
+      //     if (avatar.helper) {
+      //         const light_hemi_helper = new THREE.HemisphereLightHelper(light.hemi, 10);
+      //         scene.add(light_hemi_helper);
+      //     }
+      // }
+
+
+      if (settings.directional_light.enable) {
+        light.dir = new three__WEBPACK_IMPORTED_MODULE_0__["DirectionalLight"](0xffffff, .8);
+        light.dir.color.setHSL(0.1, 1, 0.95);
+        light.dir.position.set(-1, 1.75, 1);
+        light.dir.position.multiplyScalar(100);
+
+        if (settings.light.dir) {
+          scene.add(light.dir);
+        }
+
+        light.dir.castShadow = true;
+        light.dir.shadow.mapSize.width = 2048;
+        light.dir.shadow.mapSize.height = 2048;
+        const d = 50;
+        light.dir.shadow.camera.left = -d;
+        light.dir.shadow.camera.right = d;
+        light.dir.shadow.camera.top = d;
+        light.dir.shadow.camera.bottom = -d;
+        light.dir.shadow.camera.far = 3500;
+        light.dir.shadow.bias = -0.0001;
+
+        if (settings.light.dir && avatar.helper) {
+          const light_dir_helper = new three__WEBPACK_IMPORTED_MODULE_0__["DirectionalLightHelper"](light.dir, 10);
+          scene.add(light_dir_helper);
+        }
+      }
+    },
+    scene: function (options) {
+      var defaults = {};
+      var settings = $.extend(defaults, options);
+      scene = new three__WEBPACK_IMPORTED_MODULE_0__["Scene"](); // scene.background = new THREE.Color().setHSL(0, 0, 0);
+      // scene.fog = new THREE.Fog(scene.background, 1, 5000);
+
+      scene.fog = new three__WEBPACK_IMPORTED_MODULE_0__["FogExp2"](0xffffff, .0); // scene.background = new THREE.Color( 0xff0000 );
+      // const pmremGenerator = new THREE.PMREMGenerator( renderer );
+      // scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.0001 ).texture;
+    },
+    renderer: function (options) {
+      var defaults = {};
+      var settings = $.extend(defaults, options);
+      renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]({
+        alpha: true,
+        antialias: true,
+        // preserveDrawingBuffer: true,
+        // powerPreference: "high-performance"
+        powerPreference: "default"
+      });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(avatar.dom_width, avatar.dom_height); // renderer.setClearColor(0xEEEEEE);
+
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["PCFSoftShadowMap"]; // renderer.shadowIntensity = 1;
+
+      renderer.physicallyCorrectLights = true;
+      renderer.outputEncoding = three__WEBPACK_IMPORTED_MODULE_0__["sRGBEncoding"]; // renderer.toneMapping = THREE.ReinhardToneMapping;
+      // renderer.toneMappingExposure = 1.0;
+      // renderer.toneMappingExposure = 1.08;
+      // renderer.gammaOutput = true;
+      // renderer.gammaFactor = -.1;
+      // renderer.toneMappingExposure = 1.02;
+      // composer = new EffectComposer(renderer);
+
+      $(avatar.rendered_element).append(renderer.domElement);
+      window.addEventListener('resize', avatar.setup.onWindowResize);
+    },
+    post_processing: function (options) {
+      var defaults = {
+        lut_asset: _DEFAULT.post_processing.lut_asset,
+        lut_file: _DEFAULT.post_processing.lut_file
+      };
+      var settings = $.extend(defaults, options); // ======
+
+      const target = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderTarget"]({
+        minFilter: three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"],
+        magFilter: three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"],
+        format: three__WEBPACK_IMPORTED_MODULE_0__["RGBAFormat"],
+        encoding: three__WEBPACK_IMPORTED_MODULE_0__["sRGBEncoding"]
+      });
+      composer = new three_examples_jsm_postprocessing_EffectComposer_js__WEBPACK_IMPORTED_MODULE_6__["EffectComposer"](renderer, target);
+      composer.setPixelRatio(window.devicePixelRatio);
+      composer.setSize(avatar.dom_width, avatar.dom_height);
+      const renderPass = new three_examples_jsm_postprocessing_RenderPass_js__WEBPACK_IMPORTED_MODULE_7__["RenderPass"](scene, camera);
+      const fxaaPass = new three_examples_jsm_postprocessing_ShaderPass_js__WEBPACK_IMPORTED_MODULE_9__["ShaderPass"](three_examples_jsm_shaders_FXAAShader_js__WEBPACK_IMPORTED_MODULE_8__["FXAAShader"]);
+      const shaderPass = new three_examples_jsm_postprocessing_ShaderPass_js__WEBPACK_IMPORTED_MODULE_9__["ShaderPass"](three_examples_jsm_shaders_GammaCorrectionShader_js__WEBPACK_IMPORTED_MODULE_13__["GammaCorrectionShader"]); // renderPass.clearColor = new THREE.Color( 0, 0, 0 );
+      // renderPass.clearAlpha = 0;
+
+      composer.addPass(renderPass);
+      composer.addPass(fxaaPass);
+      lutPass = new three_examples_jsm_postprocessing_LUTPass_js__WEBPACK_IMPORTED_MODULE_10__["LUTPass"]();
+      composer.addPass(lutPass); // composer.addPass( shaderPass );
+      // LOADER
+
+      const LUTCUBELoader = new three_examples_jsm_loaders_LUTCubeLoader_js__WEBPACK_IMPORTED_MODULE_11__["LUTCubeLoader"](),
+            LUT3DLLOADER = new three_examples_jsm_loaders_LUT3dlLoader_js__WEBPACK_IMPORTED_MODULE_12__["LUT3dlLoader"]();
+
+      if (/\.CUBE$/i.test(settings.lut_file)) {
+        LUTCUBELoader.load(settings.lut_asset + settings.lut_file, function (result) {
+          lutMap = result; // console.log(lutMap);
+        });
+      } else {
+        LUT3DLLOADER.load(settings.lut_asset + settings.lut_file, function (result) {
+          lutMap = result; // console.log(lutMap);
+        });
+      }
+    },
+    onWindowResize: function (options) {
+      var defaults = {};
+      var settings = $.extend(defaults, options);
+      camera.aspect = avatar.dom_width / avatar.dom_height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(avatar.dom_width, avatar.dom_height);
+
+      if (composer) {
+        composer.setSize(avatar.dom_width, avatar.dom_height);
+      }
+
+      avatar.setup.animate();
+    },
+    camera: function (options) {
+      var defaults = {};
+      var settings = $.extend(defaults, options);
+      camera = new three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](85, avatar.dom_width / avatar.dom_height, 0.01, 1000); // camera.position.set(2, 4.1, 5.3);
+      // camera.position.set(0.6, 4.4, 5.9);
+
+      camera.position.set(1.42, 1.47, 5.05); // camera.position.set(15.7, 58.4, 60.5);
+
+      camera.lookAt(0, 12, 0); // ========
+    },
+    controls: function (options) {
+      var defaults = {
+        minDistance: 4,
+        maxDistance: 9,
+        zoomSpeed: 1,
+        rotateSpeed: 1,
+        enableDamping: true,
+        enablePan: false,
+        dampingFactor: 0.1,
+        autoRotate: true,
+        autoRotateSpeed: 0.5,
+        minPolarAngle: .8,
+        maxPolarAngle: 1.8,
+        target: {
+          x: 0,
+          y: 3.0,
+          z: 0
+        }
+      };
+      var settings = $.extend(defaults, options);
+      controls = new three_examples_jsm_controls_OrbitControls__WEBPACK_IMPORTED_MODULE_1__["OrbitControls"](camera, renderer.domElement);
+      controls.minDistance = settings.minDistance;
+      controls.maxDistance = settings.maxDistance;
+      controls.zoomSpeed = settings.zoomSpeed;
+      controls.rotateSpeed = settings.rotateSpeed;
+      controls.enableDamping = settings.enableDamping;
+      controls.enablePan = settings.enablePan;
+      controls.dampingFactor = settings.dampingFactor;
+      controls.autoRotate = settings.autoRotate;
+      controls.autoRotateSpeed = settings.autoRotateSpeed;
+      controls.minPolarAngle = settings.minPolarAngle;
+      controls.maxPolarAngle = settings.maxPolarAngle;
+      controls.target.set(settings.target.x, settings.target.y, settings.target.z);
+    },
+    helpers: function (options) {
+      var defaults = {
+        gridHelper: {
+          enable: false,
+          size: 100,
+          divisions: 100,
+          colorCenterLine: 0x0000ff,
+          colorGrid: 0x808080
+        }
+      };
+      var settings = $.extend(defaults, options);
+
+      if (settings.gridHelper.enable) {
+        const gridHelper = new three__WEBPACK_IMPORTED_MODULE_0__["GridHelper"](settings.gridHelper.size, settings.gridHelper.divisions, settings.gridHelper.colorCenterLine, settings.gridHelper.colorGrid);
+        scene.add(gridHelper);
+      }
+    },
+    post_renderer: function (options) {
+      var defaults = {};
+      var settings = $.extend(defaults, options);
+      avatar.setup.animate();
+      controls.addEventListener('change', function () {
+        avatar.setup.render();
+      });
+      controls.update();
+    },
+    render: function (options) {
+      var defaults = {};
+      var settings = $.extend(defaults, options);
+
+      if (composer) {
+        composer.render(scene, camera);
+      } else {
+        renderer.render(scene, camera);
+      }
+    },
+    animate: function (options) {
+      requestAnimationFrame(avatar.setup.animate);
+      const delta = clock.getDelta();
+
+      if (starter_background_obj) {
+        starter_background_obj.lookAt(camera.position.x + 1.5, camera.position.y - 3.5, camera.position.z + .5);
+      }
+
+      if (mixer) mixer.update(delta);
+      if (mixer_face) mixer_face.update(delta);
+      if (mixer_outfit) mixer_outfit.update(delta);
+      if (mixer_hair) mixer_hair.update(delta);
+      if (mixer_asset) mixer_asset.update(delta);
+      if (mixer_eyewear) mixer_eyewear.update(delta);
+      avatar.callback();
+      avatar.setup.render(); // console.log()
+      // console.log(lutMap);
+
+      if (lutMap) {
+        // console.log(lutMap);
+        lutPass.enable = _DEFAULT.post_processing.lutPass_options.enable, lutPass.lut = lutMap.texture;
+        lutPass.intensity = _DEFAULT.post_processing.lutPass_options.intensity;
+      } // console.log(composer);
+
+    }
+  },
+  callback: function (options) {
+    var defaults = {};
+    var settings = $.extend(defaults, options);
+  },
+  // ======
+  switch: function (options) {
+    var defaults = {
+      asset_dir: avatar.asset_dir,
+      texture_options: _DEFAULT.texture_options,
+      texture_suffix: _DEFAULT.texture_suffix,
+      texture_skin_suffix: _DEFAULT.texture_skin_suffix
+    };
+    var settings = $.extend(defaults, options);
+    $("body").append(`
+        <div class="controls">
+			<input type="checkbox" id="switch_avatar" class="switch_avatar">
+			<label for="switch_avatar">Switch to <span class="dim">3</span>D</label>
+		</div>
+        `);
+    var url = new URL(window.location.href);
+    var dim = url.searchParams.get("dim"); // if ($(avatar.switch_element).prop('checked', true)) {
+    //     $(avatar.rendered_element).removeClass("active");
+    //     $(avatar.layered_element).addClass("active");
+    //     $(avatar.switch_element + " + label .dim").html(2);
+    // } else {
+    //     $(avatar.layered_element).removeClass("active");
+    //     $(avatar.rendered_element).addClass("active");
+    //     $(avatar.switch_element + " + label .dim").html(3);
+    // }
+
+    if ($(avatar.switch_element).length > 0) {}
+
+    $(avatar.switch_element).on("click", function () {
+      if ($(avatar.switch_element).is(':checked')) {
+        console.log("A");
+        $(avatar.rendered_element).removeClass("active");
+        $(avatar.layered_element).addClass("active");
+        $(avatar.switch_element + " + label .dim").html(3);
+      } else {
+        console.log("B");
+        $(avatar.layered_element).removeClass("active");
+        $(avatar.rendered_element).addClass("active");
+        $(avatar.switch_element + " + label .dim").html(2);
+      }
+    });
+  }
+};
+var debug = {
+  freeCamera: () => {
+    controls.minDistance = 0;
+    controls.maxDistance = Infinity;
+    controls.zoomSpeed = 1;
+    controls.rotateSpeed = 1;
+    controls.enableDamping = false;
+    controls.enablePan = true;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1;
+    controls.maxPolarAngle = Math.PI;
+  },
+  getCamera: () => camera,
+  getControls: () => controls,
+  getObject: obj_name => {
+    switch (obj_name) {
+      case 'fake_cam_obj':
+        return fake_cam_obj;
+
+      case 'smt_background_obj':
+        return smt_background_obj;
+
+      case 'smt_avatar_obj':
+        return smt_avatar_obj;
+
+      case 'starter_background_obj':
+        return starter_background_obj;
+
+      case 'starter_face_obj':
+        return starter_face_obj;
+
+      case 'starter_hair_obj':
+        return starter_hair_obj;
+
+      case 'starter_outfit_obj':
+        return starter_outfit_obj;
+
+      case 'starter_asset_obj':
+        return starter_asset_obj;
+
+      case 'starter_eyewear_obj':
+        return starter_eyewear_obj;
+
+      case 'light.hemi':
+        return light.hemi;
+
+      case 'light.dir':
+        return light.dir;
+
+      case 'light.key':
+        return light.key;
+
+      case 'light.fill':
+        return light.fill;
+
+      case 'light.back':
+        return light.back;
+
+      case 'light.top':
+        return light.top;
+
+      case 'light.bottom':
+        return light.bottom;
+    }
+  },
+  watch: object_to_watch => {
+    avatar.callback = function () {
+      console.log(object_to_watch);
+    };
+
+    return "[ debug watch started ]";
+  },
+  endWatch: () => {
+    avatar.callback = function () {};
+
+    return "[ debug watch ended ]";
+  }
+};
+ ///filter: saturate(1.4) contrast(1.2);
+//
+// - ST di chuyen duoc (giong SMT) 
+//   -> FBX (Anh Dat)
+//   -> BG (Anh Dung)
+// - LookDev 
+// 
+//
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+
+/***/ }),
+
+/***/ "./src/avatar/js/index.js":
+/*!********************************!*\
+  !*** ./src/avatar/js/index.js ***!
+  \********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _setup_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../setup/config */ "./src/setup/config.js");
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/* harmony import */ var _avatar_main__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./avatar/main */ "./src/avatar/js/avatar/main.js");
+
+
+
+$(function () {
+  _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].init(); // avatar.switch(); // --> Active switch 2D / 3D
+  // debug.freeCamera(); // --> Active free camera mode (for debugging)
+});
+window.addEventListener("load", function () {
+  // === ACTIVE DIRECTIVELY
+  // var st_code = "HM3-EM3-FM3-OM2-A1-T3";
+  // avatar.loadST(st_code);
+  // === ACTIVE BY URL PARAMS
+  var url = new URL(window.location.href);
+  var smt_code = url.searchParams.get("load_smt");
+
+  if (typeof smt_code != "undefined" && smt_code != null) {
+    if (smt_code.length == 0) smt_code = "SMT1";
+    _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadSMT(smt_code);
+  }
+
+  var st_code = url.searchParams.get("load_st"); // console.log(st_code);
+
+  if (typeof st_code != "undefined" && st_code != null) {
+    // if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T3";
+    if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T2";
+    var anim_code = url.searchParams.get("anim");
+
+    if (typeof anim_code != "undefined" && anim_code != null) {
+      if (anim_code.length == 0) anim_code = "ST_Walk";
+      _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadSTDEMO(st_code, anim_code);
+    } else {
+      _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadST(st_code);
+    }
+  }
+
+  var stdemo_code = url.searchParams.get("load_stdemo"); // console.log(st_code);
+
+  if (typeof stdemo_code != "undefined" && stdemo_code != null) {
+    // if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T3";
+    if (stdemo_code.length == 0) stdemo_code = "HM3-EM3-FM3-OM2-A1-T1";
+    _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadSTDEMO(stdemo_code);
+  }
+
+  var stfpx_code = url.searchParams.get("load_stfpx"); // console.log(st_code);
+
+  if (typeof stfpx_code != "undefined" && stfpx_code != null) {
+    // if (st_code.length == 0) st_code = "HM3-EM3-FM3-OM2-A1-T3";
+    if (stfpx_code.length == 0) stfpx_code = "HM3-EM3-FM3-OM2-A1-T1";
+    _avatar_main__WEBPACK_IMPORTED_MODULE_2__["avatar"].loadSTFPX(stfpx_code);
+  }
+
+  var dim = url.searchParams.get("dim"); // console.log(dim);
+
+  switch (dim) {
+    case "3":
+      if ($("#rendered_avatar").length > 0) {
+        $("#rendered_avatar").addClass("active");
+        $("#switch_avatar").prop("checked", false);
+        $("#switch_avatar + label .dim").html(2);
+      }
+
+      break;
+
+    case "2":
+    default:
+      if ($("#layered_avatar").length > 0) {
+        $("#layered_avatar").addClass("active");
+        $("#switch_avatar").prop("checked", true);
+        $("#switch_avatar + label .dim").html(3);
+      }
+
+      break;
+  }
+});
+window.debug = _avatar_main__WEBPACK_IMPORTED_MODULE_2__["debug"];
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+
+/***/ }),
+
+/***/ "./src/avatar/scss/index.scss":
+/*!************************************!*\
+  !*** ./src/avatar/scss/index.scss ***!
+  \************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/setup/config.js":
+/*!*****************************!*\
+  !*** ./src/setup/config.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {var config = {
+  widthTriggerScale: 9999,
+  widthDesktopSafe: 1620,
+  widthDesktop: 2000,
+  widthMobile: 768,
+  heightDesktop: 1000,
+  heightMobile: 1000,
+  func: {
+    isMobile: function () {
+      var device = {
+        width: $(window).innerWidth(),
+        height: $(window).innerHeight()
+      };
+      return device.width <= config.widthMobile || device.width < device.height;
+    }
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (config);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery-exposed-exposed.js")))
+
+/***/ }),
+
+/***/ 0:
+/*!***********************************!*\
+  !*** multi ./src/avatar/index.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./src/avatar/index.js */"./src/avatar/index.js");
+
+
+/***/ })
+
+/******/ });
+//# sourceMappingURL=avatar.bundle.js.map
