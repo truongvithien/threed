@@ -1653,7 +1653,8 @@ avatar = {
       map: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.base_color),
       metalnessMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.metallic),
       normalMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.normal),
-      roughnessMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.roughness) // emissiveMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.emissive),
+      // aoMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.ambient_occlusion),
       // alphaMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.alpha),
 
     }; // outfit_texture.map.encoding = THREE.sRGBEncoding;
@@ -1672,7 +1673,8 @@ avatar = {
       map: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.base_color),
       metalnessMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.metallic),
       normalMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.normal),
-      roughnessMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.roughness) // aoMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.ambient_occlusion),
+      roughnessMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.roughness),
+      emissiveMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.emissive) // aoMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.ambient_occlusion),
       // alphaMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.alpha),
 
     };
@@ -1794,8 +1796,10 @@ avatar = {
 
     if (obj_st["asset"] == "A8") {
       var texture_asset = new three__WEBPACK_IMPORTED_MODULE_0__["MeshStandardMaterial"]({ ...texture_asset,
-        metalness: .6
+        metalness: .6 // emissiveIntensity: 
+
       });
+      console.log(texture_asset);
     }
 
     starter_all_obj.traverse(o => {
@@ -2412,6 +2416,65 @@ avatar = {
         renderer.render(scene, camera);
       }
     },
+    emissiveObjs: function (options) {
+      var defaults = {
+        asset_dir: avatar.asset_dir_fbx,
+        asset_dir_anim: avatar.asset_dir_anim,
+        texture_options: _DEFAULT.texture_options,
+        model_suffix: _DEFAULT.model_suffix,
+        texture_suffix: _DEFAULT.texture_suffix,
+        texture_skin_suffix: _DEFAULT.texture_skin_suffix,
+        texture_text_suffix: _DEFAULT.texture_text_suffix,
+        scale: _DEFAULT.scale.st
+      };
+      var settings = $.extend(defaults, options);
+      var current_seconds = parseInt(clock.elapsedTime);
+      var url = new URL(window.location.href);
+      var stfpx_code = url.searchParams.get("load_stfpx");
+      var obj_st = {};
+
+      if (typeof stfpx_code != "undefined" && stfpx_code != null) {
+        switch (typeof stfpx_code) {
+          case "object":
+            obj_st = stfpx_code;
+            break;
+
+          case "string":
+          default:
+            let array_st = stfpx_code.split("-");
+            obj_st = {
+              "hair": array_st[0],
+              "eyewear": array_st[1],
+              "face": array_st[2],
+              "outfit": array_st[3],
+              "asset": array_st[4],
+              "background_text": array_st[5]
+            };
+            break;
+        }
+      } // console.log(typeof starter_outfit_obj);
+
+
+      if (obj_st["outfit"] == "OM8" && typeof starter_outfit_obj != "undefined") {
+        // const texLoader = new THREE.TextureLoader();
+        // const outfit_texture = {
+        //     map: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.base_color),
+        //     metalnessMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.metallic),
+        //     normalMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.normal),
+        //     roughnessMap: texLoader.load(settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.texture_suffix.roughness),
+        // }
+        // console.log(starter_outfit_obj);
+        starter_outfit_obj.children[1].traverse(o => {
+          if (o.isMesh) {// console.log(o.material.emissiveIntensity);
+            // o.material.color = 0xffffff; 
+            // console.log(o.material.emissiveIntensity);
+            // o.material.transparent = 1;
+            // o.material.opacity = .2;
+          }
+        });
+      } // console.log(parseInt(clock.elapsedTime));
+
+    },
     animate: function (options) {
       requestAnimationFrame(avatar.setup.animate);
       const delta = clock.getDelta();
@@ -2425,7 +2488,10 @@ avatar = {
       if (mixer_outfit) mixer_outfit.update(delta);
       if (mixer_hair) mixer_hair.update(delta);
       if (mixer_asset) mixer_asset.update(delta);
-      if (mixer_eyewear) mixer_eyewear.update(delta);
+      if (mixer_eyewear) mixer_eyewear.update(delta); // ------
+      // avatar.setup.emissiveObjs();
+      // ------
+
       avatar.callback();
       avatar.setup.render(); // console.log()
       // console.log(lutMap);
