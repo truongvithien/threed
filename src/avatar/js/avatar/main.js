@@ -1262,14 +1262,56 @@ avatar = {
         starter_outfit_2d = settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.model_suffix.twod;
         starter_asset_2d = settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.twod;
         starter_eyewear_2d = settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.model_suffix.twod;
-        
+
+
+
         $(avatar.layered_element).empty();
         $(avatar.layered_element).append(`
             <img src="${starter_background_2d}" alt="background_text">
             <img src="${starter_face_2d}" alt="face">
             <img src="${starter_hair_2d}" alt="hair">
             <img src="${starter_outfit_2d}" alt="outfit">
+        `);
+
+        if (obj_st["outfit"] == "OM8" || obj_st["outfit"] == "OF8") {
+            $(avatar.layered_element).append(`
+             <video src="${settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + "_FX.mp4"}" alt="outfit-fx" muted loop autoplay style="
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+                -o-object-fit: contain;
+                object-fit: contain;
+                mix-blend-mode: plus-lighter;"></video>
+            `);
+        }
+
+        $(avatar.layered_element).append(`
             <img src="${starter_asset_2d}" alt="asset"> 
+        `);
+
+        if (obj_st["asset"] == "A8") {
+            $(avatar.layered_element).append(`
+             <video src="${settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + "_FX.mp4"}" alt="outfit-fx" muted loop autoplay style="
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+                -o-object-fit: contain;
+                object-fit: contain;
+                mix-blend-mode: plus-lighter;"></video>
+            `);
+        }
+
+        $(avatar.layered_element).append(`
             <img src="${starter_eyewear_2d}" alt="eyewear">
         `);
         
@@ -1292,8 +1334,11 @@ avatar = {
             starter_anim_opt1_obj,
             starter_anim_opt2_obj,
             starter_anim_opt3_obj,
-            starter_anim_asset;
-
+            starter_anim_opt1F_obj,
+            starter_anim_opt2F_obj,
+            starter_anim_opt3F_obj,
+            starter_anim_asset,
+            starter_anim_asset8_obj;
         [
             // starter_background_obj,
             starter_face_obj, 
@@ -1305,38 +1350,27 @@ avatar = {
             starter_anim_opt1_obj,
             starter_anim_opt2_obj,
             starter_anim_opt3_obj,
-            starter_anim_asset
+            starter_anim_opt1F_obj,
+            starter_anim_opt2F_obj,
+            starter_anim_opt3F_obj,
+            starter_anim_asset,
+            starter_anim_asset8_obj
         ] = await Promise.all([
-            // fbxLoader.loadAsync(
-            //     settings.asset_dir + obj_st["background_text"] + "/" + obj_st["background_text"] + settings.model_suffix.st_fbx
-            // ),
             fbxLoader.loadAsync(
                 settings.asset_dir + obj_st["face"] + "/" + obj_st["face"] + settings.model_suffix.st_fbx_anim 
             ),
-            // fbxLoader.loadAsync(
-            //     settings.asset_dir_anim + "test/FM2_G_Skin.fbx"
-            // ),
             fbxLoader.loadAsync(
                 settings.asset_dir + obj_st["hair"] + "/" + obj_st["hair"] + settings.model_suffix.st_fbx_anim
             ),
-            // fbxLoader.loadAsync(
-            //     settings.asset_dir_anim + "test/HM2_G_Skin.fbx"
-            // ),
             fbxLoader.loadAsync(
                 settings.asset_dir + obj_st["outfit"] + "/" + obj_st["outfit"] + settings.model_suffix.st_fbx_anim
             ),
-            // fbxLoader.loadAsync(
-            //     settings.asset_dir_anim + "test/OM2_G_Skin.fbx"
-            // ),
             fbxLoader.loadAsync(
                 settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.model_suffix.st_fbx_anim
             ),
             fbxLoader.loadAsync(
                 settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.model_suffix.st_fbx_anim
             ),
-            // fbxLoader.loadAsync(
-            //     settings.asset_dir_anim + "test/EM2_G_Skin.fbx"
-            // ),
             fbxLoader.loadAsync(
                 settings.asset_dir_anim + anim_code + settings.model_suffix.st_fbx
             ),
@@ -1350,10 +1384,21 @@ avatar = {
                 settings.asset_dir_anim + "Walk_Asset_Op03_A2_A8" + settings.model_suffix.st_fbx
             ),
             fbxLoader.loadAsync(
+                settings.asset_dir_anim + "Female/Walk_Asset_Op01_A1_A4_A7" + settings.model_suffix.st_fbx
+            ),
+            fbxLoader.loadAsync(
+                settings.asset_dir_anim + "Female/Walk_Asset_Op02_A3_A5_A6" + settings.model_suffix.st_fbx
+            ),
+            fbxLoader.loadAsync(
+                settings.asset_dir_anim + "Female/Walk_Asset_Op03_A2_A8" + settings.model_suffix.st_fbx
+            ),
+            fbxLoader.loadAsync(
                 settings.asset_dir_anim + "Walk_" + obj_st["asset"] + settings.model_suffix.st_fbx
             ),
+            fbxLoader.loadAsync(
+                settings.asset_dir_anim + "Walk_A8_star" + settings.model_suffix.st_fbx
+            ),
         ]);
-
 
         // DECIDE ANIM 
 
@@ -1361,28 +1406,51 @@ avatar = {
 
         console.log(obj_st["asset"]);
 
+        var isMale = 0;
+        if (obj_st["outfit"].indexOf("OM") > -1) {
+            isMale = 1;
+        }
+
+        console.log(isMale);
+
         switch (obj_st["asset"]) {
             case "A1": 
             case "A4": 
             case "A7":
                 console.log("Walk_Asset_Op01_A1_A4_A7");
-                starter_anim_obj = starter_anim_opt1_obj;
+                if (isMale) {
+                    starter_anim_obj = starter_anim_opt1_obj;
+                } else {
+                    starter_anim_obj = starter_anim_opt1F_obj;
+                }
                 break;
             case "A3":
             case "A5":
             case "A6": 
                 console.log("Walk_Asset_Op02_A3_A5_A6");
-                starter_anim_obj = starter_anim_opt2_obj;
+                if (isMale) {
+                    starter_anim_obj = starter_anim_opt2_obj;
+                } else {
+                    starter_anim_obj = starter_anim_opt2F_obj;
+                }
                 break;
             case "A2":
             case "A8":
                 console.log("Walk_Asset_Op03_A2_A8");
-                starter_anim_obj = starter_anim_opt3_obj;
+                if (isMale) {
+                    starter_anim_obj = starter_anim_opt3_obj;
+                } else {
+                    starter_anim_obj = starter_anim_opt3F_obj;
+                }
                 break;
             default: 
                 console.log("Walk");
                 starter_anim_asset = starter_anim_default;
 
+        }
+
+        if (obj_st["asset"] == "A8") {
+            starter_anim_asset = starter_anim_asset8_obj;
         }
 
 
@@ -1455,6 +1523,12 @@ avatar = {
             // aoMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.ambient_occlusion),
             // alphaMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + settings.texture_suffix.alpha),
         }
+
+        const asset8_addon_texture = {
+            map: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + "A8_sparkle.jpg"),
+            alphaMap: texLoader.load(settings.asset_dir + obj_st["asset"] + "/" + "A8_sparkle_Opacity.jpg")
+        }
+
         const eyewear_texture = {
             map: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.base_color),
             metalnessMap: texLoader.load(settings.asset_dir + obj_st["eyewear"] + "/" + obj_st["eyewear"] + settings.texture_suffix.metallic),
@@ -1605,6 +1679,14 @@ avatar = {
             ...asset_texture,
             ...settings.texture_options.st_asset
         });
+        var texture_asset8 = new THREE.MeshStandardMaterial({
+            ...asset_texture,
+            ...settings.texture_options.st_asset,
+            ...asset8_addon_texture,
+            // ...settings.texture_options.st_asset,
+
+            transparent: true
+        });
 
 
         if (obj_st["asset"] == "A8") {
@@ -1614,7 +1696,7 @@ avatar = {
                 // emissiveIntensity: 
             });
 
-            console.log(texture_asset);
+            // console.log(texture_asset);
         }
 
         starter_all_obj.traverse((o) => {
@@ -1648,6 +1730,11 @@ avatar = {
                         break;
                     case "asset": 
                         o.material = texture_asset;
+                        break;
+                    case "Star": case "Asset_Join1": case "Asset_Join2":
+                    case "pPlane6": case "pPlane7": case "pPlane8": case "pPlane9":
+                    case "pPlane10": case "pPlane11": case "pPlane12": case "pPlane13": case "pPlane14":
+                        o.material = texture_asset8;
                         break;
                     default:
                         o.material = texture_skin;

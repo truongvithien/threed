@@ -4,7 +4,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ac04899-96e6-4dae-960a-49d611e581ff" name="Changes" comment="" />
+    <list default="true" id="5ac04899-96e6-4dae-960a-49d611e581ff" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/0.avatar.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/0.avatar.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/0.avatar.css" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/0.avatar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/A8/A8_G_Skin.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/A8/A8_G_Skin.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FF1/FF1_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FF1/FF1_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FF2/FF2_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FF2/FF2_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FF3/FF3_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FF3/FF3_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FF4/FF4_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FF4/FF4_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FM1/FM1_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FM1/FM1_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FM2/FM2_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FM2/FM2_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FM3/FM3_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FM3/FM3_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FM4/FM4_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FM4/FM4_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FM5/FM5_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/FM5/FM5_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/HF4/HF4_G_Skin.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/HF4/HF4_G_Skin.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/OF5/OF5_G_Skin.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/OF5/OF5_G_Skin.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/avatar.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/avatar.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/avatar.css" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/avatar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/0.doc.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/doc/0.doc.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/0.doc.css" beforeDir="false" afterPath="$PROJECT_DIR$/doc/0.doc.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/doc.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/doc/doc.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/doc.css" beforeDir="false" afterPath="$PROJECT_DIR$/doc/doc.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/A8/A8_G_Skin.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/A8/A8_G_Skin.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FF1/FF1_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FF1/FF1_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FF2/FF2_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FF2/FF2_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FF3/FF3_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FF3/FF3_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FF4/FF4_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FF4/FF4_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FM1/FM1_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FM1/FM1_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FM2/FM2_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FM2/FM2_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FM3/FM3_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FM3/FM3_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FM4/FM4_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FM4/FM4_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FM5/FM5_SHD_Roughness.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/FM5/FM5_SHD_Roughness.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/HF4/HF4_G_Skin.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/HF4/HF4_G_Skin.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/OF5/OF5_G_Skin.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/OF5/OF5_G_Skin.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/js/avatar/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/js/avatar/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/scss/_ui.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/scss/_ui.scss" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,6 +59,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Project.color": "570534",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
@@ -44,6 +81,7 @@
       <option name="presentableId" value="Default" />
       <updated>1660728641663</updated>
       <workItem from="1660728643130" duration="908000" />
+      <workItem from="1660804638260" duration="8760000" />
     </task>
     <servers />
   </component>
