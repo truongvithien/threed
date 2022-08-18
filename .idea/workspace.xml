@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="5ac04899-96e6-4dae-960a-49d611e581ff" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/avatar/js/avatar/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/js/avatar/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/A8/A8_G_Skin.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/A8/A8_G_Skin.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avatar/assets/avatar-fbx/anim/Walk_A8_star.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/avatar/assets/avatar-fbx/anim/Walk_A8_star.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/A8/A8_G_Skin.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/A8/A8_G_Skin.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/anim/Walk_A8_star.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/src/avatar/assets/avatar-fbx/anim/Walk_A8_star.fbx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +51,7 @@
       <option name="presentableId" value="Default" />
       <updated>1660728641663</updated>
       <workItem from="1660728643130" duration="908000" />
-      <workItem from="1660804638260" duration="10217000" />
+      <workItem from="1660804638260" duration="10917000" />
     </task>
     <servers />
   </component>
