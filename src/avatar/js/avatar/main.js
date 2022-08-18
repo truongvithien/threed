@@ -1286,7 +1286,8 @@ avatar = {
                 height: 100%;
                 -o-object-fit: contain;
                 object-fit: contain;
-                mix-blend-mode: plus-lighter;"></video>
+                mix-blend-mode: plus-lighter;
+                opacity: .5;"></video>
             `);
         }
 
@@ -1296,7 +1297,7 @@ avatar = {
 
         if (obj_st["asset"] == "A8") {
             $(avatar.layered_element).append(`
-             <video src="${settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + "_FX.mp4"}" alt="outfit-fx" muted loop autoplay style="
+             <video src="${settings.asset_dir + obj_st["asset"] + "/" + obj_st["asset"] + "_FX.mp4"}" alt="asset-fx" muted loop autoplay style="
                 display: block;
                 position: absolute;
                 top: 0;
