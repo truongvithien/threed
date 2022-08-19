@@ -258,16 +258,15 @@ var helper = {
         }
     },
 
-    clean: function(scene, options) {
+    clean: function(renderer, scene, options) {
         var defaults = {
         }
         var settings = $.extend(defaults, options);
 
         // CLEAN 2D
 
-
         // CLEAN 3D
-        
+        // renderer.renderLists.dispose();
     },
 
 

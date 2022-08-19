@@ -2573,6 +2573,14 @@ var debug = {
         avatar.callback = function() {
         }
         return "[ debug watch ended ]"
+    },
+    cleanUp: () => {
+
+        for( var i = scene.children.length - 1; i >= 0; i--) {
+            var obj = scene.children[i];
+            scene.remove(obj);
+        }
+        renderer.renderLists.dispose();
     }
 }
 

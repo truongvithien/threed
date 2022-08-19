@@ -13,7 +13,6 @@ obj3d = {
             if (["obj3d_body", "obj3d_head", "obj3d_asset"].indexOf(obj.name) > -1) {
                 scene.remove(obj); 
             }
-
        }
     },
     addGround: function(scene, camera){
