@@ -2577,8 +2577,13 @@ var debug = {
     cleanUp: () => {
 
         for( var i = scene.children.length - 1; i >= 0; i--) {
-            var obj = scene.children[i];
-            scene.remove(obj);
+            // var obj = scene.children[i];
+            // console.log(scene.children[i]);
+            if (scene.children[i].isMesh) {
+                scene.children[i].geometry.dispose();
+                scene.children[i].material.dispose();
+            }
+            scene.remove(scene.children[i]);
         }
         renderer.renderLists.dispose();
     }
